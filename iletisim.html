@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>İletişim | Antalya Av. Anıl Güzel</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="navbar-placeholder"></div>
+  <main class="contact-page-clean">
+    <section class="contact-content">
+      <div class="container">
+        <div class="contact-grid-clean">
+            <!-- SOL SÜTUN: İletişim Bilgileri -->
+          <div class="contact-info-side">
+            <h2>İletişim Bilgilerimiz</h2>
+            
+            <div class="info-row">
+              <div class="icon-thin">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                </svg>
+              </div>
+              <div class="text-thin">
+                <h4>Telefon</h4>
+                <p><a href="tel:+905357122526">+90 (535) 712 25 26</a></p>
+              </div>
+            </div>
+
+            <div class="info-row">
+              <div class="icon-thin">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                </svg>
+              </div>
+              <div class="text-thin">
+                <h4>WhatsApp</h4>
+                <p><a href="https://wa.me/905357122526" target="_blank">+90 (535) 712 25 26</a></p>
+              </div>
+            </div>
+
+            <div class="info-row">
+              <div class="icon-thin">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                  <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+              </div>
+              <div class="text-thin">
+                <h4>E-posta</h4>
+                <p><a href="mailto:av.anilguzel@gmail.com">av.anilguzel@gmail.com</a></p>
+              </div>
+            </div>
+
+            <div class="info-row">
+              <div class="icon-thin">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                  <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+              </div>
+              <div class="text-thin">
+                <h4>Adres</h4>
+                <p>Varlık Mah. 100. Yıl Bulvarı, Onur Apt. No: 102/3<br>Muratpaşa/Antalya</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- SAĞ SÜTUN: Randevu Formu -->
+          <div class="contact-form-side">
+            <h2>Bize Ulaşın</h2>
+            <p class="form-desc">Bilgi almak veya randevu talep etmek için iletişim formumuzu doldurarak bize ulaşabilirsiniz.</p>
+            
+            <form action="https://formspree.io/f/moeqazrz" method="POST" class="clean-form">
+              
+              <div class="form-row">
+                <input type="text" name="ad" placeholder="Adınız*" required>
+                <input type="text" name="soyad" placeholder="Soyadınız*" required>
+              </div>
+
+              <div class="form-row">
+                <input type="text" inputmode="numeric" pattern="[0-9]*" name="telefon" placeholder="Telefon*" required>
+                <input type="email" name="email" placeholder="E-posta*" required>
+              </div>
+
+              <div class="form-group-full">
+                <select name="konu" required>
+                  <option value="" disabled selected>Görüşme Konusu Seçiniz</option>
+                  <option value="ceza">Ceza Hukuku</option>
+                  <option value="bosanma">Aile & Boşanma Hukuku</option>
+                  <option value="gayrimenkul">Gayrimenkul Hukuku</option>
+                  <option value="icra">İcra & İflas Hukuku</option>
+                  <option value="diger">Diğer/Genel Danışmanlık</option>
+                </select>
+              </div>
+
+              <textarea name="mesaj" rows="5" placeholder="Mesajınız ve Detaylar *" required></textarea>
+
+              <button type="submit" class="clean-btn">Randevu Talebi Gönder &rarr;</button>
+            </form>
+          </div>
+
+        </div>
+
+        <!-- HARİTA -->
+        <div class="map-container-clean">
+          <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10882.893190923147!2d30.676082792351263!3d36.88634619558422!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14c3903b2ab40073%3A0xb31c78eb6a069197!2zQ2Fua3VydGFyYW4gJiBHw7x6ZWwgQXZ1a2F0bMSxayBCw7xyb3N1!5e1!3m2!1sen!2str!4v1787858456134!5m2!1sen!2str" 
+            width="100%" height="320" style="border:0;" allowfullscreen="" loading="lazy">
+          </iframe>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-placeholder"></div>
+
+<script src="main.js"></script>
+
+</body>
+</html>
