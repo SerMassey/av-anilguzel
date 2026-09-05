@@ -7,7 +7,8 @@ document.addEventListener("DOMContentLoaded", function() {
             if (placeholder) {
                 placeholder.innerHTML = data;
             }
-        });
+        })
+        .catch(error => console.error("Navbar yüklenirken hata:", error));
 
     // 2. Footer'ı yükle
     fetch('footer.html')
@@ -17,7 +18,11 @@ document.addEventListener("DOMContentLoaded", function() {
             if (placeholder) {
                 placeholder.innerHTML = data;
             }
-        });
+        })
+        .catch(error => console.error("Footer yüklenirken hata:", error));
+
+    // 3. Kategori sayaçlarını yükle
+    loadCategoryCounts();
 });
 
 // Menüyü Açma Fonksiyonu (Global)
@@ -36,13 +41,11 @@ window.hideMenu = function() {
     }
 };
 
-
-
-// Blog için sayaç
+// Blog kategori sayaçlarını GitHub API üzerinden hesaplayan fonksiyon
 const loadCategoryCounts = async function() {
     const repoOwner = "SerMassey"; 
     const repoName = "av-anilguzel";   
-    const apiUrl = `https://api.github.com/repos/SerMassey/av-anilguzel/contents/_posts`;
+    const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/_posts`;
 
     try {
         const response = await fetch(apiUrl);
@@ -63,6 +66,7 @@ const loadCategoryCounts = async function() {
             if (file.name.endsWith('.md')) {
                 const fileRes = await fetch(file.download_url);
                 const content = await fileRes.text();
+                
                 if (content.includes("tag: Ceza Hukuku")) counts.ceza++;
                 if (content.includes("tag: Gayrimenkul")) counts.gayrimenkul++;
                 if (content.includes("tag: İş Hukuku")) counts["is-hukuku"]++;
@@ -73,18 +77,46 @@ const loadCategoryCounts = async function() {
             }
         }
 
-        document.getElementById("count-is-hukuku").textContent = `(${counts["is-hukuku"]})`;
-        document.getElementById("count-kira").textContent = `(${counts.kira})`;
-        document.getElementById("count-ceza").textContent = `(${counts.ceza})`;
-        document.getElementById("count-ticaret").textContent = `(${counts.ticaret})`;
+        // Güvenli DOM Güncelleyici (Element sayfada yoksa hata fırlatmaz)
+        const updateCountEl = (id, val) => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.textContent = `(${val})`;
+            }
+        };
+
+        updateCountEl("count-is-hukuku", counts["is-hukuku"]);
+        updateCountEl("count-gayrimenkul", counts.gayrimenkul);
+        updateCountEl("count-ceza", counts.ceza);
+        updateCountEl("count-aile", counts.aile);
+        updateCountEl("count-veraset", counts.veraset);
+        updateCountEl("count-sirketler", counts.sirketler);
+        updateCountEl("count-genel", counts.genel);
 
     } catch (error) {
         console.error("Kategori sayıları yüklenirken hata oluştu:", error);
     }
 };
 
-// Sayfa yüklendiğinde çağır
-document.addEventListener("DOMContentLoaded", () => {
-    // ... diğer fetch kodların ...
-    loadCategoryCounts();
+// anasayfa faq bölümündeki akordeon
+document.querySelectorAll('.faq-question').forEach(button => {
+    button.addEventListener('click', () => {
+        const item = button.parentElement;
+        const answer = item.querySelector('.faq-answer');
+        const isActive = item.classList.contains('active');
+
+        // İsteğe bağlı: Diğer açık olanları kapatmak istersen bu bloğu açabilirsin
+        // document.querySelectorAll('.faq-item').forEach(i => {
+        //     i.classList.remove('active');
+        //     i.querySelector('.faq-answer').style.maxHeight = null;
+        // });
+
+        if (!isActive) {
+            item.classList.add('active');
+            answer.style.maxHeight = answer.scrollHeight + "px";
+        } else {
+            item.classList.remove('active');
+            answer.style.maxHeight = null;
+        }
+    });
 });
