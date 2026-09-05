@@ -127,40 +127,52 @@ document.addEventListener("DOMContentLoaded", () => {
     const blogListContainer = document.getElementById("blog-list-container");
     if (!blogListContainer) return;
 
-    fetch('posts.json')
+    // GitHub üzerinden _posts klasöründeki dosyaları doğrudan çeken sistem
+    const repoOwner = "SerMassey"; // GitHub kullanıcı adını buraya yaz
+    const repoName = "av-anilguzel";     // GitHub repo adını buraya yaz
+    const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/_posts`;
+
+    fetch(apiUrl)
         .then(response => {
-            if (!response.ok) throw new Error('posts.json dosyasına yazılamadı veya bulunamadı.');
+            if (!response.ok) throw new Error('Makaleler alınamadı.');
             return response.json();
         })
-        .then(posts => {
+        .then(files => {
             blogListContainer.innerHTML = '';
-            if (!posts || posts.length === 0) {
+            const mdFiles = files.filter(file => file.name.endsWith('.md'));
+
+            if (mdFiles.length === 0) {
                 blogListContainer.innerHTML = '<p>Henüz makale yayınlanmadı.</p>';
                 return;
             }
 
-            posts.forEach(post => {
-                const dateObj = new Date(post.date);
-                const formattedDate = isNaN(dateObj) ? post.date : dateObj.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
-                
-                const excerpt = post.body ? post.body.replace(/[#*_`]/g, '').substring(0, 120) + '...' : '';
-
-                const article = document.createElement('article');
-                article.className = 'blog-card';
-                article.innerHTML = `
-                    ${post.image ? `<img src="${post.image}" alt="Makale Görseli">` : ''}
-                    <div class="blog-content">
-                        <span class="blog-date">${formattedDate}</span>
-                        <h2><a href="post.html?id=${post.id}">${post.title}</a></h2>
-                        <p>${excerpt}</p>
-                        <a href="post.html?id=${post.id}" class="read-more">Devamını Oku →</a>
-                    </div>
-                `;
-                blogListContainer.appendChild(article);
+            mdFiles.forEach(file => {
+                fetch(file.download_url)
+                    .then(res => res.text())
+                    .then(markdownText => {
+                        // Markdown front-matter (başlık, tarih vb.) basitçe ayıklanır
+                        const titleMatch = markdownText.match(/title:\s*"?(.*?)"?$/m);
+                        const dateMatch = markdownText.match(/date:\s*"?(.*?)"?$/m);
+                        
+                        const title = titleMatch ? titleMatch[1] : 'Başlıksız Makale';
+                        const date = dateMatch ? dateMatch[1] : '';
+                        
+                        const article = document.createElement('article');
+                        article.className = 'blog-card';
+                        article.innerHTML = `
+                            <div class="blog-content">
+                                <span class="blog-date">${date}</span>
+                                <h2><a href="#">${title}</a></h2>
+                                <p>Hukuki bilgilendirme yazısının detayları için tıklayın...</p>
+                                <a href="#" class="read-more">Devamını Oku →</a>
+                            </div>
+                        `;
+                        blogListContainer.appendChild(article);
+                    });
             });
         })
         .catch(error => {
-            console.error('Makaleler yüklenirken hata oluştu:', error);
+            console.error('Hata:', error);
             blogListContainer.innerHTML = '<p>Makaleler yüklenirken bir hata oluştu.</p>';
         });
 });

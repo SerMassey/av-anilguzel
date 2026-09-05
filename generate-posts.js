@@ -8,7 +8,9 @@ const outputFile = path.join(__dirname, 'posts.json');
 function getPosts() {
     if (!fs.existsSync(postsDirectory)) {
         fs.mkdirSync(postsDirectory);
+        console.log('_posts klasörü bulunamadı, yeni oluşturuldu.');
     }
+    
     const fileNames = fs.readdirSync(postsDirectory);
     const allPostsData = fileNames
         .filter(fileName => fileName.endsWith('.md'))
@@ -28,7 +30,6 @@ function getPosts() {
             };
         });
 
-    // Tarihe göre yeniden eskiye sıralama
     allPostsData.sort((a, b) => new Date(b.date) - new Date(a.date));
     fs.writeFileSync(outputFile, JSON.stringify(allPostsData, null, 2));
     console.log('posts.json başarıyla oluşturuldu!');
