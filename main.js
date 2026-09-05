@@ -120,3 +120,47 @@ document.querySelectorAll('.faq-question').forEach(button => {
         }
     });
 });
+
+// makaleleri ekrana basmak
+
+document.addEventListener("DOMContentLoaded", () => {
+    const blogListContainer = document.getElementById("blog-list-container");
+    if (!blogListContainer) return;
+
+    fetch('posts.json')
+        .then(response => {
+            if (!response.ok) throw new Error('posts.json dosyasına yazılamadı veya bulunamadı.');
+            return response.json();
+        })
+        .then(posts => {
+            blogListContainer.innerHTML = '';
+            if (!posts || posts.length === 0) {
+                blogListContainer.innerHTML = '<p>Henüz makale yayınlanmadı.</p>';
+                return;
+            }
+
+            posts.forEach(post => {
+                const dateObj = new Date(post.date);
+                const formattedDate = isNaN(dateObj) ? post.date : dateObj.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
+                
+                const excerpt = post.body ? post.body.replace(/[#*_`]/g, '').substring(0, 120) + '...' : '';
+
+                const article = document.createElement('article');
+                article.className = 'blog-card';
+                article.innerHTML = `
+                    ${post.image ? `<img src="${post.image}" alt="Makale Görseli">` : ''}
+                    <div class="blog-content">
+                        <span class="blog-date">${formattedDate}</span>
+                        <h2><a href="post.html?id=${post.id}">${post.title}</a></h2>
+                        <p>${excerpt}</p>
+                        <a href="post.html?id=${post.id}" class="read-more">Devamını Oku →</a>
+                    </div>
+                `;
+                blogListContainer.appendChild(article);
+            });
+        })
+        .catch(error => {
+            console.error('Makaleler yüklenirken hata oluştu:', error);
+            blogListContainer.innerHTML = '<p>Makaleler yüklenirken bir hata oluştu.</p>';
+        });
+});

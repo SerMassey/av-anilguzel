@@ -1,0 +1,11 @@
+{
+  "name": "anil-guzel-avukatlik",
+  "version": "1.0.0",
+  "description": "Law firm website with automated blog",
+  "scripts": {
+    "build": "node generate-posts.js"
+  },
+  "dependencies": {
+    "gray-matter": "^4.0.3"
+  }
+}

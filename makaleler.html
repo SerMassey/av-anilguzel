@@ -19,34 +19,14 @@
     <!-- Ana İki Sütunlu Düzen -->
     <div class="blog-layout">
         
-        <!-- SOL TARAF: Makale Listesi -->
-        <div class="blog-list">
-            <article class="blog-card">
-                <img src="gallery/avukat.jpg" alt="Makale Görseli">
-                <div class="blog-content">
-                    <span class="blog-date">26 Ağustos 2026</span>
-                    <h2>Kira Uyuşmazlıklarında Arabuluculuk Süreci</h2>
-                    <p>Kira artışları ve tahliye davalarında zorunlu arabuluculuk dönemi ve bilinmesi gerekenler...</p>
-                    <a href="post.html" class="read-more">Devamını Oku →</a>
-                </div>
-            </article>
-
-            <article class="blog-card">
-                <img src="gorsel2.jpg" alt="Makale Görseli">
-                <div class="blog-content">
-                    <span class="blog-date">15 Ağustos 2026</span>
-                    <h2>İş Hukukunda Kıdem Tazminatı Hesaplama</h2>
-                    <p>Çalışanların hakları, fesih türlerine göre tazminat kriterleri ve Yargıtay kararları...</p>
-                    <a href="post.html" class="read-more">Devamını Oku →</a>
-                </div>
-            </article>
+        <!-- SOL TARAF: Makale Listesi (JavaScript burayı dolduracak) -->
+        <div class="blog-list" id="blog-list-container">
+            <!-- Dinamik olarak yazılar buraya gelecek -->
         </div>
 
         <!-- SAĞ TARAF: Sidebar (Yan Menü) -->
         <aside class="blog-sidebar">
-            
-            <!-- Kategori Kutusu -->
-             <div class="sidebar-box">
+            <div class="sidebar-box">
                 <h3>Kategoriler</h3>
                 <ul>
                     <li><a href="#">İş Hukuku <span id="count-is-hukuku">(0)</span></a></li>
@@ -56,13 +36,11 @@
                 </ul>
             </div>
 
-            <!-- Hızlı İletişim / Danışma Kutusu -->
             <div class="sidebar-box cta-box">
                 <h3>Hukuki desteğe mi ihtiyacınız var?</h3>
                 <p>Sorularınız ve hukuki süreçlerinizin takibi için bizimle iletişime geçebilirsiniz.</p>
                 <a href="iletisim.html" class="cta-btn">İletişime Geç</a>
             </div>
-
         </aside>
 
     </div>
@@ -70,8 +48,9 @@
 
     <!-- footer placeholder -->
      <div id="footer-placeholder"></div>
+
+     <!-- Markdown Çevirici Kütüphane -->
+     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+     <script src="main.js"></script>
 </body>
-
-<script src="main.js"></script>
-
 </html>
