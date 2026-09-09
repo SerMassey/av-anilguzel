@@ -1,7 +1,7 @@
 {
   "name": "anil-guzel-avukatlik",
   "version": "1.0.0",
-  "description": "Law firm website with automated blog",
+  "description": "Antalya'da pratiğini sürdüren Avukat Anıl Güzel için websitesi.",
   "scripts": {
     "build": "node generate-posts.js"
   },

@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
-    // 1. Navbar'ı yükle (Kök dizinden mutlak yol ile)
+    // 1. Navbar'ı yükle
     fetch('/navbar.html')
         .then(response => response.text())
         .then(data => {
@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function() {
         })
         .catch(error => console.error("Navbar yüklenirken hata:", error));
 
-    // 2. Footer'ı yükle (Kök dizinden mutlak yol ile)
+    // 2. Footer'ı yükle
     fetch('/footer.html')
         .then(response => response.text())
         .then(data => {
@@ -21,8 +21,8 @@ document.addEventListener("DOMContentLoaded", function() {
         })
         .catch(error => console.error("Footer yüklenirken hata:", error));
 
-    // 3. Kategori sayaçlarını yükle
-    loadCategoryCounts();
+    // 3. Blog verilerini ve sayaçları tek seferde yükle
+    loadBlogDataAndCounts();
 });
 
 // Menüyü Açma Fonksiyonu (Global)
@@ -41,16 +41,28 @@ window.hideMenu = function() {
     }
 };
 
-// Blog kategori sayaçlarını GitHub API üzerinden hesaplayan fonksiyon
-const loadCategoryCounts = async function() {
+// Tek istekle hem makaleleri listeyen hem de kategori sayaçlarını güncelleyen optimize fonksiyon
+async function loadBlogDataAndCounts() {
+    const blogListContainer = document.getElementById("blog-list-container");
     const repoOwner = "SerMassey"; 
-    const repoName = "av-anilguzel";   
-    const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/_posts`;
+    const repoName = "av-anilguzel"; 
+    
+    // GitHub Git Trees API kullanarak _posts klasöründeki dosyaları tek sorguda çekiyoruz (Cache önlemek için timestamp eklenir)
+    const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/git/trees/main?recursive=1`;
 
     try {
-        const response = await fetch(apiUrl);
-        if (!response.ok) return;
-        const files = await response.json();
+        const response = await fetch(apiUrl + `&t=${new Date().getTime()}`);
+        if (!response.ok) throw new Error('GitHub verileri alınamadı.');
+        
+        const data = await response.json();
+        const postFiles = data.tree.filter(item => item.path.startsWith('_posts/') && item.path.endsWith('.md'));
+
+        if (postFiles.length === 0) {
+            if (blogListContainer) {
+                blogListContainer.innerHTML = '<p>Henüz makale yayınlanmadı.</p>';
+            }
+            return;
+        }
 
         let counts = {
             "is-hukuku": 0,
@@ -62,22 +74,51 @@ const loadCategoryCounts = async function() {
             "genel": 0
         };
 
-        for (let file of files) {
-            if (file.name.endsWith('.md')) {
-                const fileRes = await fetch(file.download_url);
-                const content = await fileRes.text();
-                
-                if (content.includes("tag: Ceza Hukuku")) counts.ceza++;
-                if (content.includes("tag: Gayrimenkul")) counts.gayrimenkul++;
-                if (content.includes("tag: İş Hukuku")) counts["is-hukuku"]++;
-                if (content.includes("tag: Aile Hukuku")) counts.aile++;
-                if (content.includes("tag: Veraset")) counts.veraset++;
-                if (content.includes("tag: Şirketler Hukuku")) counts.sirketler++;
-                if (content.includes("tag: Genel")) counts.genel++;
+        if (blogListContainer) {
+            blogListContainer.innerHTML = '';
+        }
+
+        // Her bir Markdown dosyasının içeriğini çekip işleyelim
+        for (let file of postFiles) {
+            const rawUrl = `https://raw.githubusercontent.com/${repoOwner}/${repoName}/main/${file.path}?t=${new Date().getTime()}`;
+            const fileRes = await fetch(rawUrl);
+            const markdownText = await fileRes.text();
+
+            // Frontmatter (YAML) alanlarından bilgileri ayıkla
+            const titleMatch = markdownText.match(/title:\s*"?(.*?)"?$/m);
+            const dateMatch = markdownText.match(/date:\s*"?(.*?)"?$/m);
+            const tagMatch = markdownText.match(/tag:\s*"?(.*?)"?$/m);
+            
+            const title = titleMatch ? titleMatch[1] : 'Başlıksız Makale';
+            const date = dateMatch ? dateMatch[1] : '';
+            const tag = tagMatch ? tagMatch[1].trim() : '';
+
+            // Kategori sayaçlarını artır
+            if (tag.includes("Ceza Hukuku")) counts.ceza++;
+            if (tag.includes("Gayrimenkul")) counts.gayrimenkul++;
+            if (tag.includes("İş Hukuku")) counts["is-hukuku"]++;
+            if (tag.includes("Aile Hukuku")) counts.aile++;
+            if (tag.includes("Veraset")) counts.veraset++;
+            if (tag.includes("Şirketler Hukuku")) counts.sirketler++;
+            if (tag.includes("Genel")) counts.genel++;
+
+            // Eğer makaleler sayfasındakiysek kartları ekrana bas
+            if (blogListContainer) {
+                const article = document.createElement('article');
+                article.className = 'blog-card';
+                article.innerHTML = `
+                    <div class="blog-content">
+                        <span class="blog-date">${date}</span>
+                        <h2><a href="#">${title}</a></h2>
+                        <p>Hukuki bilgilendirme yazısının detayları için tıklayın...</p>
+                        <a href="#" class="read-more">Devamını Oku →</a>
+                    </div>
+                `;
+                blogListContainer.appendChild(article);
             }
         }
 
-        // Güvenli DOM Güncelleyici (Element sayfada yoksa hata fırlatmaz)
+        // Sidebar sayaçlarını güvenli bir şekilde güncelle
         const updateCountEl = (id, val) => {
             const el = document.getElementById(id);
             if (el) {
@@ -94,9 +135,12 @@ const loadCategoryCounts = async function() {
         updateCountEl("count-genel", counts.genel);
 
     } catch (error) {
-        console.error("Kategori sayıları yüklenirken hata oluştu:", error);
+        console.error('Hata:', error);
+        if (blogListContainer) {
+            blogListContainer.innerHTML = '<p>Makaleler yüklenirken bir hata oluştu.</p>';
+        }
     }
-};
+}
 
 // anasayfa faq bölümündeki akordeon
 document.querySelectorAll('.faq-question').forEach(button => {
@@ -113,57 +157,4 @@ document.querySelectorAll('.faq-question').forEach(button => {
             answer.style.maxHeight = null;
         }
     });
-});
-
-// makaleleri ekrana basmak
-document.addEventListener("DOMContentLoaded", () => {
-    const blogListContainer = document.getElementById("blog-list-container");
-    if (!blogListContainer) return;
-
-    const repoOwner = "SerMassey"; 
-    const repoName = "av-anilguzel";    
-    const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/_posts`;
-
-    fetch(apiUrl)
-        .then(response => {
-            if (!response.ok) throw new Error('Makaleler alınamadı.');
-            return response.json();
-        })
-        .then(files => {
-            blogListContainer.innerHTML = '';
-            const mdFiles = files.filter(file => file.name.endsWith('.md'));
-
-            if (mdFiles.length === 0) {
-                blogListContainer.innerHTML = '<p>Henüz makale yayınlanmadı.</p>';
-                return;
-            }
-
-            mdFiles.forEach(file => {
-                fetch(file.download_url)
-                    .then(res => res.text())
-                    .then(markdownText => {
-                        const titleMatch = markdownText.match(/title:\s*"?(.*?)"?$/m);
-                        const dateMatch = markdownText.match(/date:\s*"?(.*?)"?$/m);
-                        
-                        const title = titleMatch ? titleMatch[1] : 'Başlıksız Makale';
-                        const date = dateMatch ? dateMatch[1] : '';
-                        
-                        const article = document.createElement('article');
-                        article.className = 'blog-card';
-                        article.innerHTML = `
-                            <div class="blog-content">
-                                <span class="blog-date">${date}</span>
-                                <h2><a href="#">${title}</a></h2>
-                                <p>Hukuki bilgilendirme yazısının detayları için tıklayın...</p>
-                                <a href="#" class="read-more">Devamını Oku →</a>
-                            </div>
-                        `;
-                        blogListContainer.appendChild(article);
-                    });
-            });
-        })
-        .catch(error => {
-            console.error('Hata:', error);
-            blogListContainer.innerHTML = '<p>Makaleler yüklenirken bir hata oluştu.</p>';
-        });
 });
