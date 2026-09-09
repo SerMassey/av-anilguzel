@@ -1322,3 +1322,263 @@ body {
         order: 2;
     }
 }
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* HİZMETLERİMİZ SAYFASI */
+
+/* style.css dosyana ekleyeceğin stiller */
+
+.services-section {
+    padding: 80px 20px;
+    background-color: var(--bg-main);
+}
+
+.services-section .section-title {
+    text-align: center;
+    font-size: 2.4rem;
+    color: var(--text-dark);
+    margin-bottom: 50px;
+    font-family: serif;
+    font-weight: 500;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.service-card {
+    background: #ffffff;
+    border: 1px solid #e6e6e0;
+    padding: 35px 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.04);
+}
+
+.card-tag {
+    font-size: 0.75rem;
+    color: var(--accent-red);
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    display: block;
+}
+
+.service-card h3 {
+    font-size: 1.3rem;
+    color: var(--text-dark);
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.service-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 30px 0;
+    border-top: 1px solid #f0f0eb;
+}
+
+.service-list li {
+    padding: 11px 0;
+    font-size: 0.88rem;
+    color: var(--text-body);
+    border-bottom: 1px solid #f0f0eb;
+    line-height: 1.4;
+}
+
+.service-link {
+    font-size: 0.75rem;
+    color: var(--accent-red);
+    text-decoration: none;
+    font-weight: 700;
+    letter-spacing: 1px;
+    transition: opacity 0.2s ease;
+    display: inline-block;
+}
+
+.service-link:hover {
+    opacity: 0.65;
+}
+
+/* uzmanlık sayfaları */
+
+/* Uzmanlık Sayfaları Ortak Tasarım Sistemi */
+.expertise-page {
+    padding: 60px 20px;
+}
+
+.expertise-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.expertise-breadcrumb {
+    margin-bottom: 12px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--accent-red);
+}
+
+.expertise-hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 2px solid var(--text-dark);
+    padding-bottom: 30px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+    gap: 25px;
+}
+
+.expertise-title-wrapper {
+    flex: 1;
+    min-width: 320px;
+}
+
+.expertise-hero h1 {
+    font-size: 2.6rem;
+    color: var(--text-dark);
+    margin: 0;
+    line-height: 1.15;
+}
+
+.expertise-subtitle {
+    max-width: 260px;
+    font-size: 0.85rem;
+    color: var(--text-body);
+    border-left: 2px solid var(--accent-red);
+    padding-left: 12px;
+    margin-bottom: 5px;
+}
+
+.expertise-lead {
+    color: var(--text-body);
+    line-height: 1.8;
+    font-size: 1.05rem;
+    margin-bottom: 30px;
+}
+
+.expertise-section-title {
+    font-size: 1.8rem;
+    color: var(--text-dark);
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+.expertise-list {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 40px;
+    border-top: 1px solid #e6e6e0;
+}
+
+.expertise-list li {
+    padding: 14px 0;
+    border-bottom: 1px solid #e6e6e0;
+    color: var(--text-body);
+}
+
+.expertise-process-box {
+    background: #ffffff;
+    border: 1px solid #e6e6e0;
+    padding: 30px;
+    margin-top: 30px;
+}
+
+.expertise-process-box h3 {
+    font-size: 1.4rem;
+    color: var(--text-dark);
+    margin-bottom: 15px;
+}
+
+.expertise-process-box p {
+    color: var(--text-body);
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+/* İletişim Butonu */
+.uzmanlik-iletisim-butonu {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--accent-red);
+    color: #ffffff;
+    padding: 14px 28px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    border-radius: 2px;
+    transition: background-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.uzmanlik-iletisim-butonu:hover {
+    background-color: #871a13;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(135, 26, 19, 0.15);
+}
+
+.uzmanlik-iletisim-butonu:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+/* floating action buttons */
+
+.fab-container {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    display: flex;
+    flex-direction: column; /* Alt alta sıralar */
+    gap: 12px; /* Butonlar arası boşluk */
+    z-index: 9999;
+}
+
+.fab-btn {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    color: #ffffff;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.fab-btn:hover {
+    transform: scale(1.1);
+}
+
+/* WhatsApp Rengi */
+.whatsapp-fab {
+    background-color: var(--accent-red);
+}
+.whatsapp-fab:hover {
+    background-color: #20ba5a;
+}
+
+/* Telefon Rengi (Kurumsal Lacivert/Mavi tonu) */
+.phone-fab {
+    background-color: var(--text-body); 
+}
+.phone-fab:hover {
+    background-color: var(--brand-emerald);
+}

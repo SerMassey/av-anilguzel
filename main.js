@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
-    // 1. Navbar'ı yükle
-    fetch('navbar.html')
+    // 1. Navbar'ı yükle (Kök dizinden mutlak yol ile)
+    fetch('/navbar.html')
         .then(response => response.text())
         .then(data => {
             const placeholder = document.getElementById('navbar-placeholder');
@@ -10,8 +10,8 @@ document.addEventListener("DOMContentLoaded", function() {
         })
         .catch(error => console.error("Navbar yüklenirken hata:", error));
 
-    // 2. Footer'ı yükle
-    fetch('footer.html')
+    // 2. Footer'ı yükle (Kök dizinden mutlak yol ile)
+    fetch('/footer.html')
         .then(response => response.text())
         .then(data => {
             const placeholder = document.getElementById('footer-placeholder');
@@ -105,12 +105,6 @@ document.querySelectorAll('.faq-question').forEach(button => {
         const answer = item.querySelector('.faq-answer');
         const isActive = item.classList.contains('active');
 
-        // İsteğe bağlı: Diğer açık olanları kapatmak istersen bu bloğu açabilirsin
-        // document.querySelectorAll('.faq-item').forEach(i => {
-        //     i.classList.remove('active');
-        //     i.querySelector('.faq-answer').style.maxHeight = null;
-        // });
-
         if (!isActive) {
             item.classList.add('active');
             answer.style.maxHeight = answer.scrollHeight + "px";
@@ -122,14 +116,12 @@ document.querySelectorAll('.faq-question').forEach(button => {
 });
 
 // makaleleri ekrana basmak
-
 document.addEventListener("DOMContentLoaded", () => {
     const blogListContainer = document.getElementById("blog-list-container");
     if (!blogListContainer) return;
 
-    // GitHub üzerinden _posts klasöründeki dosyaları doğrudan çeken sistem
-    const repoOwner = "SerMassey"; // GitHub kullanıcı adını buraya yaz
-    const repoName = "av-anilguzel";     // GitHub repo adını buraya yaz
+    const repoOwner = "SerMassey"; 
+    const repoName = "av-anilguzel";    
     const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/_posts`;
 
     fetch(apiUrl)
@@ -150,7 +142,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 fetch(file.download_url)
                     .then(res => res.text())
                     .then(markdownText => {
-                        // Markdown front-matter (başlık, tarih vb.) basitçe ayıklanır
                         const titleMatch = markdownText.match(/title:\s*"?(.*?)"?$/m);
                         const dateMatch = markdownText.match(/date:\s*"?(.*?)"?$/m);
                         
