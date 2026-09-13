@@ -41,13 +41,11 @@ window.hideMenu = function() {
     }
 };
 
-// Tek istekle hem makaleleri listeyen hem de kategori sayaçlarını güncelleyen optimize fonksiyon
+// GitHub Git Trees API kullanarak optimize edilmiş veri ve sayaç yükleyici
 async function loadBlogDataAndCounts() {
     const blogListContainer = document.getElementById("blog-list-container");
     const repoOwner = "SerMassey"; 
     const repoName = "av-anilguzel"; 
-    
-    // GitHub Git Trees API kullanarak _posts klasöründeki dosyaları tek sorguda çekiyoruz (Cache önlemek için timestamp eklenir)
     const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/git/trees/main?recursive=1`;
 
     try {
@@ -78,22 +76,35 @@ async function loadBlogDataAndCounts() {
             blogListContainer.innerHTML = '';
         }
 
-        // Her bir Markdown dosyasının içeriğini çekip işleyelim
         for (let file of postFiles) {
             const rawUrl = `https://raw.githubusercontent.com/${repoOwner}/${repoName}/main/${file.path}?t=${new Date().getTime()}`;
             const fileRes = await fetch(rawUrl);
             const markdownText = await fileRes.text();
 
-            // Frontmatter (YAML) alanlarından bilgileri ayıkla
             const titleMatch = markdownText.match(/title:\s*"?(.*?)"?$/m);
             const dateMatch = markdownText.match(/date:\s*"?(.*?)"?$/m);
             const tagMatch = markdownText.match(/tag:\s*"?(.*?)"?$/m);
+            const descMatch = markdownText.match(/description:\s*"?(.*?)"?$/m);
             
             const title = titleMatch ? titleMatch[1] : 'Başlıksız Makale';
-            const date = dateMatch ? dateMatch[1] : '';
+            const rawDate = dateMatch ? dateMatch[1] : '';
             const tag = tagMatch ? tagMatch[1].trim() : '';
+            const description = descMatch ? descMatch[1] : 'Bilgilendirme yazımızın detayları için tıklayın.';
 
-            // Kategori sayaçlarını artır
+            let formattedDate = rawDate;
+            if (rawDate) {
+                const dateObj = new Date(rawDate);
+                if (!isNaN(dateObj)) {
+                    formattedDate = dateObj.toLocaleDateString('tr-TR', {
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                }
+            }
+
             if (tag.includes("Ceza Hukuku")) counts.ceza++;
             if (tag.includes("Gayrimenkul")) counts.gayrimenkul++;
             if (tag.includes("İş Hukuku")) counts["is-hukuku"]++;
@@ -102,15 +113,14 @@ async function loadBlogDataAndCounts() {
             if (tag.includes("Şirketler Hukuku")) counts.sirketler++;
             if (tag.includes("Genel")) counts.genel++;
 
-            // Eğer makaleler sayfasındakiysek kartları ekrana bas
             if (blogListContainer) {
                 const article = document.createElement('article');
                 article.className = 'blog-card';
                 article.innerHTML = `
                     <div class="blog-content">
-                        <span class="blog-date">${date}</span>
+                        <span class="blog-date">${formattedDate}</span>
                         <h2><a href="#">${title}</a></h2>
-                        <p>Hukuki bilgilendirme yazısının detayları için tıklayın...</p>
+                        <p>${description}</p>
                         <a href="#" class="read-more">Devamını Oku →</a>
                     </div>
                 `;
@@ -118,7 +128,6 @@ async function loadBlogDataAndCounts() {
             }
         }
 
-        // Sidebar sayaçlarını güvenli bir şekilde güncelle
         const updateCountEl = (id, val) => {
             const el = document.getElementById(id);
             if (el) {
@@ -158,3 +167,68 @@ document.querySelectorAll('.faq-question').forEach(button => {
         }
     });
 });
+
+// Google yorumları entegrasyonu
+// Google yorumları entegrasyonu
+const apiKey = "AIzaSyAgcGLLN7-1nMlF5lVHeVwqO3d4KRdbEnc";
+const placeId = "ChIJcwC0KjuQwxQRl5EGaut4HLM";
+
+const apiUrl = `https://corsproxy.io/?https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=name,rating,user_ratings_total,reviews&language=tr&key=${apiKey}`;
+
+fetch(apiUrl)
+    .then(response => response.json())
+    .then(data => {
+        // CORS proxy bazen veriyi data.contents içine sarabilir, kontrol edelim:
+        const resultData = data.result || (data.contents ? JSON.parse(data.contents).result : null);
+
+        if (resultData) {
+            const place = resultData;
+            
+            // Sol tarafı güncelle
+            if (place.rating) {
+                const ratingEl = document.getElementById('rating-number');
+                if (ratingEl) ratingEl.innerText = place.rating.toFixed(1);
+            }
+            if (place.user_ratings_total) {
+                const totalEl = document.getElementById('total-ratings');
+                if (totalEl) totalEl.innerText = `${place.user_ratings_total} Google değerlendirmesi`;
+            }
+
+            // Sağ tarafı güncelle
+            const reviewsContainer = document.getElementById('reviews-grid');
+            if (reviewsContainer) {
+                reviewsContainer.innerHTML = '';
+
+                if (place.reviews && place.reviews.length > 0) {
+                    place.reviews.forEach(review => {
+                        const starsString = '★'.repeat(review.rating);
+                        const card = document.createElement('div');
+                        card.className = 'review-card';
+                        card.innerHTML = `
+                            <div class="review-header">
+                                <span class="review-author">${review.author_name}</span>
+                                <span class="review-stars">${starsString}</span>
+                            </div>
+                            <p class="review-text">"${review.text}"</p>
+                        `;
+                        reviewsContainer.appendChild(card);
+                    });
+                } else {
+                    reviewsContainer.innerHTML = `
+                        <div class="review-card">
+                            <p class="review-text" style="color: #666; font-style: normal;">
+                                Müvekkillerimizin Google üzerindeki 5 yıldızlı değerlendirmeleri gizlilik ve şeffaflık ilkemizle listelenmektedir. Siz de deneyiminizi paylaşmak için değerlendirme yapabilirsiniz.
+                            </p>
+                        </div>
+                    `;
+                }
+            }
+        }
+    })
+    .catch(error => {
+        console.error("Google Reviews API Hatası:", error);
+        const reviewsContainer = document.getElementById('reviews-grid');
+        if (reviewsContainer) {
+            reviewsContainer.innerHTML = '<p class="review-text">Yorumlar yüklenirken bir sorun oluştu.</p>';
+        }
+    });

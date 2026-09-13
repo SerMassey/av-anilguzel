@@ -10,8 +10,10 @@ collections:
     label: "Yazılar / Makaleler"
     folder: "_posts"
     create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
       - {label: "Başlık", name: "title", widget: "string"}
-      - {label: "Yayın Tarihi", name: "date", widget: "datetime"}
+      - {label: "Tarih", name: "date", widget: "datetime"}
       - {label: "Etiket", name: "tag", widget: "select", options: ["Ceza Hukuku", "Gayrimenkul", "İş Hukuku", "Aile Hukuku", "Veraset", "Şirketler Hukuku", "Genel"]}
+      - {label: "Makale Özeti", name: "description", widget: "text", hint: "Kartlarda görünecek kısa özeti buraya yazın."}
       - {label: "İçerik", name: "body", widget: "markdown"}
