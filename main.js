@@ -203,15 +203,19 @@ document.addEventListener('click', async function(e) {
     }
 });
 
-// Tekil .md dosyasını çekip aynı sayfada gösteren fonksiyon
+// Tekil .md dosyasını çekip aynı sayfada şık bir okuma ekranıyla gösteren fonksiyon
 async function loadSingleMarkdownArticle(filePath) {
     const blogListContainer = document.getElementById("blog-list-container");
+    const sidebar = document.querySelector(".blog-sidebar"); // Sağ sidebar
     const repoOwner = "SerMassey"; 
     const repoName = "av-anilguzel"; 
-    const rawUrl = `https://raw.githubusercontent.com/${repoOwner}/${repoName}/main/${filePath}?t=${new Date().getTime()}`;
+    
+    // Doğru GitHub raw link formatı
+    const cleanPath = filePath.startsWith('_posts/') ? filePath : `_posts/${filePath}`;
+    const rawUrl = `https://raw.githubusercontent.com/${repoOwner}/${repoName}/main/${cleanPath}?t=${new Date().getTime()}`;
 
     if (blogListContainer) {
-        blogListContainer.innerHTML = '<p style="padding: 20px; font-size: 16px;">Makale yükleniyor...</p>';
+        blogListContainer.innerHTML = '<p style="padding: 40px; text-align: center; font-size: 16px; color: #666;">Makale yükleniyor...</p>';
     }
 
     try {
@@ -224,25 +228,49 @@ async function loadSingleMarkdownArticle(filePath) {
         const parts = markdownText.split('---');
         let content = markdownText;
         let title = "Makale Detayı";
+        let date = "";
 
         if (parts.length >= 3) {
             const frontMatter = parts[1];
             content = parts.slice(2).join('---');
 
             const titleMatch = frontMatter.match(/title:\s*"?(.*?)"?$/m);
+            const dateMatch = frontMatter.match(/date:\s*"?(.*?)"?$/m);
+            
             if (titleMatch) title = titleMatch[1];
+            if (dateMatch) {
+                const dateObj = new Date(dateMatch[1]);
+                if (!isNaN(dateObj)) {
+                    date = dateObj.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
+                }
+            }
         }
 
         // Markdown'ı HTML'e çevir
         const htmlContent = marked.parse(content);
 
+        // Sidebar'ı CSS ile tamamen gizle
+        if (sidebar) {
+            sidebar.style.display = 'none';
+        }
+
+        // Ana layout'un grid yapısını esnetip tek sütun yapalım
+        const blogLayout = document.querySelector('.blog-layout');
+        if (blogLayout) {
+            blogLayout.style.gridTemplateColumns = '1fr';
+        }
+
         if (blogListContainer) {
+            blogListContainer.style.width = '100%';
             blogListContainer.innerHTML = `
-                <div class="single-article-view">
-                    <button onclick="location.reload()" class="back-to-list-btn" style="background: none; border: none; color: #004080; font-weight: bold; cursor: pointer; margin-bottom: 20px; font-size: 15px;">← Tüm Makalelere Dön</button>
-                    <h1 style="margin-bottom: 20px; color: #222; font-size: 28px;">${title}</h1>
-                    <hr style="border: 0; border-top: 1px solid #ddd; margin-bottom: 30px;">
-                    <div class="markdown-body" style="line-height: 1.8; color: #444;">
+                <div class="article-reading-card" style="background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); margin-bottom: 40px;">
+                    <button onclick="location.reload()" style="background: none; border: none; color: #004080; font-weight: 600; cursor: pointer; margin-bottom: 25px; font-size: 14px; display: flex; align-items: center; gap: 5px; padding: 0;">
+                        ← Tüm Makalelere Dön
+                    </button>
+                    ${date ? `<span style="font-size: 13px; color: #888; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 10px;">${date}</span>` : ''}
+                    <h1 style="margin-bottom: 20px; color: #1a1a1a; font-size: 32px; line-height: 1.3; font-weight: 700;">${title}</h1>
+                    <hr style="border: 0; border-top: 1px solid #eaeaea; margin: 25px 0;">
+                    <div class="markdown-body" style="line-height: 1.85; color: #333; font-size: 16px;">
                         ${htmlContent}
                     </div>
                 </div>
@@ -251,7 +279,7 @@ async function loadSingleMarkdownArticle(filePath) {
     } catch (error) {
         console.error('Makale yükleme hatası:', error);
         if (blogListContainer) {
-            blogListContainer.innerHTML = '<p>Makale yüklenirken bir hata oluştu. <a href="makaleler.html">Geri dön</a></p>';
+            blogListContainer.innerHTML = '<p style="padding: 20px; color: red;">Makale yüklenirken bir hata oluştu. <a href="makaleler.html">Geri dön</a></p>';
         }
     }
 }
@@ -353,7 +381,7 @@ fetch(apiUrl)
                     reviewsContainer.innerHTML = `
                         <div class="review-card">
                             <p class="review-text" style="color: #666; font-style: normal;">
-                                Müvekkillerimizin Google üzerindeki 5 yıldızlı değerlendirmeleri gizlilik ve şeffaflık ilkemizle listelenmektedir. Siz de deneyiminizi paylaşmak için değerlendirme yapabilirsiniz.
+                                Müvekkillerımızın Google üzerindeki 5 yıldızlı değerlendirmeleri gizlilik ve şeffaflık ilkemizle listelenmektedir. Siz de deneyiminizi paylaşmak için değerlendirme yapabilirsiniz.
                             </p>
                         </div>
                     `;
