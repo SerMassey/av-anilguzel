@@ -69,6 +69,7 @@ async function loadBlogDataAndCounts() {
             "aile": 0,
             "veraset": 0,
             "sirketler": 0,
+            "ticaret": 0,
             "genel": 0
         };
 
@@ -111,6 +112,7 @@ async function loadBlogDataAndCounts() {
             if (tag.includes("Aile Hukuku")) counts.aile++;
             if (tag.includes("Veraset")) counts.veraset++;
             if (tag.includes("Şirketler Hukuku")) counts.sirketler++;
+            if (tag.includes("Ticaret Hukuku")) counts.ticaret++;
             if (tag.includes("Genel")) counts.genel++;
 
             if (blogListContainer) {
@@ -121,6 +123,7 @@ async function loadBlogDataAndCounts() {
                 else if (tag.includes("Aile Hukuku")) categorySlug = "aile";
                 else if (tag.includes("Veraset")) categorySlug = "veraset";
                 else if (tag.includes("Şirketler Hukuku")) categorySlug = "sirketler";
+                else if (tag.includes("Ticaret Hukuku")) categorySlug = "ticaret";
 
                 const article = document.createElement('article');
                 article.className = 'blog-card';
@@ -129,9 +132,9 @@ async function loadBlogDataAndCounts() {
                 article.innerHTML = `
                     <div class="blog-content">
                         <span class="blog-date">${formattedDate}</span>
-                        <h2><a href="#">${title}</a></h2>
+                        <h2><a href="#" data-file="${file.path}">${title}</a></h2>
                         <p>${description}</p>
-                        <a href="#" class="read-more">Devamını Oku →</a>
+                        <a href="#" class="read-more" data-file="${file.path}">Devamını Oku →</a>
                     </div>
                 `;
                 blogListContainer.appendChild(article);
@@ -151,6 +154,7 @@ async function loadBlogDataAndCounts() {
         updateCountEl("count-aile", counts.aile);
         updateCountEl("count-veraset", counts.veraset);
         updateCountEl("count-sirketler", counts.sirketler);
+        updateCountEl("count-ticaret", counts.ticaret);
         updateCountEl("count-genel", counts.genel);
 
     } catch (error) {
@@ -161,42 +165,96 @@ async function loadBlogDataAndCounts() {
     }
 }
 
-// Blog Kategori ve Aktif Filtre Gösterge Kutusu Sistemi
-document.addEventListener('click', function(e) {
-    // 1. Kategorilere Tıklandığında
+// Global Tıklama Olayları (Makale okuma, filtreleme, vb.)
+document.addEventListener('click', async function(e) {
+    // 1. "Devamını Oku" veya Başlığa Tıklandığında Doğrudan .md dosyasını açma
+    const readMoreLink = e.target.closest('.read-more') || e.target.closest('.blog-card h2 a');
+    if (readMoreLink && readMoreLink.hasAttribute('data-file')) {
+        e.preventDefault();
+        const filePath = readMoreLink.getAttribute('data-file');
+        await loadSingleMarkdownArticle(filePath);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+    }
+
+    // 2. Kategorilere Tıklandığında
     if (e.target.matches('.category-link') || e.target.closest('.category-link')) {
         e.preventDefault();
         const link = e.target.closest('.category-link');
         const selectedCategory = link.getAttribute('data-filter');
         const categoryName = link.textContent.replace(/\s*\(\d+\)/, '').trim();
 
-        // Aktif sınıfını güncelle
         document.querySelectorAll('.category-link').forEach(el => el.classList.remove('active'));
         link.classList.add('active');
 
-        // Kartları filtrele
         filterCards(selectedCategory);
-
-        // Aktif filtre kutusunu göster ve adını yaz
         showActiveFilterBox(categoryName, selectedCategory);
     }
 
-    // 2. Filtre kutusundaki çarpı (×) butonuna tıklandığında
+    // 3. Filtre kutusundaki çarpı (×) butonuna tıklandığında
     if (e.target.matches('#clear-filter-btn') || e.target.closest('#clear-filter-btn')) {
         e.preventDefault();
-        
-        // "Tümü" seçeneğine geri dön
         document.querySelectorAll('.category-link').forEach(el => el.classList.remove('active'));
         const allLink = document.querySelector('.category-link[data-filter="all"]');
         if (allLink) allLink.classList.add('active');
 
-        // Tüm kartları göster
         filterCards('all');
-
-        // Kutuyu gizle
         hideActiveFilterBox();
     }
 });
+
+// Tekil .md dosyasını çekip aynı sayfada gösteren fonksiyon
+async function loadSingleMarkdownArticle(filePath) {
+    const blogListContainer = document.getElementById("blog-list-container");
+    const repoOwner = "SerMassey"; 
+    const repoName = "av-anilguzel"; 
+    const rawUrl = `https://raw.githubusercontent.com/${repoOwner}/${repoName}/main/${filePath}?t=${new Date().getTime()}`;
+
+    if (blogListContainer) {
+        blogListContainer.innerHTML = '<p style="padding: 20px; font-size: 16px;">Makale yükleniyor...</p>';
+    }
+
+    try {
+        const response = await fetch(rawUrl);
+        if (!response.ok) throw new Error('Makale içeriği alınamadı.');
+
+        const markdownText = await response.text();
+
+        // Front-matter ve içeriği ayıralım
+        const parts = markdownText.split('---');
+        let content = markdownText;
+        let title = "Makale Detayı";
+
+        if (parts.length >= 3) {
+            const frontMatter = parts[1];
+            content = parts.slice(2).join('---');
+
+            const titleMatch = frontMatter.match(/title:\s*"?(.*?)"?$/m);
+            if (titleMatch) title = titleMatch[1];
+        }
+
+        // Markdown'ı HTML'e çevir
+        const htmlContent = marked.parse(content);
+
+        if (blogListContainer) {
+            blogListContainer.innerHTML = `
+                <div class="single-article-view">
+                    <button onclick="location.reload()" class="back-to-list-btn" style="background: none; border: none; color: #004080; font-weight: bold; cursor: pointer; margin-bottom: 20px; font-size: 15px;">← Tüm Makalelere Dön</button>
+                    <h1 style="margin-bottom: 20px; color: #222; font-size: 28px;">${title}</h1>
+                    <hr style="border: 0; border-top: 1px solid #ddd; margin-bottom: 30px;">
+                    <div class="markdown-body" style="line-height: 1.8; color: #444;">
+                        ${htmlContent}
+                    </div>
+                </div>
+            `;
+        }
+    } catch (error) {
+        console.error('Makale yükleme hatası:', error);
+        if (blogListContainer) {
+            blogListContainer.innerHTML = '<p>Makale yüklenirken bir hata oluştu. <a href="makaleler.html">Geri dön</a></p>';
+        }
+    }
+}
 
 // Kartları filtreleyen yardımcı fonksiyon
 function filterCards(selectedCategory) {
