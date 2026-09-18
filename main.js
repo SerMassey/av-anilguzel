@@ -114,8 +114,18 @@ async function loadBlogDataAndCounts() {
             if (tag.includes("Genel")) counts.genel++;
 
             if (blogListContainer) {
+                let categorySlug = "genel";
+                if (tag.includes("Ceza Hukuku")) categorySlug = "ceza";
+                else if (tag.includes("Gayrimenkul")) categorySlug = "gayrimenkul";
+                else if (tag.includes("İş Hukuku")) categorySlug = "is-hukuku";
+                else if (tag.includes("Aile Hukuku")) categorySlug = "aile";
+                else if (tag.includes("Veraset")) categorySlug = "veraset";
+                else if (tag.includes("Şirketler Hukuku")) categorySlug = "sirketler";
+
                 const article = document.createElement('article');
                 article.className = 'blog-card';
+                article.setAttribute('data-category', categorySlug);
+
                 article.innerHTML = `
                     <div class="blog-content">
                         <span class="blog-date">${formattedDate}</span>
@@ -151,7 +161,79 @@ async function loadBlogDataAndCounts() {
     }
 }
 
-// anasayfa faq bölümündeki akordeon
+// Blog Kategori ve Aktif Filtre Gösterge Kutusu Sistemi
+document.addEventListener('click', function(e) {
+    // 1. Kategorilere Tıklandığında
+    if (e.target.matches('.category-link') || e.target.closest('.category-link')) {
+        e.preventDefault();
+        const link = e.target.closest('.category-link');
+        const selectedCategory = link.getAttribute('data-filter');
+        const categoryName = link.textContent.replace(/\s*\(\d+\)/, '').trim();
+
+        // Aktif sınıfını güncelle
+        document.querySelectorAll('.category-link').forEach(el => el.classList.remove('active'));
+        link.classList.add('active');
+
+        // Kartları filtrele
+        filterCards(selectedCategory);
+
+        // Aktif filtre kutusunu göster ve adını yaz
+        showActiveFilterBox(categoryName, selectedCategory);
+    }
+
+    // 2. Filtre kutusundaki çarpı (×) butonuna tıklandığında
+    if (e.target.matches('#clear-filter-btn') || e.target.closest('#clear-filter-btn')) {
+        e.preventDefault();
+        
+        // "Tümü" seçeneğine geri dön
+        document.querySelectorAll('.category-link').forEach(el => el.classList.remove('active'));
+        const allLink = document.querySelector('.category-link[data-filter="all"]');
+        if (allLink) allLink.classList.add('active');
+
+        // Tüm kartları göster
+        filterCards('all');
+
+        // Kutuyu gizle
+        hideActiveFilterBox();
+    }
+});
+
+// Kartları filtreleyen yardımcı fonksiyon
+function filterCards(selectedCategory) {
+    const cards = document.querySelectorAll('.blog-card');
+    cards.forEach(card => {
+        const cardCategory = card.getAttribute('data-category');
+        if (selectedCategory === 'all' || cardCategory === selectedCategory) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+
+// Filtre kutusunu gösteren fonksiyon
+function showActiveFilterBox(name, slug) {
+    const box = document.getElementById('active-filter-box');
+    const textSpan = document.getElementById('filter-text');
+    if (box && textSpan) {
+        if (slug === 'all') {
+            box.style.display = 'none';
+        } else {
+            textSpan.innerHTML = `Filtrelenen: <strong>${name}</strong>`;
+            box.style.display = 'flex';
+        }
+    }
+}
+
+// Filtre kutusunu gizleyen fonksiyon
+function hideActiveFilterBox() {
+    const box = document.getElementById('active-filter-box');
+    if (box) {
+        box.style.display = 'none';
+    }
+}
+
+// Anasayfa FAQ bölümündeki akordeon
 document.querySelectorAll('.faq-question').forEach(button => {
     button.addEventListener('click', () => {
         const item = button.parentElement;
@@ -168,8 +250,7 @@ document.querySelectorAll('.faq-question').forEach(button => {
     });
 });
 
-// Google yorumları entegrasyonu
-// Google yorumları entegrasyonu
+// Google Yorumları Entegrasyonu
 const apiKey = "AIzaSyAgcGLLN7-1nMlF5lVHeVwqO3d4KRdbEnc";
 const placeId = "ChIJcwC0KjuQwxQRl5EGaut4HLM";
 
@@ -178,13 +259,11 @@ const apiUrl = `https://corsproxy.io/?https://maps.googleapis.com/maps/api/place
 fetch(apiUrl)
     .then(response => response.json())
     .then(data => {
-        // CORS proxy bazen veriyi data.contents içine sarabilir, kontrol edelim:
         const resultData = data.result || (data.contents ? JSON.parse(data.contents).result : null);
 
         if (resultData) {
             const place = resultData;
             
-            // Sol tarafı güncelle
             if (place.rating) {
                 const ratingEl = document.getElementById('rating-number');
                 if (ratingEl) ratingEl.innerText = place.rating.toFixed(1);
@@ -194,7 +273,6 @@ fetch(apiUrl)
                 if (totalEl) totalEl.innerText = `${place.user_ratings_total} Google değerlendirmesi`;
             }
 
-            // Sağ tarafı güncelle
             const reviewsContainer = document.getElementById('reviews-grid');
             if (reviewsContainer) {
                 reviewsContainer.innerHTML = '';

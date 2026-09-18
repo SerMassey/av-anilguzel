@@ -26,13 +26,22 @@
 
         <!-- SAĞ TARAF: Sidebar (Yan Menü) -->
         <aside class="blog-sidebar">
+            <!-- Aktif Filtre Gösterge Kutusu -->
+             <div id="active-filter-box" class="active-filter-box">
+                <span id="filter-text">Filtrelenen: <strong>Tümü</strong></span>
+                <button id="clear-filter-btn" class="clear-filter-btn">×</button>
+            </div>
             <div class="sidebar-box">
                 <h3>Kategoriler</h3>
                 <ul>
-                    <li><a href="#">İş Hukuku <span id="count-is-hukuku">(0)</span></a></li>
-                    <li><a href="#">Kira ve Gayrimenkul <span id="count-kira">(0)</span></a></li>
-                    <li><a href="#">Ceza Hukuku <span id="count-ceza">(0)</span></a></li>
-                    <li><a href="#">Ticaret Hukuku <span id="count-ticaret">(0)</span></a></li>
+                    <li><a href="#" class="category-link" data-filter="is-hukuku">İş Hukuku <span id="count-is-hukuku">(0)</span></a></li>
+                    <li><a href="#" class="category-link" data-filter="gayrimenkul">Gayrimenkul ve Kira Hukuku <span id="count-gayrimenkul">(0)</span></a></li>
+                    <li><a href="#" class="category-link" data-filter="ceza">Ceza Hukuku <span id="count-ceza">(0)</span></a></li>
+                    <li><a href="#" class="category-link" data-filter="aile">Aile Hukuku <span id="count-aile">(0)</span></a></li>
+                    <li><a href="#" class="category-link" data-filter="veraset">Veraset ve Miras <span id="count-veraset">(0)</span></a></li>
+                    <li><a href="#" class="category-link" data-filter="sirketler">Şirketler Hukuku <span id="count-sirketler">(0)</span></a></li>
+                    <li><a href="#" class="category-link" data-filter="ticaret">Ticaret Hukuku <span id="count-ticaret">(0)</span></a></li>
+
                 </ul>
             </div>
 

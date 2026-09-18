@@ -17,14 +17,16 @@
     --accent-red: #a32219;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     background-color: var(--bg-main);
     color: var(--text-dark);
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     padding-top: 75px;
 }
-
-
 
 .container {
     max-width: 1140px;
@@ -100,41 +102,6 @@ body {
     cursor: pointer;
 }
 
-@media (max-width: 768px) {
-    .menu-icon {
-        display: block;
-        font-size: 24px;
-        color: var(--text-dark);
-        line-height: 1;
-    }
-
-    .nav-links {
-        position: fixed;
-        top: 0;
-        right: -270px;
-        width: 250px;
-        height: 100vh;
-        background-color: #ffffff;
-        box-shadow: -5px 0 15px rgba(0,0,0,0.08);
-        display: flex;
-        flex-direction: column;
-        padding: 60px 25px;
-        gap: 25px;
-        z-index: 1001;
-        transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .close-btn {
-        display: block;
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        font-size: 22px;
-        color: var(--text-dark);
-        font-weight: bold;
-    }
-}
-
 
 /* ==========================================
    3. HERO SECTION
@@ -169,7 +136,7 @@ body {
 }
 
 .hero-title {
-    font-size: 2.8rem;
+    font-size: 3.8rem;
     font-weight: 700;
     color: var(--brand-green);
     line-height: 1.2;
@@ -236,28 +203,6 @@ body {
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
 }
 
-@media (max-width: 992px) {
-    .hero-container {
-        flex-direction: column-reverse;
-        text-align: center;
-        gap: 30px;
-    }
-    .hero-image {
-        flex: auto;
-        width: 100%;
-        max-width: 350px;
-    }
-    .hero-image img {
-        height: 420px;
-    }
-    .hero-description {
-        margin: 0 auto 30px auto;
-    }
-    .hero-buttons {
-        justify-content: center;
-    }
-}
-
 
 /* ==========================================
    4. KURUMSAL / HAKKIMDA BÖLÜMÜ
@@ -305,7 +250,7 @@ body {
 
 .lead-text {
     font-size: 1.1rem;
-    font-weight: 600;
+    font-weight: 450;
     color: var(--text-body);
     margin-bottom: 15px;
     line-height: 1.6;
@@ -321,7 +266,6 @@ body {
 /* ==========================================
    5. UZMANLIK ALANLARI (EDİTORYAL KARTLAR)
    ================================---------- */
-
 .index-services {
     background-color: #FAF9F6;
 }
@@ -444,7 +388,752 @@ body {
 
 
 /* ==========================================
-   6. İLETİŞİM SAYFASI (KUTUSUZ ÖZEL TASARIM)
+   6. HİZMETLERİMİZ & UZMANLIK SAYFALARI
+   ================================---------- */
+.services-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 20px;
+}
+
+.services-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.services-header h1 {
+    font-size: 2.5rem;
+    color: #1a1a1a;
+    margin-bottom: 12px;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.service-card {
+    background: #fff;
+    border: 1px solid #eaeaea;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    border: 1px solid var(--brand-emerald);
+}
+
+.service-card h2 {
+    font-size: 1.3rem;
+    color: #191919;
+    margin-bottom: 12px;
+}
+
+.service-card h3 {
+    font-size: 1.3rem;
+    font-weight: 550;
+    color: var(--brand-green);
+}
+
+.service-intro {
+    font-size: 0.92rem;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.service-sub-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 24px 0;
+    border-top: 1px solid #f0f0f0;
+}
+
+.service-sub-list li {
+    font-size: 0.88rem;
+    color: #444;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.service-link {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    text-decoration: none;
+    display: inline-block;
+    transition: transform 0.2s ease;
+}
+
+.service-link:hover {
+    transform: translateX(4px);
+}
+
+/* Uzmanlık Sayfaları Ortak Sistem */
+.expertise-page {
+    padding: 60px 20px;
+}
+
+.expertise-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.expertise-breadcrumb {
+    margin-bottom: 12px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--accent-red);
+}
+
+.expertise-hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 2px solid var(--text-dark);
+    padding-bottom: 30px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+    gap: 25px;
+}
+
+.expertise-title-wrapper {
+    flex: 1;
+    min-width: 320px;
+}
+
+.expertise-hero h1 {
+    font-size: 2.6rem;
+    color: var(--text-dark);
+    margin: 0;
+    line-height: 1.15;
+}
+
+.expertise-subtitle {
+    max-width: 260px;
+    font-size: 0.85rem;
+    color: var(--text-body);
+    border-left: 2px solid var(--accent-red);
+    padding-left: 12px;
+    margin-bottom: 5px;
+}
+
+.expertise-lead {
+    color: var(--text-body);
+    line-height: 1.8;
+    font-size: 1.05rem;
+    margin-bottom: 30px;
+}
+
+.expertise-section-title {
+    font-size: 1.8rem;
+    color: var(--text-dark);
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+.expertise-list {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 40px;
+    border-top: 1px solid #e6e6e0;
+}
+
+.expertise-list li {
+    padding: 14px 0;
+    border-bottom: 1px solid #e6e6e0;
+    color: var(--text-body);
+}
+
+.expertise-process-box {
+    background: #ffffff;
+    border: 1px solid #e6e6e0;
+    padding: 30px;
+    margin-top: 30px;
+}
+
+.expertise-process-box h3 {
+    font-size: 1.4rem;
+    color: var(--text-dark);
+    margin-bottom: 15px;
+}
+
+.expertise-process-box p {
+    color: var(--text-body);
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.uzmanlik-iletisim-butonu {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--accent-red);
+    color: #ffffff;
+    padding: 14px 28px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    border-radius: 2px;
+    transition: background-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.uzmanlik-iletisim-butonu:hover {
+    background-color: #871a13;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(135, 26, 19, 0.15);
+}
+
+.uzmanlik-iletisim-butonu:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+
+/* ==========================================
+   7. ANASAYFA PROSES VE FAQ BÖLÜMLERİ
+   ================================---------- */
+.process-section {
+    position: relative;
+    padding: 90px 20px;
+    background-color: #FAF9F6;
+}
+
+.process-section .section-header {
+    text-align: center;
+    margin-bottom: 45px;
+}
+
+.process-section .section-tag {
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #555;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.process-section h2 {
+    font-size: 30px;
+    color: #111;
+    font-weight: 600;
+}
+
+.process-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.process-card {
+    background: #FFFFF0;
+    padding: 35px 25px;
+    border: 1px solid #e2e8f0;
+    position: relative;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.process-card:hover {
+    transform: translateY(-4px);
+    border-color: #111;
+}
+
+.process-number {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--brand-green);
+    display: block;
+    margin-bottom: 15px;
+}
+
+.process-card h3 {
+    font-size: 18px;
+    color: #111;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.process-card p {
+    font-size: 14px;
+    color: #475569;
+    line-height: 1.6;
+}
+
+/* FAQ */
+.faq-section {
+    padding: 90px 20px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #cbd5e1;
+}
+
+.faq-question, .faq-answer p {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+.faq-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.3fr 0.7fr;
+    gap: 60px;
+    align-items: start;
+}
+
+.faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+}
+
+.faq-header {
+    width: 100%;
+}
+
+.faq-header .section-tag {
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #555;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.faq-header h2 {
+    font-size: 32px;
+    color: #111;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.faq-item {
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 15px;
+    width: 100%;
+}
+
+.faq-question {
+    width: 100%;
+    background: none;
+    border: none;
+    text-align: left;
+    font-size: 16px;
+    font-weight: 600;
+    color: #111;
+    padding: 15px 0;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: color 0.2s ease;
+}
+
+.faq-item.active .faq-question {
+    color: var(--brand-green);
+}
+
+.faq-item.active {
+    border-left: 2px solid var(--brand-green);
+    padding-left: 15px;
+    transition: all 0.3s ease;
+}
+
+.faq-icon {
+    font-size: 20px;
+    font-weight: 400;
+    color: #666;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+    margin-left: 15px;
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease-out;
+}
+
+.faq-answer p {
+    font-size: 14px;
+    color: #475569;
+    line-height: 1.6;
+    padding-bottom: 15px;
+    margin: 0;
+}
+
+.faq-item.active .faq-icon {
+    transform: rotate(45deg);
+}
+
+
+/* ==========================================
+   8. GOOGLE İNCELEMELERİ
+   ================================---------- */
+.reviews-section {
+    padding: 60px 20px;
+    background-color: #faf9f6;
+    border-bottom: 1px solid #eae7df;
+    margin: 40px 0;
+}
+
+.reviews-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 50px;
+    align-items: center;
+}
+
+.review-summary-side .reviews-overline {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #666;
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.review-summary-side h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 20px;
+}
+
+.rating-badge-large {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+#rating-number {
+    font-size: 3rem;
+    font-weight: 500;
+    color: #1a1a1a;
+    line-height: 1;
+}
+
+.stars {
+    color: #d4af37;
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+    margin-bottom: 5px;
+}
+
+#total-ratings {
+    font-size: 0.85rem;
+    color: #666;
+    margin: 0;
+}
+
+.summary-desc {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 25px;
+}
+
+.google-maps-link {
+    display: inline-block;
+    font-size: 0.9rem;
+    color: #1a1a1a;
+    text-decoration: none;
+    font-weight: 500;
+    border-bottom: 1px solid #1a1a1a;
+    padding-bottom: 2px;
+    transition: opacity 0.2s;
+}
+
+.google-maps-link:hover {
+    opacity: 0.7;
+}
+
+.review-cards-side {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-height: 420px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.review-cards-side::-webkit-scrollbar {
+    width: 4px;
+}
+
+.review-cards-side::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 2px;
+}
+
+.review-card {
+    background: #ffffff;
+    padding: 20px;
+    border: 1px solid #eae7df;
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.01);
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.review-author {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #1a1a1a;
+}
+
+.review-stars {
+    color: #d4af37;
+    font-size: 0.8rem;
+}
+
+.review-text {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #444;
+}
+
+
+/* ==========================================
+   9. BLOG SAYfASI
+   ================================---------- */
+
+@media (max-width: 768px) {
+    /* Sidebar'ın mobilde gizlenmesini engelle ve alt alta akmasını sağla */
+    .blog-layout,
+    .blog-container {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 2rem !important;
+    }
+
+    /* Gizlenen sidebar'ı tekrar görünür yap ve genişliğini %100 yap */
+    .blog-sidebar,
+    .blog-container aside, 
+    .blog-container .sidebar {
+        display: block !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-top: 20px !important;
+    }
+}
+.blog-layout {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 2.5rem;
+    max-width: 1100px;
+    margin: 0 auto 4rem auto;
+    padding: 0 1rem;
+}
+
+.blog-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.blog-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-left: 4px solid var(--brand-green);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 6px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.blog-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.06);
+}
+
+.blog-card img {
+    width: 260px;
+    min-width: 260px;
+    height: 190px;
+    object-fit: cover;
+    display: block;
+}
+
+.blog-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+}
+
+.blog-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.blog-date {
+    font-size: 0.8rem;
+    color: #888;
+    display: block;
+    margin-bottom: 0.4rem;
+}
+
+.blog-card h2 {
+    font-size: 1.2rem;
+    color: #111;
+    margin-bottom: 0.6rem;
+    line-height: 1.4;
+}
+
+.blog-content h2 a {
+    color: #000000;
+    text-decoration: none;
+    transition: 0.2s ease;
+}
+
+.blog-content h2 a:hover {
+    color: #333333;
+}
+
+.blog-card p {
+    color: #555;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+.read-more {
+    text-decoration: none;
+    color: var(--brand-green);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.read-more:hover {
+    text-decoration: underline;
+}
+
+.active-filter-box {
+    display: none;
+    background: #fdfdfd;
+    border: 1px solid #e5e7eb;
+    padding: 1.5rem;
+    border-radius: 6px;
+}
+
+.clear-filter-btn {
+    margin-left: 10px;
+}
+
+.blog-sidebar {
+    flex-direction: column;
+    gap: 2rem;
+    display: block !important;
+    width: 100% !important;
+    margin-top: 30px;
+}
+
+.sidebar-box {
+    background: #fdfdfd;
+    border: 1px solid #e5e7eb;
+    padding: 1.5rem;
+    margin-top: 10px;
+    border-radius: 6px;
+}
+
+.sidebar-box h3 {
+    font-size: 1.05rem;
+    color: #111;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--brand-green);
+}
+
+.sidebar-box ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-box ul li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.sidebar-box ul li:last-child {
+    border-bottom: none;
+}
+
+.sidebar-box ul li a {
+    text-decoration: none;
+    color: #4b5563;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.92rem;
+    transition: color 0.2s;
+}
+
+.sidebar-box ul li a:hover {
+    color: var(--brand-green);
+}
+
+.sidebar-box ul li span {
+    color: #9ca3af;
+    font-size: 0.82rem;
+}
+
+.cta-box {
+    background: #f4fbf7;
+    border-color: #d1fae5;
+    text-align: center;
+}
+
+.cta-box p {
+    font-size: 0.88rem;
+    color: #374151;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+}
+
+.cta-btn {
+    display: inline-block;
+    background: var(--brand-green);
+    color: #fff;
+    padding: 0.6rem 1.2rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: opacity 0.2s;
+}
+
+.cta-btn:hover {
+    opacity: 0.9;
+}
+
+
+/* ==========================================
+   10. İLETİŞİM SAYFASI VE HARİTA
    ================================---------- */
 .contact-page-clean {
     background-color: #f8f8f6;
@@ -466,7 +1155,6 @@ body {
     font-weight: 600;
 }
 
-/* Sol Sütun - İletişim Detayları (Eski ve Yeni Sınıflar Birleştirildi) */
 .info-row {
     display: flex;
     align-items: center;
@@ -532,7 +1220,6 @@ body {
     color: #8b2500;
 }
 
-/* Sağ Sütun - Form Alanı */
 .form-desc {
     font-size: 0.95rem;
     color: #555;
@@ -606,7 +1293,6 @@ body {
     background-color: #8b2500;
 }
 
-/* Harita Alanı */
 .map-container-clean, .map-wrapper {
     width: 100%;
     overflow: hidden;
@@ -622,9 +1308,136 @@ body {
     border: 0;
 }
 
+.contact-section {
+    padding: 60px 20px;
+    background-color: var(--bg-main);
+}
+
+.contact-section h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    font-family: 'Playfair Display', serif, sans-serif;
+    color: #1a1a1a;
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: stretch;
+}
+
+.contact-info-card {
+    background: #ffffff;
+    padding: 40px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border: 1px solid #eaeaea;
+}
+
+.contact-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.contact-list li {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 24px;
+    font-size: 15px;
+    color: #444;
+    line-height: 1.6;
+}
+
+.contact-list li:last-child {
+    margin-bottom: 0;
+}
+
+.contact-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 16px;
+    flex-shrink: 0;
+    stroke: #b38b59;
+    margin-top: 3px;
+}
+
+.contact-list a {
+    color: #444;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.contact-list a:hover {
+    color: #b38b59;
+}
+
+.contact-map-card {
+    background: #ffffff;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border: 1px solid #eaeaea;
+    min-height: 350px;
+}
+
+.contact-map-card iframe {
+    width: 100%;
+    height: 100%;
+    min-height: 350px;
+    display: block;
+}
+
 
 /* ==========================================
-   7. FOOTER VE LOGO TASARIMI
+   11. FLOATING ACTION BUTTONS (FAB)
+   ================================---------- */
+.fab-container {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 999;
+}
+
+.fab-btn {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    color: #ffffff;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.fab-btn:hover {
+    transform: scale(1.1);
+}
+
+.whatsapp-fab {
+    background-color: var(--accent-red);
+}
+
+.whatsapp-fab:hover {
+    background-color: #20ba5a;
+}
+
+.phone-fab {
+    background-color: var(--text-body); 
+}
+
+.phone-fab:hover {
+    background-color: var(--brand-emerald);
+}
+
+
+/* ==========================================
+   12. FOOTER
    ================================---------- */
 .site-footer {
     background-color: #103b2b;
@@ -672,7 +1485,6 @@ body {
     margin: 0;
 }
 
-/* Footer Logo Link ve Görsel Düzenlemeleri */
 .footer-logo-link {
     display: inline-block;
     margin-bottom: 1.25rem;
@@ -773,9 +1585,28 @@ body {
 
 
 /* ==========================================
-   8. MOBİL UYUM (RESPONSIVE)
+   13. MOBİL UYUM (RESPONSIVE)
    ================================---------- */
 @media (max-width: 992px) {
+    .hero-container {
+        flex-direction: column-reverse;
+        text-align: center;
+        gap: 30px;
+    }
+    .hero-image {
+        flex: auto;
+        width: 100%;
+        max-width: 350px;
+    }
+    .hero-image img {
+        height: 420px;
+    }
+    .hero-description {
+        margin: 0 auto 30px auto;
+    }
+    .hero-buttons {
+        justify-content: center;
+    }
     .contact-grid-clean {
         grid-template-columns: 1fr;
         gap: 3rem;
@@ -799,275 +1630,53 @@ body {
     }
 }
 
-/* blog kısmı */
-
-/* --- BLOG SAYFASI ANA YAPI (İki Sütunlu) --- */
-.blog-layout {
-    display: grid;
-    grid-template-columns: 1fr 320px;
-    gap: 2.5rem;
-    max-width: 1100px;
-    margin: 0 auto 4rem auto;
-    padding: 0 1rem;
-}
-
-/* Sol Taraf: Makalelerin Alt Alta Dizilimi */
-.blog-list {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-}
-
-/* --- BLOG KARTI (Sol Resim - Sağ Metin) --- */
-.blog-card {
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
-    border-left: 4px solid var(--brand-green);
-    display: flex;
-    flex-direction: row;
-    align-items: center; /* İçindekileri dikeyde ortalar, resim uzamaz */
-    overflow: hidden;
-    border-radius: 6px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.blog-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.06);
-}
-
-/* Sabit Boyutlu Sol Görsel */
-.blog-card img {
-    width: 260px;
-    min-width: 260px;
-    height: 190px; /* Resmin boyu artık çivi gibi çakılı, asla değişmez */
-    object-fit: cover;
-    display: block;
-}
-/* Sağ Taraftaki Metin Alanı */
-.blog-content {
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    flex: 1;
-}
-
-.blog-header {
-    text-align: center;
-    margin-bottom: 3rem;
-}
-
-.blog-date {
-    font-size: 0.8rem;
-    color: #888;
-    display: block;
-    margin-bottom: 0.4rem;
-}
-
-.blog-card h2 {
-    font-size: 1.2rem;
-    color: #111;
-    margin-bottom: 0.6rem;
-    line-height: 1.4;
-}
-
-.blog-card p {
-    color: #555;
-    font-size: 0.92rem;
-    line-height: 1.5;
-    margin-bottom: 1rem;
-}
-
-.read-more {
-    text-decoration: none;
-    color: var(--brand-green);
-    font-weight: 600;
-    font-size: 0.9rem;
-}
-
-.read-more:hover {
-    text-decoration: underline;
-}
-
-/* --- SAĞ TARAF: SIDEBAR (YAN MENÜ) --- */
-.blog-sidebar {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-}
-
-.sidebar-box {
-    background: #fdfdfd;
-    border: 1px solid #e5e7eb;
-    padding: 1.5rem;
-    border-radius: 6px;
-}
-
-.sidebar-box h3 {
-    font-size: 1.05rem;
-    color: #111;
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid var(--brand-green);
-}
-
-.sidebar-box ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.sidebar-box ul li {
-    padding: 0.5rem 0;
-    border-bottom: 1px solid #f0f0f0;
-}
-
-.sidebar-box ul li:last-child {
-    border-bottom: none;
-}
-
-.sidebar-box ul li a {
-    text-decoration: none;
-    color: #4b5563;
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.92rem;
-    transition: color 0.2s;
-}
-
-.sidebar-box ul li a:hover {
-    color: var(--brand-green);
-}
-
-.sidebar-box ul li span {
-    color: #9ca3af;
-    font-size: 0.82rem;
-}
-
-/* Sidebar İletişim Kutusu Vurgusu */
-.cta-box {
-    background: #f4fbf7;
-    border-color: #d1fae5;
-    text-align: center;
-}
-
-.cta-box p {
-    font-size: 0.88rem;
-    color: #374151;
-    margin-bottom: 1rem;
-    line-height: 1.4;
-}
-
-.cta-btn {
-    display: inline-block;
-    background: var(--brand-green);
-    color: #fff;
-    padding: 0.6rem 1.2rem;
-    border-radius: 4px;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 0.9rem;
-    transition: opacity 0.2s;
-}
-
-.cta-btn:hover {
-    opacity: 0.9;
-}
-
-/* anamenü iletişim/harita */
-.contact-section {
-    padding: 60px 20px;
-    background-color: var(--bg-main);
-}
-
-.contact-section h2 {
-    text-align: center;
-    margin-bottom: 40px;
-    font-family: 'Playfair Display', serif, sans-serif;
-    color: #1a1a1a;
-}
-
-.contact-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 30px;
-    max-width: 1200px;
-    margin: 0 auto;
-    align-items: stretch;
-}
-
-.contact-info-card {
-    background: #ffffff;
-    padding: 40px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    border: 1px solid #eaeaea;
-}
-
-.contact-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.contact-list li {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 24px;
-    font-size: 15px;
-    color: #444;
-    line-height: 1.6;
-}
-
-.contact-list li:last-child {
-    margin-bottom: 0;
-}
-
-.contact-icon {
-    width: 20px;
-    height: 20px;
-    margin-right: 16px;
-    flex-shrink: 0;
-    stroke: #b38b59; /* Prestijli bir ton (örneğin bronz/altın tonu veya site renklerine uyumlu bir koyu renk) */
-    margin-top: 3px;
-}
-
-.contact-list a {
-    color: #444;
-    text-decoration: none;
-    transition: color 0.2s ease;
-}
-
-.contact-list a:hover {
-    color: #b38b59;
-}
-
-.contact-map-card {
-    background: #ffffff;
-    overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    border: 1px solid #eaeaea;
-    min-height: 350px;
-}
-
-.contact-map-card iframe {
-    width: 100%;
-    height: 100%;
-    min-height: 350px;
-    display: block;
-}
-
-/* Mobilde alt alta geçiş için duyarlı tasarım */
-@media (max-width: 768px) {
-    .contact-grid {
-        grid-template-columns: 1fr;
+@media (max-width: 900px) {
+    .services-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
-/* media query */
-
 @media (max-width: 768px) {
-    /* Kurumsal sayfa düzenlemesi */
+    .menu-icon {
+        display: block;
+        font-size: 24px;
+        color: var(--text-dark);
+        line-height: 1;
+    }
+
+    .nav-links,
+    #navLinks {
+        position: fixed !important;
+        top: 0 !important;
+        right: -270px !important;
+        width: 250px !important;
+        height: 100vh !important;
+        background-color: #ffffff;
+        box-shadow: -5px 0 15px rgba(0,0,0,0.08);
+        display: flex !important;
+        flex-direction: column !important;
+        padding: 60px 25px;
+        gap: 25px;
+        z-index: 9999 !important;
+        transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        overflow-y: auto !important;
+
+    }
+
+    #navLinks.aktif {
+        right: 0 !important;
+    }
+
+    .close-btn {
+        display: block;
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 22px;
+        color: var(--text-dark);
+        font-weight: bold;
+    }
+
     main.kurumsal-page .about-grid {
         display: flex !important;
         flex-direction: column !important;
@@ -1080,7 +1689,6 @@ body {
         height: auto !important;
     }
 
-    /* Blog sayfa düzenlemesi */
     .blog-container {
         display: flex !important;
         flex-direction: column !important;
@@ -1096,224 +1704,16 @@ body {
     .blog-container .sidebar {
         display: none !important;
     }
-}
 
-/* mobil için navbar düzeltme */
-
-/* Masaüstünde navbar normal kalsın, buraya dokunmuyoruz */
-
-/* Sadece mobilde çalışacak menü ayarları */
-@media (max-width: 768px) {
-    #navLinks {
-        position: fixed !important;
-        top: 0 !important;
-        right: -250px !important; 
-        width: 250px !important;
-        height: 100vh !important;
-        background-color: #fff; /* Veya kendi arka plan rengin */
-        transition: right 0.3s ease-in-out !important;
-        z-index: 9999 !important;
-        box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+    .contact-grid {
+        grid-template-columns: 1fr;
     }
 
-    #navLinks.aktif {
-        right: 0 !important;
-    }
-}
-
-/* ANASAYFA-PROSES*/
-
-.process-section {
-    position: relative;
-    padding: 90px 20px;
-    background-color: #FAF9F6; /* Çok hafif, yumuşak bir gri-gri ton */
-    border-top: none;
-    border-bottom: none;
-}
-
-.process-section .section-header {
-    text-align: center;
-    margin-bottom: 45px;
-}
-
-.process-section .section-tag {
-    font-size: 12px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: #555;
-    display: block;
-    margin-bottom: 8px;
-}
-
-.process-section h2 {
-    font-size: 30px;
-    color: #111;
-    font-weight: 600;
-}
-
-.process-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 30px;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.process-card {
-    background: #FFFFF0; /* Kartlar saf beyaz kalarak şık bir katman oluşturur */
-    padding: 35px 25px;
-    border: 1px solid #e2e8f0;
-    position: relative;
-    transition: transform 0.2s ease, border-color 0.2s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
-}
-
-.process-card:hover {
-    transform: translateY(-4px);
-    border-color: #111;
-}
-
-.process-number {
-    font-size: 32px;
-    font-weight: 700;
-    color: var(--brand-green);
-    display: block;
-    margin-bottom: 15px;
-}
-
-.process-card h3 {
-    font-size: 18px;
-    color: #111;
-    margin-bottom: 10px;
-    font-weight: 600;
-}
-
-.process-card p {
-    font-size: 14px;
-    color: #475569;
-    line-height: 1.6;
-}
-
-/* ANASAYFA FAQ BÖLÜMÜ */
-
-.faq-section {
-    padding: 90px 20px;
-    background-color: #ffffff;
-    border-bottom: 1px solid #cbd5e1;
-}
-
-.faq-question, .faq-answer p {
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-    font-size: xx-large;
-}
-
-.faq-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1.3fr 0.7fr;
-    gap: 60px;
-    align-items: start;
-}
-
-.faq-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    width: 100%;
-}
-
-.faq-header {
-    width: 100%;
-}
-
-.faq-header .section-tag {
-    font-size: 12px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: #555;
-    display: block;
-    margin-bottom: 10px;
-}
-
-.faq-header h2 {
-    font-size: 32px;
-    color: #111;
-    font-weight: 600;
-    line-height: 1.3;
-}
-
-.faq-item {
-    border-bottom: 1px solid #e2e8f0;
-    padding-bottom: 15px;
-    width: 100%;
-}
-
-.faq-question {
-    width: 100%;
-    background: none;
-    border: none;
-    text-align: left;
-    font-size: 16px;
-    font-weight: 600;
-    color: #111;
-    padding: 15px 0;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: color 0.2s ease;
-}
-
-.faq-item.active .faq-question {
-    color: var(--brand-green);
-}
-
-.faq-item.active {
-    border-left: 2px solid var(--brand-green); /* Emerald yeşil çizgi */
-    padding-left: 15px; /* Çizgiyle metin arasında boşluk */
-    transition: all 0.3s ease;
-}
-
-.faq-icon {
-    font-size: 20px;
-    font-weight: 400;
-    color: #666;
-    transition: transform 0.3s ease;
-    flex-shrink: 0;
-    margin-left: 15px;
-}
-
-.faq-answer {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.35s ease-out;
-}
-
-.faq-answer p {
-    font-size: 14px;
-    color: #475569;
-    line-height: 1.6;
-    padding-bottom: 15px;
-    margin: 0;
-}
-
-.faq-item.active .faq-icon {
-    transform: rotate(45deg);
-}
-
-.faq-item.active .faq-icon {
-    transform: rotate(45deg);
-}
-
-/* Mobil Görünüm Düzenlemesi */
-@media (max-width: 768px) {
     .faq-container {
         grid-template-columns: 1fr;
         gap: 30px;
     }
     
-    /* Mobilde başlığı (sağda olanı) order ile en üste taşıyoruz */
     .faq-header {
         order: 1;
     }
@@ -1321,435 +1721,15 @@ body {
     .faq-list {
         order: 2;
     }
-}
 
-html {
-    scroll-behavior: smooth;
-}
-
-/* HİZMETLERİMİZ SAYFASI */
-
-/* style.css dosyana ekleyeceğin stiller */
-
-.services-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 60px 20px;
-}
-
-.services-header {
-    text-align: center;
-    margin-bottom: 50px;
-}
-
-.services-header h1 {
-    font-size: 2.5rem;
-    color: #1a1a1a;
-    margin-bottom: 12px;
-}
-
-
-.services-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
-}
-
-.service-card {
-    background: #fff;
-    border: 1px solid #eaeaea;
-    padding: 30px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.service-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
-    border: 1px solid var(--brand-emerald);
-}
-
-.service-card h2 {
-    font-size: 1.3rem;
-    color: #191919;
-    margin-bottom: 12px;
-}
-
-.service-card h3 {
-    font-size: 1.3rem;
-    color: var(--brand-green);
-}
-
-.service-intro {
-    font-size: 0.92rem;
-    color: #555;
-    line-height: 1.6;
-    margin-bottom: 20px;
-}
-
-.service-sub-list {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 24px 0;
-    border-top: 1px solid #f0f0f0;
-}
-
-.service-sub-list li {
-    font-size: 0.88rem;
-    color: #444;
-    padding: 8px 0;
-    border-bottom: 1px solid #f0f0f0;
-}
-
-.service-link {
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: #1a1a1a;
-    text-decoration: none;
-    display: inline-block;
-    transition: transform 0.2s ease;
-}
-
-.service-link:hover {
-    transform: translateX(4px);
-}
-
-/* Mobilde ve küçük ekranlarda tek sütuna düşmesi için */
-@media (max-width: 900px) {
-    .services-grid {
-        grid-template-columns: repeat(2, 1fr);
+    .reviews-container {
+        grid-template-columns: 1fr;
+        gap: 30px;
     }
 }
 
 @media (max-width: 600px) {
     .services-grid {
         grid-template-columns: 1fr;
-    }
-}
-
-/* uzmanlık sayfaları */
-
-/* Uzmanlık Sayfaları Ortak Tasarım Sistemi */
-.expertise-page {
-    padding: 60px 20px;
-}
-
-.expertise-container {
-    max-width: 900px;
-    margin: 0 auto;
-}
-
-.expertise-breadcrumb {
-    margin-bottom: 12px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--accent-red);
-}
-
-.expertise-hero {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    border-bottom: 2px solid var(--text-dark);
-    padding-bottom: 30px;
-    margin-bottom: 40px;
-    flex-wrap: wrap;
-    gap: 25px;
-}
-
-.expertise-title-wrapper {
-    flex: 1;
-    min-width: 320px;
-}
-
-.expertise-hero h1 {
-    font-size: 2.6rem;
-    color: var(--text-dark);
-    margin: 0;
-    line-height: 1.15;
-}
-
-.expertise-subtitle {
-    max-width: 260px;
-    font-size: 0.85rem;
-    color: var(--text-body);
-    border-left: 2px solid var(--accent-red);
-    padding-left: 12px;
-    margin-bottom: 5px;
-}
-
-.expertise-lead {
-    color: var(--text-body);
-    line-height: 1.8;
-    font-size: 1.05rem;
-    margin-bottom: 30px;
-}
-
-.expertise-section-title {
-    font-size: 1.8rem;
-    color: var(--text-dark);
-    margin-top: 40px;
-    margin-bottom: 20px;
-}
-
-.expertise-list {
-    list-style: none;
-    padding: 0;
-    margin-bottom: 40px;
-    border-top: 1px solid #e6e6e0;
-}
-
-.expertise-list li {
-    padding: 14px 0;
-    border-bottom: 1px solid #e6e6e0;
-    color: var(--text-body);
-}
-
-.expertise-process-box {
-    background: #ffffff;
-    border: 1px solid #e6e6e0;
-    padding: 30px;
-    margin-top: 30px;
-}
-
-.expertise-process-box h3 {
-    font-size: 1.4rem;
-    color: var(--text-dark);
-    margin-bottom: 15px;
-}
-
-.expertise-process-box p {
-    color: var(--text-body);
-    line-height: 1.6;
-    margin-bottom: 20px;
-}
-
-/* İletişim Butonu */
-.uzmanlik-iletisim-butonu {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background-color: var(--accent-red);
-    color: #ffffff;
-    padding: 14px 28px;
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 0.9rem;
-    letter-spacing: 0.5px;
-    border-radius: 2px;
-    transition: background-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.uzmanlik-iletisim-butonu:hover {
-    background-color: #871a13;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(135, 26, 19, 0.15);
-}
-
-.uzmanlik-iletisim-butonu:active {
-    transform: translateY(0);
-    box-shadow: none;
-}
-
-/* floating action buttons */
-
-.fab-container {
-    position: fixed;
-    bottom: 25px;
-    right: 25px;
-    display: flex;
-    flex-direction: column; /* Alt alta sıralar */
-    gap: 12px; /* Butonlar arası boşluk */
-    z-index: 9999;
-}
-
-.fab-btn {
-    width: 55px;
-    height: 55px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-    color: #ffffff;
-    transition: transform 0.3s ease, background-color 0.3s ease;
-}
-
-.fab-btn:hover {
-    transform: scale(1.1);
-}
-
-.whatsapp-fab {
-    background-color: var(--accent-red);
-}
-.whatsapp-fab:hover {
-    background-color: #20ba5a;
-}
-
-.phone-fab {
-    background-color: var(--text-body); 
-}
-.phone-fab:hover {
-    background-color: var(--brand-emerald);
-}
-
-/* blog sayfası */
-
-.blog-content h2 a {
-    color: #000000;
-    text-decoration: none;
-    transition: 0.2s ease;
-}
-
-.blog-content h2 a:hover {
-    color: #333333;
-}
-
-/* GOOGLE İNCELEMELERİ */
-
-.reviews-section {
-    padding: 60px 20px;
-    background-color: #faf9f6;
-    border-top: 1px solid #eae7df;
-    border-bottom: 1px solid #eae7df;
-    margin: 40px 0;
-}
-
-.reviews-container {
-    max-width: 1100px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 1.4fr;
-    gap: 50px;
-    align-items: center;
-}
-
-/* Sol Sütun Stilleri - Serif fontlar temizlendi */
-.review-summary-side .reviews-overline {
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: #666;
-    display: block;
-    margin-bottom: 10px;
-    font-weight: 500;
-}
-
-.review-summary-side h2 {
-    font-size: 1.8rem;
-    font-weight: 600; /* Serif yerine net ve modern duruş */
-    color: #1a1a1a;
-    margin-bottom: 20px;
-}
-
-.rating-badge-large {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    margin-bottom: 20px;
-}
-
-#rating-number {
-    font-size: 3rem;
-    font-weight: 500; /* Serif kaldırıldı */
-    color: #1a1a1a;
-    line-height: 1;
-}
-
-.stars {
-    color: #d4af37;
-    font-size: 1.1rem;
-    letter-spacing: 2px;
-    margin-bottom: 5px;
-}
-
-#total-ratings {
-    font-size: 0.85rem;
-    color: #666;
-    margin: 0;
-}
-
-.summary-desc {
-    font-size: 0.95rem;
-    line-height: 1.6;
-    color: #555;
-    margin-bottom: 25px;
-}
-
-.google-maps-link {
-    display: inline-block;
-    font-size: 0.9rem;
-    color: #1a1a1a;
-    text-decoration: none;
-    font-weight: 500;
-    border-bottom: 1px solid #1a1a1a;
-    padding-bottom: 2px;
-    transition: opacity 0.2s;
-}
-
-.google-maps-link:hover {
-    opacity: 0.7;
-}
-
-/* Sağ Sütun (Yorum Kartları) Stilleri */
-.review-cards-side {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    max-height: 420px;
-    overflow-y: auto;
-    padding-right: 10px;
-}
-
-.review-cards-side::-webkit-scrollbar {
-    width: 4px;
-}
-.review-cards-side::-webkit-scrollbar-thumb {
-    background: #ccc;
-    border-radius: 2px;
-}
-
-.review-card {
-    background: #ffffff;
-    padding: 20px;
-    border: 1px solid #eae7df;
-    border-radius: 4px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.01);
-}
-
-.review-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.review-author {
-    font-weight: 600;
-    font-size: 0.9rem;
-    color: #1a1a1a;
-}
-
-.review-stars {
-    color: #d4af37;
-    font-size: 0.8rem;
-}
-
-.review-text {
-    font-size: 0.9rem;
-    line-height: 1.5;
-    color: #444;
-    font-style: normal; /* İtalyan/eğik yazı kaldırıldı, daha sade durur */
-}
-
-/* Mobil Uyumluluk */
-@media (max-width: 768px) {
-    .reviews-container {
-        grid-template-columns: 1fr;
-        gap: 30px;
     }
 }
