@@ -264,7 +264,7 @@ async function loadSingleMarkdownArticle(filePath) {
             blogListContainer.style.width = '100%';
             blogListContainer.innerHTML = `
                 <div class="article-reading-card" style="background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); margin-bottom: 40px;">
-                    <button onclick="location.reload()" style="background: none; border: none; color: #004080; font-weight: 600; cursor: pointer; margin-bottom: 25px; font-size: 14px; display: flex; align-items: center; gap: 5px; padding: 0;">
+                    <button onclick="location.reload()" style="background: none; border: none; color: #004080; font-weight: 600; cursor: pointer; margin-bottom: 25px;  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; font-size: 14px; display: flex; align-items: center; gap: 5px; padding: 0;">
                         ← Tüm Makalelere Dön
                     </button>
                     ${date ? `<span style="font-size: 13px; color: #888; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 10px;">${date}</span>` : ''}
@@ -337,7 +337,7 @@ document.querySelectorAll('.faq-question').forEach(button => {
 });
 
 // Google Yorumları Entegrasyonu
-const apiKey = "AIzaSyAgcGLLN7-1nMlF5lVHeVwqO3d4KRdbEnc";
+const apiKey = "AIzaSyBl4EU7uczR3tz3st93QhiZVY65vAKarfo";
 const placeId = "ChIJcwC0KjuQwxQRl5EGaut4HLM";
 
 const apiUrl = `https://corsproxy.io/?https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=name,rating,user_ratings_total,reviews&language=tr&key=${apiKey}`;
