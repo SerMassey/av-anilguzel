@@ -2415,16 +2415,51 @@ MAKALELER SAYFASI
     font-size: 0.75rem;
     color: #777;
     margin-bottom: 10px;
-    display: flex;
-    gap: 15px;
 }
 
+/* Mavi rengi kaldırıp kurumsal yeşil yaptık, üzerine gelince renk değişimi ekledik */
 .blog-card h3 {
     font-family: var(--font-heading, sans-serif);
     font-size: 1.4rem;
     color: #044327;
     margin-bottom: 12px;
     font-weight: 700;
+    transition: color 0.2s ease;
+}
+
+.blog-card:hover h3 {
+    color: #2b5738; /* Hover anında hafif ton değişimi */
+}
+
+.blog-card p {
+    font-size: 0.98rem;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+/* Makale kartı içindeki başlık linklerini kurumsal renge sabitleme */
+.blog-card h2 a, 
+.blog-card a h2 {
+    color: #044327 !important;
+    text-decoration: none !important;
+}
+
+.blog-card:hover h2 a {
+    color: #2b5738 !important;
+}
+
+/* "Devamını Oku" metnini daha şık bir link butonuna dönüştürelim */
+.blog-card .devamini-oku, 
+.blog-card a.read-more {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #044327;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(4, 67, 39, 0.3);
+    padding-bottom: 2px;
+    display: inline-block;
 }
 
 .blog-card p {
