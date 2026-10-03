@@ -1,123 +1,115 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>İletişim | Antalya Av. Anıl Güzel</title>
-  <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İletişim | Güzel Hukuk Bürosu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Syne:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+    <script src="main.js"></script>
+</head>
 </head>
 <body>
-  <div id="navbar-placeholder"></div>
-  <main class="contact-page-clean">
-    <section class="contact-content">
-      <div class="container">
-        <div class="contact-grid-clean">
-            <!-- SOL SÜTUN: İletişim Bilgileri -->
-          <div class="contact-info-side">
-            <h2>İletişim Bilgilerimiz</h2>
-            
-            <div class="info-row">
-              <div class="icon-thin">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                </svg>
-              </div>
-              <div class="text-thin">
-                <h4>Telefon</h4>
-                <p><a href="tel:+905357122526">+90 (535) 712 25 26</a></p>
-              </div>
-            </div>
+    <div id="navbar-placeholder"></div>
 
-            <div class="info-row">
-              <div class="icon-thin">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
-                </svg>
-              </div>
-              <div class="text-thin">
-                <h4>WhatsApp</h4>
-                <p><a href="https://wa.me/905357122526" target="_blank">+90 (535) 712 25 26</a></p>
-              </div>
-            </div>
+    <main class="contact-main-wrapper">
+        <div class="container">
 
-            <div class="info-row">
-              <div class="icon-thin">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                  <polyline points="22,6 12,13 2,6"></polyline>
-                </svg>
-              </div>
-              <div class="text-thin">
-                <h4>E-posta</h4>
-                <p><a href="mailto:av.anilguzel@gmail.com">av.anilguzel@gmail.com</a></p>
-              </div>
-            </div>
+            <!-- BAŞLIK BÖLÜMÜ -->
+            <section class="contact-hero">
+                <h1>Bizimle İletişime Geçin</h1>
+                <p class="contact-intro">Antalya Muratpaşa'daki ofisimiz, telefon hatlarımız veya e-posta adresimiz üzerinden randevu talebinde bulunabilir, hukuki danışmanlık ve dava süreçleriniz için bizimle görüşebilirsiniz.</p>
+            </section>
 
-            <div class="info-row">
-              <div class="icon-thin">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                  <circle cx="12" cy="10" r="3"></circle>
-                </svg>
-              </div>
-              <div class="text-thin">
-                <h4>Adres</h4>
-                <p>Varlık Mah. 100. Yıl Bulvarı, Onur Apt. No: 102/3<br>Muratpaşa, Antalya</p>
-              </div>
-            </div>
-          </div>
+            <!-- İKİ SÜTUNLU İLETİŞİM ALANI (Bilgiler + Form) -->
+            <section class="contact-grid-section">
+                
+                <!-- Sol Sütun: Büronun Bilgileri & Çalışma Saatleri -->
+                <div class="contact-info-col">
+                    <div class="contact-card-box">
+                        <span class="contact-label">// OFİS KONUMU</span>
+                        <h3>Antalya Merkez Ofis</h3>
+                        <p>Varlık Mahallesi, 100. Yıl Bulvarı,Onur Apartmanı, No:102/3<br>Muratpaşa, Antalya</p>
+                        <p class="contact-note">varsa not</p>
+                    </div>
 
-          <!-- SAĞ SÜTUN: Randevu Formu -->
-          <div class="contact-form-side">
-            <h2>Bize Ulaşın</h2>
-            <p class="form-desc">Bilgi almak veya randevu talep etmek için iletişim formumuzu doldurarak bize ulaşabilirsiniz.</p>
-            
-            <form action="https://formspree.io/f/moeqazrz" method="POST" class="clean-form">
-              
-              <div class="form-row">
-                <input type="text" name="ad" placeholder="Adınız*" required>
-                <input type="text" name="soyad" placeholder="Soyadınız*" required>
-              </div>
+                    <div class="contact-card-box">
+                        <span class="contact-label">// İLETİŞİM KANALLARI</span>
+                        <ul class="contact-details-list">
+                            <li><strong>Telefon:</strong> <a href="tel:+905357122526">(535) 712 25 26</a></li>
+                            <li><strong>WhatsApp:</strong> <a href="https://wa.me/905357122526" target="_blank">Hızlı Mesaj Gönder →</a></li>
+                            <li><strong>E-posta:</strong> <a href="mailto:av.anilguzel@gmail.com">av.anilguzel@gmail.com</a></li>
+                        </ul>
+                    </div>
 
-              <div class="form-row">
-                <input type="text" inputmode="numeric" pattern="[0-9]*" name="telefon" placeholder="Telefon*" required>
-                <input type="email" name="email" placeholder="E-posta*" required>
-              </div>
+                    <div class="contact-card-box">
+                        <span class="contact-label">// ÇALIŞMA SAATLERİ</span>
+                        <p><strong>Hafta İçi:</strong> 09:00 - 17:00</p>
+                        <p>Görüşmeler randevu sistemiyle gerçekleştirilmektedir.</p>
+                    </div>
+                </div>
 
-              <div class="form-group-full">
-                <select name="konu" required>
-                  <option value="" disabled selected>Görüşme Konusu Seçiniz</option>
-                  <option value="ceza">Ceza Hukuku</option>
-                  <option value="bosanma">Aile & Boşanma Hukuku</option>
-                  <option value="gayrimenkul">Gayrimenkul Hukuku</option>
-                  <option value="icra">İcra & İflas Hukuku</option>
-                  <option value="diger">Diğer/Genel Danışmanlık</option>
-                </select>
-              </div>
+                <!-- Sağ Sütun: Standart İletişim / Randevu Talep Formu -->
+<!-- Sağ Sütun: Form Alanı (Formspree Entegreli) -->
+<div class="contact-form-col">
+    <form class="contact-form" action="https://formspree.io/f/moeqazrz" method="POST">
+        <h2>Randevu Formu</h2>
+        <p class="form-desc">Lütfen aşağıdaki formu doldurun; en kısa sürede tarafınıza dönüş sağlanacaktır.</p>
 
-              <textarea name="mesaj" rows="5" placeholder="Mesajınız ve Detaylar *" required></textarea>
-
-              <button type="submit" class="clean-btn">Randevu Talebi Gönder &rarr;</button>
-            </form>
-          </div>
-
+        <div class="form-group">
+            <label for="name">Adınız Soyadınız</label>
+            <input type="text" id="name" name="name" required placeholder="Adınız Soyadınız">
         </div>
 
-        <!-- HARİTA -->
-        <div class="map-container-clean">
+        <div class="form-group">
+            <label for="phone">Telefon Numarası</label>
+            <input type="tel" id="phone" name="phone" required placeholder="(5XX) XXX XX XX">
+        </div>
+
+        <div class="form-group">
+            <label for="email">E-posta Adresi</label>
+            <input type="email" id="email" name="email" placeholder="ornek@mail.com">
+        </div>
+
+        <div class="form-group">
+            <label for="subject">Konu / Hukuk Alanı</label>
+            <select id="subject" name="subject">
+                <option value="genel">Genel Danışmanlık</option>
+                <option value="ceza">Ceza Hukuku</option>
+                <option value="ticaret">Ticaret Hukuku</option>
+                <option value="is">İş Hukuku</option>
+                <option value="gayrimenkul">Gayrimenkul ve Kira Hukuku</option>
+                <option value="aile">Aile Hukuku</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="message">Mesajınız / Uyuşmazlık Özeti</label>
+            <textarea id="message" name="message" rows="5" placeholder="Durumunuzu kısaca özetleyebilirsiniz..."></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn">Mesajı Gönder →</button>
+    </form>
+</div>
+</section>
+
+        <div class="map-container">
           <iframe 
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10882.893190923147!2d30.676082792351263!3d36.88634619558422!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14c3903b2ab40073%3A0xb31c78eb6a069197!2zQ2Fua3VydGFyYW4gJiBHw7x6ZWwgQXZ1a2F0bMSxayBCw7xyb3N1!5e1!3m2!1sen!2str!4v1787858456134!5m2!1sen!2str" 
             width="100%" height="320" style="border:0;" allowfullscreen="" loading="lazy">
           </iframe>
         </div>
 
-      </div>
-    </section>
-  </main>
+</div>
+    </main>
 
-  <div id="footer-placeholder"></div>
+    <div id="footer-placeholder"></div>
 
-<script src="main.js"></script>
-
+</body>
+</html>
 </body>
 </html>

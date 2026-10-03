@@ -1,65 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Merak Edilenler | Antalya Av. Anıl Güzel</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="description" content="Antalya hukuk bürosu makaleleri; güncel mevzuat, Yargıtay kararları ve hukuki rehberler.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Syne:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <title> Makaleler | Güzel Hukuk Bürosu</title>
+    <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-    <!-- navbar placeholder-->
+
+    <!-- Navbar Placeholder -->
     <div id="navbar-placeholder"></div>
 
-    <main class="blog-container">
-    <header class="blog-header">
-        <h1>Hukuki Bilgilendirmeler ve Makaleler</h1>
-        <p>Güncel mevzuat ve hukuki konulardaki makalelerimiz.</p>
-    </header>
+    <main class="blog-page-section">
+        <div class="blog-container">
+            
+            <!-- Başlık Alanı -->
+            <header class="blog-header">
+                <span class="blog-overline">— GÜNCEL YAYINLAR</span>
+                <h1>Hukuki Bilgilendirmeler ve Makaleler</h1>
+                <p>Güncel mevzuat ve hukuki konulardaki makalelerimizle süreçlerinize ışık tutuyoruz.</p>
+            </header>
 
-    <!-- Ana İki Sütunlu Düzen -->
-    <div class="blog-layout">
-        
-        <!-- SOL TARAF: Makale Listesi (JavaScript burayı dolduracak) -->
-        <div class="blog-list" id="blog-list-container">
-            <!-- Dinamik olarak yazılar buraya gelecek -->
+            <!-- Ana İki Sütunlu Düzen -->
+            <div class="blog-layout">
+                
+                <!-- SOL TARAF: Makale Listesi (JavaScript burayı dolduracak) -->
+                <div class="blog-list" id="blog-list-container">
+                    <!-- Dinamik olarak kartlar buraya gelecek -->
+                    <div class="blog-card-loading">Makaleler yükleniyor...</div>
+                </div>
+
+                <!-- SAĞ TARAF: Sidebar (Yan Menü) -->
+                <aside class="blog-sidebar">
+                    
+                    <!-- Aktif Filtre Gösterge Kutusu -->
+                    <div id="active-filter-box" class="active-filter-box" style="display: none;">
+                        <span id="filter-text">Filtrelenen: <strong>Tümü</strong></span>
+                        <button id="clear-filter-btn" class="clear-filter-btn">×</button>
+                    </div>
+
+                    <!-- Kategoriler Kutusu -->
+                    <div class="sidebar-box">
+                        <h3>Kategoriler</h3>
+                        <ul class="category-list">
+                            <li><a href="#" class="category-link active" data-filter="all">Tüm Makaleler</a></li>
+                            <li><a href="#" class="category-link" data-filter="is-hukuku">İş Hukuku <span id="count-is-hukuku">(0)</span></a></li>
+                            <li><a href="#" class="category-link" data-filter="gayrimenkul">Gayrimenkul ve Kira <span id="count-gayrimenkul">(0)</span></a></li>
+                            <li><a href="#" class="category-link" data-filter="ceza">Ceza Hukuku <span id="count-ceza">(0)</span></a></li>
+                            <li><a href="#" class="category-link" data-filter="aile">Aile Hukuku <span id="count-aile">(0)</span></a></li>
+                            <li><a href="#" class="category-link" data-filter="veraset">Veraset ve Miras <span id="count-veraset">(0)</span></a></li>
+                            <li><a href="#" class="category-link" data-filter="sirketler">Şirketler Hukuku <span id="count-sirketler">(0)</span></a></li>
+                            <li><a href="#" class="category-link" data-filter="ticaret">Ticaret Hukuku <span id="count-ticaret">(0)</span></a></li>
+                        </ul>
+                    </div>
+
+                    <!-- İletişim / Destek CTA Kutusu -->
+                    <div class="sidebar-box cta-box">
+                        <h3>Hukuki desteğe mi ihtiyacınız var?</h3>
+                        <p>Sorularınız ve hukuki süreçlerinizin takibi için bizimle iletişime geçebilirsiniz.</p>
+                        <a href="iletisim.html" class="cta-btn">İletişime Geç →</a>
+                    </div>
+                </aside>
+
+            </div>
         </div>
+    </main>
 
-        <!-- SAĞ TARAF: Sidebar (Yan Menü) -->
-        <aside class="blog-sidebar">
-            <!-- Aktif Filtre Gösterge Kutusu -->
-             <div id="active-filter-box" class="active-filter-box">
-                <span id="filter-text">Filtrelenen: <strong>Tümü</strong></span>
-                <button id="clear-filter-btn" class="clear-filter-btn">×</button>
-            </div>
-            <div class="sidebar-box">
-                <h3>Kategoriler</h3>
-                <ul>
-                    <li><a href="#" class="category-link" data-filter="is-hukuku">İş Hukuku <span id="count-is-hukuku">(0)</span></a></li>
-                    <li><a href="#" class="category-link" data-filter="gayrimenkul">Gayrimenkul ve Kira Hukuku <span id="count-gayrimenkul">(0)</span></a></li>
-                    <li><a href="#" class="category-link" data-filter="ceza">Ceza Hukuku <span id="count-ceza">(0)</span></a></li>
-                    <li><a href="#" class="category-link" data-filter="aile">Aile Hukuku <span id="count-aile">(0)</span></a></li>
-                    <li><a href="#" class="category-link" data-filter="veraset">Veraset ve Miras <span id="count-veraset">(0)</span></a></li>
-                    <li><a href="#" class="category-link" data-filter="sirketler">Şirketler Hukuku <span id="count-sirketler">(0)</span></a></li>
-                    <li><a href="#" class="category-link" data-filter="ticaret">Ticaret Hukuku <span id="count-ticaret">(0)</span></a></li>
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
 
-                </ul>
-            </div>
-
-            <div class="sidebar-box cta-box">
-                <h3>Hukuki desteğe mi ihtiyacınız var?</h3>
-                <p>Sorularınız ve hukuki süreçlerinizin takibi için bizimle iletişime geçebilirsiniz.</p>
-                <a href="iletisim.html" class="cta-btn">İletişime Geç</a>
-            </div>
-        </aside>
-
-    </div>
-</main>
-
-    <!-- footer placeholder -->
-     <div id="footer-placeholder"></div>
-
-     <!-- Markdown Çevirici Kütüphane -->
-     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-     <script src="main.js"></script>
+    <!-- Markdown Çevirici Kütüphane -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="../main.js"></script>
 </body>
 </html>

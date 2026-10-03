@@ -7,9 +7,8 @@
         {
             "type": "editor-browser",
             "request": "launch",
-            "name": "Launch Integrated Browser against localhost",
-            "url": "http://localhost:8080",
-            "webRoot": "${workspaceFolder}"
+            "name": "Open index.html",
+            "url": "file:///c%3A/Users/alugr/Desktop/Avukat%20An%C4%B1l%20G%C3%BCzel%20-%20Kopya/index.html"
         }
     ]
 }

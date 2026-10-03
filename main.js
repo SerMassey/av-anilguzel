@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function() {
 window.showMenu = function() {
     const nav = document.getElementById("navLinks");
     if (nav) {
-        nav.classList.add("aktif");
+        nav.classList.add("active");
     }
 };
 
@@ -37,7 +37,7 @@ window.showMenu = function() {
 window.hideMenu = function() {
     const nav = document.getElementById("navLinks");
     if (nav) {
-        nav.classList.remove("aktif");
+        nav.classList.remove("active");
     }
 };
 
@@ -396,3 +396,98 @@ fetch(apiUrl)
             reviewsContainer.innerHTML = '<p class="review-text">Yorumlar yüklenirken bir sorun oluştu.</p>';
         }
     });
+
+// ANASAYFADAKİ PROSES SEKMESİ
+document.addEventListener("DOMContentLoaded", function () {
+    const timelineSection = document.querySelector(".process-timeline-section");
+    const progressBar = document.getElementById("timelineProgress");
+    const stepCards = document.querySelectorAll(".timeline-step-card");
+
+    if (!timelineSection || !progressBar) return;
+
+    window.addEventListener("scroll", function () {
+        const rect = timelineSection.getBoundingClientRect();
+        const sectionHeight = timelineSection.offsetHeight;
+        const windowHeight = window.innerHeight;
+
+        // Çizgi ilerleme oranı
+        let distanceScrolled = windowHeight - rect.top - 100;
+        let percentage = (distanceScrolled / sectionHeight) * 110;
+
+        if (percentage < 0) percentage = 0;
+        if (percentage > 100) percentage = 100;
+
+        progressBar.style.height = percentage + "%";
+
+        // Kartların aktifleşmesi ve saydamlaşma gecikmesi
+        stepCards.forEach((card, index) => {
+            const cardRect = card.getBoundingClientRect();
+            
+            // Kart ekrana girdiğinde aktif olsun
+            if (cardRect.top < windowHeight * 0.65) {
+                card.classList.add("active");
+                
+                // Arkaya saklanma (stacking) eşiğini geciktirelim:
+                // Sadece bir sonraki kart tam tepeye yanaştığında arkadaki şeffaflaşsın
+                const nextCard = stepCards[index + 1];
+                if (nextCard) {
+                    const nextRect = nextCard.getBoundingClientRect();
+                    // Eşiği 0.65'ten 0.35'e çekerek arkadakinin çok daha uzun süre net kalmasını sağlıyoruz
+                    if (nextRect.top < windowHeight * 0.35) {
+                        card.classList.add("stacked");
+                    } else {
+                        card.classList.remove("stacked");
+                    }
+                }
+            } else {
+                card.classList.remove("active");
+                card.classList.remove("stacked");
+            }
+        });
+    });
+});
+
+// Dosya Klasör Sekmeleri Mantığı
+document.addEventListener("DOMContentLoaded", function() {
+    const tabs = document.querySelectorAll(".folder-tab");
+    const contents = document.querySelectorAll(".folder-content");
+    const tabsNav = document.getElementById("tabsNav");
+
+    // Sayfa ilk açıldığında varsayılan olarak 1. satır aktifse (Ceza Hukuku vb.)
+    if (tabsNav) {
+        tabsNav.classList.add("row-1-active");
+    }
+
+    if (tabs.length > 0) {
+        tabs.forEach(tab => {
+            tab.addEventListener("click", () => {
+                // Aktif sınıfları temizle
+                tabs.forEach(t => t.classList.remove("active"));
+                contents.forEach(c => c.classList.remove("active"));
+
+                // Tıklanan sekmeyi aktif yap
+                tab.classList.add("active");
+                
+                // Hangi satırda (row-1 veya row-2) olduğunu bul
+                const parentRow = tab.closest(".folder-row");
+                if (parentRow && tabsNav) {
+                    const rowNumber = parentRow.getAttribute("data-row");
+                    
+                    tabsNav.classList.remove("row-1-active", "row-2-active");
+                    if (rowNumber === "1") {
+                        tabsNav.classList.add("row-1-active");
+                    } else {
+                        tabsNav.classList.add("row-2-active");
+                    }
+                }
+
+                // İlgili içerik alanını göster
+                const targetId = tab.getAttribute("data-target");
+                const targetContent = document.getElementById(targetId);
+                if (targetContent) {
+                    targetContent.classList.add("active");
+                }
+            });
+        });
+    }
+});
