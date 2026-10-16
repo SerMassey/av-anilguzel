@@ -47,6 +47,7 @@ html {
     scroll-behavior: smooth;
 }
 
+
 /* ==========================================
    TÜM SAYFALAR İÇİN EVRENSEL MOBİL UYUM (900px ve altı)
    ========================================== */
@@ -965,7 +966,6 @@ html {
     opacity: 0.3;
 }
 
-/* Noktalar - Kartın sol dışına ve çizginin tam üstüne yerleşir */
 .timeline-dot {
     position: absolute;
     left: -40px; 
@@ -984,7 +984,6 @@ html {
     transform: scale(1.2);
 }
 
-/* İçerik Tipografisi */
 .timeline-content .process-number {
     font-family: var(--font-mono, monospace);
     font-size: 0.85rem;
@@ -1026,9 +1025,8 @@ html {
     }
 }
 
-/* ANA SAYFA İLETİŞİM BÖLÜMÜ */
 /* ==========================================
-   İLETİŞİM VE HARİTA BÖLÜMÜ (YENİLENMİŞ)
+   İLETİŞİM VE HARİTA BÖLÜMÜ
    ========================================== */
 .contact-section {
     padding: 100px 0;
@@ -1037,7 +1035,6 @@ html {
     border-top: 1px solid rgba(4, 67, 39, 0.08);
 }
 
-/* Bölüm Başlığı */
 .contact-section h2 {
     font-family: var(--font-heading, sans-serif);
     font-size: 2.2rem;
@@ -1048,7 +1045,6 @@ html {
     letter-spacing: -0.5px;
 }
 
-/* İki Sütunlu Grid Yapısı */
 .contact-grid {
     display: grid;
     grid-template-columns: 1fr 1.3fr;
@@ -1058,7 +1054,6 @@ html {
     margin: 0 auto;
 }
 
-/* Sol Taraf: İletişim Bilgi Kartı */
 .contact-info-card {
     background: #ffffff;
     padding: 45px;
@@ -1089,7 +1084,6 @@ html {
     margin-bottom: 0;
 }
 
-/* İkon Kutucukları */
 .contact-icon {
     width: 22px;
     height: 22px;
@@ -1135,7 +1129,6 @@ html {
     min-height: 400px;
     display: block;
     border: 0;
-    /* Haritaya hafif profesyonel bir tonlama/filtre istersen eklenebilir */
 }
 
 /* Mobil Uyum (Responsive) */
@@ -1150,10 +1143,9 @@ html {
 }
 
 /* ==========================================
-   FOOTER (KÖKTEN ÇÖZÜM - SAF VE TEMİZ)
+   FOOTER
    ========================================== */
 
-/* 1. Yatay scroll ve taşmaları tetiklememek için genel body güvenliği */
 html, body {
     overflow-x: hidden;
     width: 100%;
@@ -1161,7 +1153,6 @@ html, body {
     padding: 0;
 }
 
-/* 2. Footer ana kutusu ekranda baştan başa (full-width) uzanır */
 .site-footer {
     background-color: #103b2b;
     color: #ffffff;
@@ -1171,7 +1162,6 @@ html, body {
     box-sizing: border-box;
 }
 
-/* 3. İçerik sitenin genel hizasıyla (1140px veya 1200px) ortalanır */
 .footer-container {
     max-width: 1140px;
     margin: 0 auto;
@@ -1544,7 +1534,7 @@ KURUMSAL SAYFASI
     font-family: var(--font-heading, sans-serif);
     font-size: 2.8rem;
     color: #191919;
-    margin: 15px 0 20px 0;
+    margin: 30.016px 0 20px 0;
     font-weight: 700;
 }
 
@@ -1707,12 +1697,33 @@ KURUMSAL SAYFASI
     letter-spacing: 0.2px;
 }
 
+.further-information-section ul {
+    list-style: none;
+    padding-left: 0;
+    margin-left: 0px;
+}
+
+.further-information-section ul li {
+    position: relative;
+    padding-left: 18px;
+    margin-bottom: 8px;
+}
+
+/* soldaki tire */
+.further-information-section ul li::before {
+    content: "—"; 
+    position: absolute;
+    left: 0;
+    color: #4A5D4E;
+    font-weight: bold;
+}
+
 .further-information-section p + p {
-    margin-top: 1rem; /* İhtiyacına göre 1.5rem, 2rem veya px cinsinden artırabilirsin */
+    margin-top: 1rem;
 }
 
 .further-information-section li + li {
-    margin-top: 1rem; /* İhtiyacına göre 1.5rem, 2rem veya px cinsinden artırabilirsin */
+    margin-top: 1rem;
 }
 
 
@@ -2359,7 +2370,7 @@ MAKALELER SAYFASI
     font-family: var(--font-heading, sans-serif);
     font-size: 2.6rem;
     font-weight: 700;
-    color: #044327;
+    color: #191919;
     margin-bottom: 10px;
 }
 
@@ -2593,4 +2604,120 @@ MAKALELER SAYFASI
     .blog-header h1 {
         font-size: 2.1rem;
     }
+}
+
+/* HİZMETLER SAYFASI */
+.services-intro {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Başlığı tam ortala */
+.services-intro h1 {
+    font-family: var(--font-heading, sans-serif) !important;
+    font-size: 2.8rem !important;
+    font-weight: 700 !important;
+    color: #191919 !important;
+    margin-bottom: 10px !important;
+    text-align: center !important;
+}
+
+.services-desc {
+    margin-bottom: 20px !important;
+}
+
+/* Birinci Paragraf (Giriş metni) */
+.services-intro .services-text {
+    font-size: 1.1rem !important;
+    line-height: 1.7 !important;
+    color: #333 !important;
+    max-width: 800px !important;
+    margin-bottom: 6px !important;
+    text-align: center !important; 
+}
+
+.services-intro .services-desc {
+    font-size: 0.98rem !important;
+    line-height: 1.65 !important;
+    color: #555 !important;
+    max-width: 800px !important;
+    margin-bottom: 0;
+    text-align: center !important;
+}
+
+/* MAKALE ŞABLON */
+/* Makale Detay Sayfası Stilleri */
+.article-container {
+    padding: 120px 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    min-height: 60vh;
+}
+
+.article-header {
+    margin-bottom: 30px;
+}
+
+.article-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.article-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #111;
+    line-height: 1.2;
+}
+
+.article-divider {
+    border: 0;
+    border-top: 1px solid #eaeaea;
+    margin-bottom: 40px;
+}
+
+.article-body {
+    font-family: 'Inter', sans-serif;
+    line-height: 1.8;
+    color: #333;
+    font-size: 1.05rem;
+}
+
+.article-body p {
+    margin-bottom: 20px;
+}
+
+.article-body h2, .article-body h3 {
+    font-family: 'Syne', sans-serif;
+    color: #111;
+    margin-top: 40px;
+    margin-bottom: 15px;
+}
+
+.article-bullet {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+.article-tag {
+    background: #eef2f7;
+    color: #004080;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+}
+
+.article-meta-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
 }

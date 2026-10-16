@@ -20,9 +20,6 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         })
         .catch(error => console.error("Footer yüklenirken hata:", error));
-
-    // 3. Blog verilerini ve sayaçları tek seferde yükle
-    loadBlogDataAndCounts();
 });
 
 // Menüyü Açma Fonksiyonu (Global)
@@ -41,7 +38,7 @@ window.hideMenu = function() {
     }
 };
 
-// GitHub Git Trees API kullanarak optimize edilmiş veri ve sayaç yükleyici
+// GitHub Git Trees API kullanarak optimize edilmiş veri ve sayaç yükleyici (Lokal/Statik Uyumlu)
 async function loadBlogDataAndCounts() {
     const blogListContainer = document.getElementById("blog-list-container");
     const repoOwner = "SerMassey"; 
@@ -57,7 +54,7 @@ async function loadBlogDataAndCounts() {
 
         if (postFiles.length === 0) {
             if (blogListContainer) {
-                blogListContainer.innerHTML = '<p>Henüz makale yayınlanmadı.</p>';
+                blogListContainer.innerHTML = '<p style="padding: 20px; color: #666;">Henüz makale yayınlanmadı.</p>';
             }
             return;
         }
@@ -99,9 +96,7 @@ async function loadBlogDataAndCounts() {
                     formattedDate = dateObj.toLocaleDateString('tr-TR', {
                         day: 'numeric',
                         month: 'long',
-                        year: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit'
+                        year: 'numeric'
                     });
                 }
             }
@@ -125,6 +120,10 @@ async function loadBlogDataAndCounts() {
                 else if (tag.includes("Şirketler Hukuku")) categorySlug = "sirketler";
                 else if (tag.includes("Ticaret Hukuku")) categorySlug = "ticaret";
 
+                // Dosya adını URL uyumlu hale getirme (örn: _posts/2026-10-03-lorem.md -> makaleler/2026-10-03-lorem.html)
+                const fileNameClean = file.path.replace('_posts/', '').replace('.md', '');
+                const articleUrl = `makaleler/${fileNameClean}.html`;
+
                 const article = document.createElement('article');
                 article.className = 'blog-card';
                 article.setAttribute('data-category', categorySlug);
@@ -132,9 +131,9 @@ async function loadBlogDataAndCounts() {
                 article.innerHTML = `
                     <div class="blog-content">
                         <span class="blog-date">${formattedDate}</span>
-                        <h2><a href="#" data-file="${file.path}">${title}</a></h2>
+                        <h2><a href="${articleUrl}">${title}</a></h2>
                         <p>${description}</p>
-                        <a href="#" class="read-more" data-file="${file.path}">Devamını Oku →</a>
+                        <a href="${articleUrl}" class="read-more">Devamını Oku →</a>
                     </div>
                 `;
                 blogListContainer.appendChild(article);
@@ -160,24 +159,14 @@ async function loadBlogDataAndCounts() {
     } catch (error) {
         console.error('Hata:', error);
         if (blogListContainer) {
-            blogListContainer.innerHTML = '<p>Makaleler yüklenirken bir hata oluştu.</p>';
+            blogListContainer.innerHTML = '<p style="padding: 20px; color: #666;">Makaleler yüklenirken bir hata oluştu.</p>';
         }
     }
-}
+}   
 
-// Global Tıklama Olayları (Makale okuma, filtreleme, vb.)
-document.addEventListener('click', async function(e) {
-    // 1. "Devamını Oku" veya Başlığa Tıklandığında Doğrudan .md dosyasını açma
-    const readMoreLink = e.target.closest('.read-more') || e.target.closest('.blog-card h2 a');
-    if (readMoreLink && readMoreLink.hasAttribute('data-file')) {
-        e.preventDefault();
-        const filePath = readMoreLink.getAttribute('data-file');
-        await loadSingleMarkdownArticle(filePath);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        return;
-    }
-
-    // 2. Kategorilere Tıklandığında
+// Global Kategori Filtreleme Olayları
+document.addEventListener('click', function(e) {
+    // 1. Kategorilere Tıklandığında
     if (e.target.matches('.category-link') || e.target.closest('.category-link')) {
         e.preventDefault();
         const link = e.target.closest('.category-link');
@@ -191,7 +180,7 @@ document.addEventListener('click', async function(e) {
         showActiveFilterBox(categoryName, selectedCategory);
     }
 
-    // 3. Filtre kutusundaki çarpı (×) butonuna tıklandığında
+    // 2. Filtre kutusundaki çarpı (×) butonuna tıklandığında
     if (e.target.matches('#clear-filter-btn') || e.target.closest('#clear-filter-btn')) {
         e.preventDefault();
         document.querySelectorAll('.category-link').forEach(el => el.classList.remove('active'));
@@ -202,87 +191,6 @@ document.addEventListener('click', async function(e) {
         hideActiveFilterBox();
     }
 });
-
-// Tekil .md dosyasını çekip aynı sayfada şık bir okuma ekranıyla gösteren fonksiyon
-async function loadSingleMarkdownArticle(filePath) {
-    const blogListContainer = document.getElementById("blog-list-container");
-    const sidebar = document.querySelector(".blog-sidebar"); // Sağ sidebar
-    const repoOwner = "SerMassey"; 
-    const repoName = "av-anilguzel"; 
-    
-    // Doğru GitHub raw link formatı
-    const cleanPath = filePath.startsWith('_posts/') ? filePath : `_posts/${filePath}`;
-    const rawUrl = `https://raw.githubusercontent.com/${repoOwner}/${repoName}/main/${cleanPath}?t=${new Date().getTime()}`;
-
-    if (blogListContainer) {
-        blogListContainer.innerHTML = '<p style="padding: 40px; text-align: center; font-size: 16px; color: #666;">Makale yükleniyor...</p>';
-    }
-
-    try {
-        const response = await fetch(rawUrl);
-        if (!response.ok) throw new Error('Makale içeriği alınamadı.');
-
-        const markdownText = await response.text();
-
-        // Front-matter ve içeriği ayıralım
-        const parts = markdownText.split('---');
-        let content = markdownText;
-        let title = "Makale Detayı";
-        let date = "";
-
-        if (parts.length >= 3) {
-            const frontMatter = parts[1];
-            content = parts.slice(2).join('---');
-
-            const titleMatch = frontMatter.match(/title:\s*"?(.*?)"?$/m);
-            const dateMatch = frontMatter.match(/date:\s*"?(.*?)"?$/m);
-            
-            if (titleMatch) title = titleMatch[1];
-            if (dateMatch) {
-                const dateObj = new Date(dateMatch[1]);
-                if (!isNaN(dateObj)) {
-                    date = dateObj.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
-                }
-            }
-        }
-
-        // Markdown'ı HTML'e çevir
-        const htmlContent = marked.parse(content);
-
-        // Sidebar'ı CSS ile tamamen gizle
-        if (sidebar) {
-            sidebar.style.display = 'none';
-        }
-
-        // Ana layout'un grid yapısını esnetip tek sütun yapalım
-        const blogLayout = document.querySelector('.blog-layout');
-        if (blogLayout) {
-            blogLayout.style.gridTemplateColumns = '1fr';
-        }
-
-        if (blogListContainer) {
-            blogListContainer.style.width = '100%';
-            blogListContainer.innerHTML = `
-                <div class="article-reading-card" style="background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); margin-bottom: 40px;">
-                    <button onclick="location.reload()" style="background: none; border: none; color: #004080; font-weight: 600; cursor: pointer; margin-bottom: 25px;  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; font-size: 14px; display: flex; align-items: center; gap: 5px; padding: 0;">
-                        ← Tüm Makalelere Dön
-                    </button>
-                    ${date ? `<span style="font-size: 13px; color: #888; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 10px;">${date}</span>` : ''}
-                    <h1 style="margin-bottom: 20px; color: #1a1a1a; font-size: 32px; line-height: 1.3; font-weight: 700;">${title}</h1>
-                    <hr style="border: 0; border-top: 1px solid #eaeaea; margin: 25px 0;">
-                    <div class="markdown-body" style="line-height: 1.85; color: #333; font-size: 16px;">
-                        ${htmlContent}
-                    </div>
-                </div>
-            `;
-        }
-    } catch (error) {
-        console.error('Makale yükleme hatası:', error);
-        if (blogListContainer) {
-            blogListContainer.innerHTML = '<p style="padding: 20px; color: red;">Makale yüklenirken bir hata oluştu. <a href="makaleler.html">Geri dön</a></p>';
-        }
-    }
-}
 
 // Kartları filtreleyen yardımcı fonksiyon
 function filterCards(selectedCategory) {
@@ -336,67 +244,6 @@ document.querySelectorAll('.faq-question').forEach(button => {
     });
 });
 
-// Google Yorumları Entegrasyonu
-const apiKey = "AIzaSyBl4EU7uczR3tz3st93QhiZVY65vAKarfo";
-const placeId = "ChIJcwC0KjuQwxQRl5EGaut4HLM";
-
-const apiUrl = `https://corsproxy.io/?https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=name,rating,user_ratings_total,reviews&language=tr&key=${apiKey}`;
-
-fetch(apiUrl)
-    .then(response => response.json())
-    .then(data => {
-        const resultData = data.result || (data.contents ? JSON.parse(data.contents).result : null);
-
-        if (resultData) {
-            const place = resultData;
-            
-            if (place.rating) {
-                const ratingEl = document.getElementById('rating-number');
-                if (ratingEl) ratingEl.innerText = place.rating.toFixed(1);
-            }
-            if (place.user_ratings_total) {
-                const totalEl = document.getElementById('total-ratings');
-                if (totalEl) totalEl.innerText = `${place.user_ratings_total} Google değerlendirmesi`;
-            }
-
-            const reviewsContainer = document.getElementById('reviews-grid');
-            if (reviewsContainer) {
-                reviewsContainer.innerHTML = '';
-
-                if (place.reviews && place.reviews.length > 0) {
-                    place.reviews.forEach(review => {
-                        const starsString = '★'.repeat(review.rating);
-                        const card = document.createElement('div');
-                        card.className = 'review-card';
-                        card.innerHTML = `
-                            <div class="review-header">
-                                <span class="review-author">${review.author_name}</span>
-                                <span class="review-stars">${starsString}</span>
-                            </div>
-                            <p class="review-text">"${review.text}"</p>
-                        `;
-                        reviewsContainer.appendChild(card);
-                    });
-                } else {
-                    reviewsContainer.innerHTML = `
-                        <div class="review-card">
-                            <p class="review-text" style="color: #666; font-style: normal;">
-                                Müvekkillerımızın Google üzerindeki 5 yıldızlı değerlendirmeleri gizlilik ve şeffaflık ilkemizle listelenmektedir. Siz de deneyiminizi paylaşmak için değerlendirme yapabilirsiniz.
-                            </p>
-                        </div>
-                    `;
-                }
-            }
-        }
-    })
-    .catch(error => {
-        console.error("Google Reviews API Hatası:", error);
-        const reviewsContainer = document.getElementById('reviews-grid');
-        if (reviewsContainer) {
-            reviewsContainer.innerHTML = '<p class="review-text">Yorumlar yüklenirken bir sorun oluştu.</p>';
-        }
-    });
-
 // ANASAYFADAKİ PROSES SEKMESİ
 document.addEventListener("DOMContentLoaded", function () {
     const timelineSection = document.querySelector(".process-timeline-section");
@@ -410,7 +257,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const sectionHeight = timelineSection.offsetHeight;
         const windowHeight = window.innerHeight;
 
-        // Çizgi ilerleme oranı
         let distanceScrolled = windowHeight - rect.top - 100;
         let percentage = (distanceScrolled / sectionHeight) * 110;
 
@@ -419,20 +265,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
         progressBar.style.height = percentage + "%";
 
-        // Kartların aktifleşmesi ve saydamlaşma gecikmesi
         stepCards.forEach((card, index) => {
             const cardRect = card.getBoundingClientRect();
             
-            // Kart ekrana girdiğinde aktif olsun
             if (cardRect.top < windowHeight * 0.65) {
                 card.classList.add("active");
                 
-                // Arkaya saklanma (stacking) eşiğini geciktirelim:
-                // Sadece bir sonraki kart tam tepeye yanaştığında arkadaki şeffaflaşsın
                 const nextCard = stepCards[index + 1];
                 if (nextCard) {
                     const nextRect = nextCard.getBoundingClientRect();
-                    // Eşiği 0.65'ten 0.35'e çekerek arkadakinin çok daha uzun süre net kalmasını sağlıyoruz
                     if (nextRect.top < windowHeight * 0.35) {
                         card.classList.add("stacked");
                     } else {
@@ -453,7 +294,6 @@ document.addEventListener("DOMContentLoaded", function() {
     const contents = document.querySelectorAll(".folder-content");
     const tabsNav = document.getElementById("tabsNav");
 
-    // Sayfa ilk açıldığında varsayılan olarak 1. satır aktifse (Ceza Hukuku vb.)
     if (tabsNav) {
         tabsNav.classList.add("row-1-active");
     }
@@ -461,14 +301,11 @@ document.addEventListener("DOMContentLoaded", function() {
     if (tabs.length > 0) {
         tabs.forEach(tab => {
             tab.addEventListener("click", () => {
-                // Aktif sınıfları temizle
                 tabs.forEach(t => t.classList.remove("active"));
                 contents.forEach(c => c.classList.remove("active"));
 
-                // Tıklanan sekmeyi aktif yap
                 tab.classList.add("active");
                 
-                // Hangi satırda (row-1 veya row-2) olduğunu bul
                 const parentRow = tab.closest(".folder-row");
                 if (parentRow && tabsNav) {
                     const rowNumber = parentRow.getAttribute("data-row");
@@ -481,7 +318,6 @@ document.addEventListener("DOMContentLoaded", function() {
                     }
                 }
 
-                // İlgili içerik alanını göster
                 const targetId = tab.getAttribute("data-target");
                 const targetContent = document.getElementById(targetId);
                 if (targetContent) {
