@@ -1231,6 +1231,10 @@ html, body {
     font-weight: 600;
 }
 
+.footer-contact a {
+    margin: 0 0 0.5rem 0;
+}
+
 /* 4. Telif şeridi de tam genişlikte ve içeriği ortalanmış şekilde oturur */
 .footer-bottom {
     border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -1259,6 +1263,13 @@ html, body {
     letter-spacing: 1.5px;
     text-transform: uppercase;
     font-size: 0.68rem;
+}
+
+.footer-baro-tra {
+    opacity: 0.35; /* Metni biraz daha silik/mat yapar */
+    font-style: italic; /* İsteğe bağlı olarak italik şık bir hava katar */
+    text-transform: none; /* Türkçe cümlenin tamamen büyük harf olmasını engeller, normal yazılışını korur */
+    margin-right: 35px;
 }
 
 /* Mobil uyum için footer grid yapısı */
@@ -2720,4 +2731,45 @@ MAKALELER SAYFASI
     align-items: center;
     gap: 10px;
     margin-bottom: 12px;
+}
+
+.article-container a {
+    color: var(--accent-red);
+    text-decoration: none;
+    font-weight: 500;
+    position: relative;
+    /* Alt çizgiyi arka plan gradyanı ile simüle ediyoruz */
+    background-image: linear-gradient(to right, var(--accent-red) 100%, var(--accent-red) 0);
+    background-repeat: no-repeat;
+    background-size: 0% 1.5px; /* Başlangıçta çizgi görünmüyor (genişliği 0) */
+    background-position: left bottom;
+    transition: background-size 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease;
+    padding-bottom: 2px; /* Yazı ile çizgi arasında hafif boşluk */
+}
+
+.article-container a:hover {
+    color: #06582d;
+    background-size: 100% 1.5px; 
+    background-image: linear-gradient(to right, #06582d 100%, #06582d 0);
+}
+
+.article-container ul {
+    list-style: none;
+    padding-left: 0;
+    margin-left: 0px;
+}
+
+.article-container ul li {
+    position: relative;
+    padding-left: 18px;
+    margin-bottom: 8px;
+}
+
+/* soldaki tire */
+.article-container ul li::before {
+    content: "—"; 
+    position: absolute;
+    left: 0;
+    color: #4A5D4E;
+    font-weight: bold;
 }

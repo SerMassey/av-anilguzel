@@ -327,3 +327,166 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 });
+
+/* ====================================================================
+ * ÇEREZ İZNİ + GOOGLE ANALYTICS 4  (main.js'ye yapıştırın)
+ * - GA4, kullanıcı "Kabul Et" demeden HİÇ yüklenmez.
+ * - Reddet ve Kabul Et butonları eşit görünürlüktedir.
+ * - Footer'daki [data-cookie-settings] linki ile tercih sonradan değiştirilebilir.
+ * - Onay 12 ay sonra veya VERSION değişince yeniden istenir.
+ * ==================================================================== */
+(function () {
+  "use strict";
+
+  // ====== AYARLAR ======
+  var GA_ID = "G-RF3SR2GJ3C";
+  var POLICY_URL = "/cerez-politikasi.html";
+  var STORAGE_KEY = "cookieConsent";
+  var VERSION = 1;          // politika değişirse artırın, herkese tekrar sorulur
+  var MAX_AGE_DAYS = 365;
+  // =====================
+
+  var gaLoaded = false;
+
+  function readConsent() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return null;
+      var c = JSON.parse(raw);
+      if (!c || c.version !== VERSION) return null;
+      if (Date.now() - c.ts > MAX_AGE_DAYS * 86400000) return null;
+      return c;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function saveConsent(status) {
+    try {
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({ status: status, version: VERSION, ts: Date.now() })
+      );
+    } catch (e) {}
+  }
+
+  function loadGA() {
+    if (gaLoaded) return;
+    gaLoaded = true;
+
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(GA_ID);
+    document.head.appendChild(s);
+
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    window.gtag("config", GA_ID);
+  }
+
+  function removeTrackingCookies() {
+    var host = location.hostname;
+    var parts = host.split(".");
+    var domains = [host, "." + host];
+    if (parts.length > 2) domains.push("." + parts.slice(-2).join("."));
+    document.cookie.split(";").forEach(function (c) {
+      var name = c.trim().split("=")[0];
+      if (/^(_ga|_gid|_gat|_gcl_)/.test(name)) {
+        var expire = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+        document.cookie = expire;
+        domains.forEach(function (d) {
+          document.cookie = expire + "; domain=" + d;
+        });
+      }
+    });
+  }
+
+  function injectStyles() {
+    if (document.getElementById("cc-styles")) return;
+    var css =
+      "#cc-banner{position:fixed;left:16px;right:16px;bottom:16px;max-width:640px;margin:0 auto;" +
+      "background:#1a1a1a;color:#fff;padding:20px;border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,.3);" +
+      "z-index:9999;font-family:inherit;font-size:.92rem;line-height:1.5}" +
+      "#cc-banner p{margin:0 0 14px}" +
+      "#cc-banner a{color:#7bbcff;text-decoration:underline}" +
+      "#cc-banner .cc-actions{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}" +
+      "#cc-banner button{padding:10px 20px;border-radius:4px;border:1px solid #fff;" +
+      "background:transparent;color:#fff;cursor:pointer;font-size:.9rem;font-weight:600}" +
+      "#cc-banner button:hover{background:#fff;color:#1a1a1a}" +
+      "#cc-banner button:focus-visible{outline:3px solid #7bbcff;outline-offset:2px}";
+    var style = document.createElement("style");
+    style.id = "cc-styles";
+    style.textContent = css;
+    document.head.appendChild(style);
+  }
+
+  function closeBanner() {
+    var b = document.getElementById("cc-banner");
+    if (b) b.remove();
+  }
+
+  function showBanner() {
+    if (document.getElementById("cc-banner")) return;
+    injectStyles();
+
+    var banner = document.createElement("div");
+    banner.id = "cc-banner";
+    banner.setAttribute("role", "dialog");
+    banner.setAttribute("aria-label", "Çerez tercihleri");
+    banner.innerHTML =
+      "<p>Sitemizde ziyaretçi istatistiklerini ölçmek ve hizmetimizi iyileştirmek amacıyla " +
+      "analiz çerezleri kullanılmaktadır. Bu çerezler yalnızca onayınızla etkinleştirilir. " +
+      'Ayrıntılar için <a href="' + POLICY_URL + '">Çerez Politikası</a>\'nı inceleyebilirsiniz.</p>' +
+      '<div class="cc-actions">' +
+      '<button type="button" id="cc-reject">Reddet</button>' +
+      '<button type="button" id="cc-accept">Kabul Et</button>' +
+      "</div>";
+    document.body.appendChild(banner);
+
+    document.getElementById("cc-accept").addEventListener("click", function () {
+      saveConsent("accepted");
+      closeBanner();
+      loadGA();
+    });
+
+    document.getElementById("cc-reject").addEventListener("click", function () {
+      var wasLoaded = gaLoaded;
+      saveConsent("rejected");
+      closeBanner();
+      removeTrackingCookies();
+      // GA bu sayfada zaten yüklendiyse tamamen durdurmanın yolu sayfayı yenilemek
+      if (wasLoaded) location.reload();
+    });
+  }
+
+  // Footer'daki "Çerez Tercihleri" linki için
+  window.openCookieSettings = function () {
+    showBanner();
+  };
+
+  document.addEventListener("click", function (e) {
+    var t = e.target.closest && e.target.closest("[data-cookie-settings]");
+    if (t) {
+      e.preventDefault();
+      showBanner();
+    }
+  });
+
+  function init() {
+    var consent = readConsent();
+    if (!consent) {
+      showBanner();
+    } else if (consent.status === "accepted") {
+      loadGA();
+    } else {
+      removeTrackingCookies(); // önceki ziyaretten kalan çerez varsa temizle
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+})();

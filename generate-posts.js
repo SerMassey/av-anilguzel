@@ -7,6 +7,9 @@ const postsDirectory = path.join(__dirname, '_posts');
 const outputDirectory = path.join(__dirname, 'makaleler');
 const templatePath = path.join(__dirname, 'makale-sablonu.html');
 const makalelerHtmlPath = path.join(__dirname, 'makaleler.html');
+const sitemapPath = path.join(__dirname, 'sitemap.xml');
+
+const baseUrl = 'https://anilguzel.av.tr';
 
 function generatePosts() {
     if (!fs.existsSync(postsDirectory)) {
@@ -28,8 +31,8 @@ function generatePosts() {
     const files = fs.readdirSync(postsDirectory).filter(file => path.extname(file) === '.md');
     if (files.length === 0) {
         console.log('_posts içinde .md dosyası bulunamadı.');
-        // _posts boşsa makaleler.html listesini de boşaltalım
         updateMakalelerPage([]);
+        updateSitemap([]);
         return;
     }
 
@@ -76,6 +79,9 @@ function generatePosts() {
 
     // 3. makaleler.html sayfasını güncelle
     updateMakalelerPage(postsData);
+
+    // 4. sitemap.xml dosyasını otomatik güncelle
+    updateSitemap(postsData);
 }
 
 function getCategorySlug(tag) {
@@ -93,7 +99,6 @@ function updateMakalelerPage(posts) {
     if (!fs.existsSync(makalelerHtmlPath)) return;
 
     let htmlContent = fs.readFileSync(makalelerHtmlPath, 'utf8');
-
     let cardsHtml = '';
     let counts = { "is-hukuku": 0, "gayrimenkul": 0, "ceza": 0, "aile": 0, "veraset": 0, "sirketler": 0, "ticaret": 0, "genel": 0 };
 
@@ -143,6 +148,55 @@ function updateMakalelerPage(posts) {
 
     fs.writeFileSync(makalelerHtmlPath, htmlContent);
     console.log('makaleler.html başarıyla güncellendi.');
+}
+
+function updateSitemap(posts) {
+    // Statik ve sabit sayfalar listesi
+    const staticPages = [
+        { loc: `${baseUrl}/`, changefreq: 'weekly', priority: '1.0' },
+        { loc: `${baseUrl}/kurumsal.html`, changefreq: 'monthly', priority: '0.8' },
+        { loc: `${baseUrl}/hizmetler.html`, changefreq: 'monthly', priority: '0.9' },
+        { loc: `${baseUrl}/makaleler.html`, changefreq: 'weekly', priority: '0.8' },
+        { loc: `${baseUrl}/iletisim.html`, changefreq: 'monthly', priority: '0.7' },
+        { loc: `${baseUrl}/kvkk.html`, changefreq: 'yearly', priority: '0.3' },
+        { loc: `${baseUrl}/cerez-politikasi.html`, changefreq: 'yearly', priority: '0.3' },
+        { loc: `${baseUrl}/expertise/antalya-bosanma-avukati.html`, changefreq: 'monthly', priority: '0.8' },
+        { loc: `${baseUrl}/expertise/antalya-ceza-avukati.html`, changefreq: 'monthly', priority: '0.8' },
+        { loc: `${baseUrl}/expertise/antalya-gayrimenkul-avukati.html`, changefreq: 'monthly', priority: '0.8' },
+        { loc: `${baseUrl}/expertise/antalya-icra-avukati.html`, changefreq: 'monthly', priority: '0.8' },
+        { loc: `${baseUrl}/expertise/antalya-idare-hukuku-avukati.html`, changefreq: 'monthly', priority: '0.8' },
+        { loc: `${baseUrl}/expertise/antalya-is-hukuku-avukati.html`, changefreq: 'monthly', priority: '0.8' },
+        { loc: `${baseUrl}/expertise/antalya-miras-avukati.html`, changefreq: 'monthly', priority: '0.8' },
+        { loc: `${baseUrl}/expertise/antalya-sirketler-hukuku.html`, changefreq: 'monthly', priority: '0.8' },
+        { loc: `${baseUrl}/expertise/antalya-sozlesme-avukati.html`, changefreq: 'monthly', priority: '0.8' },
+        { loc: `${baseUrl}/expertise/antalya-ticaret-hukuku.html`, changefreq: 'monthly', priority: '0.8' },
+        { loc: `${baseUrl}/expertise/antalya-yabancilar-hukuku.html`, changefreq: 'monthly', priority: '0.8' }
+    ];
+
+    let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
+
+    // Sabit sayfaları ekle
+    staticPages.forEach(page => {
+        xml += `  <url>\n`;
+        xml += `    <loc>${page.loc}</loc>\n`;
+        xml += `    <changefreq>${page.changefreq}</changefreq>\n`;
+        xml += `    <priority>${page.priority}</priority>\n`;
+        xml += `  </url>\n`;
+    });
+
+    // Dinamik makale sayfalarını ekle
+    posts.forEach(post => {
+        xml += `  <url>\n`;
+        xml += `    <loc>${baseUrl}/${post.url}</loc>\n`;
+        xml += `    <changefreq>monthly</changefreq>\n`;
+        xml += `    <priority>0.6</priority>\n`;
+        xml += `  </url>\n`;
+    });
+
+    xml += `</urlset>`;
+
+    fs.writeFileSync(sitemapPath, xml);
+    console.log('sitemap.xml başarıyla güncellendi.');
 }
 
 generatePosts();
