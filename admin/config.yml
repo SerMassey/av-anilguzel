@@ -14,6 +14,8 @@ collections:
     fields:
       - {label: "Başlık", name: "title", widget: "string"}
       - {label: "Tarih", name: "date", widget: "datetime"}
-      - {label: "Etiket", name: "tag", widget: "select", options: ["Ceza Hukuku", "Gayrimenkul", "İş Hukuku", "Aile Hukuku", "Veraset", "Şirketler Hukuku", "Genel"]}
+      - {label: "Etiket", name: "tag", widget: "select", options: ["Ceza", "Gayrimenkul ve Kira", "İş", "Aile", "Yabancılar", "Miras", "Şirketler", "Ticaret", "Sözleşmeler", "Genel"]}
       - {label: "Makale Özeti", name: "description", widget: "text", hint: "Kartlarda görünecek kısa özeti buraya yazın."}
       - {label: "İçerik", name: "body", widget: "markdown"}
+
+      

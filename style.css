@@ -683,8 +683,8 @@ html {
   --line: oklch(0.9 0.008 80);
   --acc: oklch(0.55 0.12 40);
   width: 100%;
-  min-height: 100vh;
-  min-height: 100svh;
+/*  min-height: 100vh; 
+  min-height: 100svh; */
   display: block;
   font-family: 'Segoe UI',system-ui,sans-serif;
   color: var(--ink);
@@ -699,11 +699,12 @@ html {
 
 .faq_stage {
   width: 100%;
-  min-height: 100vh;
+/*  min-height: 100vh;
   min-height: 100svh;
+  padding: clamp(20px,4vw,64px); */
   display: grid;
+  padding: 40px 20px;
   place-items: center;
-  padding: clamp(20px,4vw,64px);
   background: var(--bg);
 }
 
@@ -869,7 +870,7 @@ html {
 .process-timeline-section .container {
     max-width: 1140px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 0;
 }
 
 /* İki Sütunlu Düzen */
@@ -901,7 +902,7 @@ html {
     font-family: var(--font-heading, sans-serif);
     font-size: 2.5rem;
     font-weight: 700;
-    color: var(--brand-green, #044327);
+    color: #191919;
     line-height: 1.2;
     margin-bottom: 20px;
 }
@@ -941,7 +942,7 @@ html {
     border-radius: 2px;
 }
 
-/* Kartların Üst Üste Binme Yapısı (Sticky Stack) */
+/* Sticky Stack */
 .timeline-steps {
     display: flex;
     flex-direction: column;
@@ -1040,7 +1041,7 @@ html {
     font-size: 2.2rem;
     font-weight: 700;
     text-align: center;
-    color: var(--brand-green, #044327);
+    color: #191919;
     margin-bottom: 40px;
     letter-spacing: -0.5px;
 }
@@ -1280,61 +1281,6 @@ html, body {
     }
 }
 
-
-/* ==========================================
-   FLOATING ACTION BUTTONS (FAB) - İKON TAM BOYUT
-   ========================================== */
-.fab-container {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    z-index: 999;
-}
-
-.fab-btn {
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-    color: #ffffff;
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease;
-    text-decoration: none;
-}
-
-/* İkonların buton içine tam ortalanması ve boyutlanması */
-.fab-btn svg {
-    width: 22px;
-    height: 22px;
-    display: block;
-    fill: currentColor;
-}
-
-.fab-btn:hover {
-    transform: translateY(-4px) scale(1.05);
-}
-
-.phone-fab {
-    background-color: var(--brand-green, #044327); 
-}
-
-.phone-fab:hover {
-    background-color: #06582d;
-}
-
-.whatsapp-fab {
-    background-color: var(--accent-red, #a32219);
-}
-
-.whatsapp-fab:hover {
-    background-color: #871a13;
-}
-
 /* ==========================================
    PİLL / KAPSÜL NAVBAR STİLİ
    ========================================== */
@@ -1357,7 +1303,7 @@ html, body {
     backdrop-filter: blur(10px);
     border: 1px solid rgba(4, 67, 39, 0.12);
     padding: 12px 30px;
-    border-radius: 20px;
+    border-radius: 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -1480,7 +1426,7 @@ html, body {
    ========================================== */
 .fab-container {
     position: fixed;
-    bottom: 30px;
+    bottom: 90px;
     right: 30px;
     display: flex;
     flex-direction: column;
@@ -1491,45 +1437,62 @@ html, body {
 .fab-btn {
     width: 52px;
     height: 52px;
-    border-radius: 50%;
+    border-radius: 8px; /* Daire yerine hafif yumuşatılmış premium kare form */
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12); /* Derin ve yumuşak gölge */
     color: #ffffff;
     transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
     text-decoration: none;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Premium his için zarif bir iç parlaklık efekti */
+.fab-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    pointer-events: none;
 }
 
 .fab-btn:hover {
-    transform: translateY(-4px) scale(1.05);
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.18);
+}
+
+/* İkonların buton içine tam ortalanması ve boyutlanması */
+.fab-btn svg {
+    width: 22px;
+    height: 22px;
+    display: block;
+    fill: currentColor;
 }
 
 /* Telefon Arama Butonu */
 .phone-fab {
-    background-color: var(--brand-emerald, #044327); 
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    background-color:var(--accent-red, #a32219); 
 }
 
 .phone-fab:hover {
-    background-color: #06582d;
+    background-color: #871a13;
 }
 
 /* WhatsApp Butonu */
 .whatsapp-fab {
-    background-color: var(--accent-red, #a32219);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    background-color: var(--brand-emerald, #044327);
 }
 
 .whatsapp-fab:hover {
-    background-color: #871a13;
+    background-color: #06582d;
 }
 
 /* --------------------------------
 KURUMSAL SAYFASI
 ----------------------------------- */
-
-/* --- KURUMSAL SAYFASI DÜZENLİ STİLLERİ --- */
 
 .corporate-main-wrapper {
     background-color: var(--bg-main, #f8f8f6);
@@ -1863,6 +1826,26 @@ KURUMSAL SAYFASI
     font-size: 0.85rem !important;
     color: #777 !important;
     margin-top: 6px !important;
+}
+
+.contact-note a {
+    color: var(--accent-red);
+    text-decoration: none;
+    font-weight: 500;
+    position: relative;
+    /* Alt çizgiyi arka plan gradyanı ile simüle ediyoruz */
+    background-image: linear-gradient(to right, var(--accent-red) 100%, var(--accent-red) 0);
+    background-repeat: no-repeat;
+    background-size: 0% 1.5px; /* Başlangıçta çizgi görünmüyor (genişliği 0) */
+    background-position: left bottom;
+    transition: background-size 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease;
+    padding-bottom: 2px; /* Yazı ile çizgi arasında hafif boşluk */
+}
+
+.contact-note a:hover {
+    color: #06582d;
+    background-size: 100% 1.5px; 
+    background-image: linear-gradient(to right, #06582d 100%, #06582d 0);
 }
 
 .contact-details-list {
@@ -2210,7 +2193,7 @@ KURUMSAL SAYFASI
     font-family: var(--font-heading, sans-serif);
     font-size: 2.4rem;
     font-weight: 700;
-    color: #044327;
+    color: #191919;
     margin-bottom: 25px;
     line-height: 1.2;
 }
@@ -2772,4 +2755,314 @@ MAKALELER SAYFASI
     left: 0;
     color: #4A5D4E;
     font-weight: bold;
+}
+
+
+/* MURATPAŞA AVUKAT SAYFASI */
+.main-content {
+    padding: 60px 0 100px 0;
+    background-color: var(--bg-main, #f8f8f6);
+    color: #222;
+}
+
+/* Sayfa Üst Alanı (Hero / Header Section) */
+.page-header-section {
+    padding-top: 45px;
+    margin-bottom: 45px;
+    padding-bottom: 0;
+}
+
+.page-header-section .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px;
+    border-bottom: none; /* Kapsayıcı çizgiyi kaldırdık */
+}
+
+.category-tag {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    color: #044327;
+    text-transform: uppercase;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 0px;
+}
+
+/* Çizgi sadece başlık metninin genişliği kadar */
+.page-header-section h1 {
+    font-family: var(--font-heading, sans-serif);
+    font-size: 2.6rem;
+    font-weight: 700;
+    color: #191919;
+    margin-bottom: 20px;
+    line-height: 1.2;
+    display: inline-block;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #044327;
+}
+
+.lead-text {
+    font-size: 1.02rem;
+    line-height: 1.7;
+    color: #444;
+    margin-top: 5px;
+}
+
+/* İçerik Alanı Genel Yapısı */
+.content-section .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.content-section h2 {
+    font-family: var(--font-heading, sans-serif);
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #044327;
+    margin-top: 45px;
+    margin-bottom: 20px;
+}
+
+.content-section p {
+    font-size: 1.02rem;
+    line-height: 1.8;
+    color: #444;
+    margin-bottom: 20px;
+}
+
+/* --- EDİTORYAL TİRE LİSTE YAPISI (Hover Efektsiz) --- */
+.editorial-bullet-list {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 20px 0 30px 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+}
+
+.editorial-bullet-list li {
+    position: relative;
+    padding-left: 20px; /* Tire işareti için sol boşluk */
+    font-size: 1.02rem !important;
+    line-height: 1.7 !important;
+    color: #444 !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    transform: none !important; /* Hareket efekti tamamen kapatıldı */
+}
+
+/* Listelerin başında "—" işareti */
+.editorial-bullet-list li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: #044327;
+    font-weight: 600;
+}
+
+.editorial-bullet-list li strong {
+    color: #191919;
+    font-weight: 700;
+}
+
+/* Bilgi Kutusu (Info Box) Tasarımı */
+.info-box {
+    background-color: #ffffff !important;
+    border: 1px solid #eaebe6 !important;
+    border-left: 4px solid #044327 !important;
+    padding: 30px !important;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.02);
+    margin-top: 50px !important;
+}
+
+.info-box h3 {
+    font-family: var(--font-heading, sans-serif);
+    font-size: 1.3rem;
+    color: #044327;
+    margin-bottom: 12px;
+}
+
+.info-box p {
+    margin-bottom: 0 !important;
+    color: #555;
+}
+
+.info-box a {
+    color: #044327;
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+.info-box a:hover {
+    opacity: 0.8;
+}
+
+/* Mobil Uyum */
+@media (max-width: 768px) {
+    .page-header-section h1 {
+        font-size: 2.1rem;
+    }
+    .content-section h2 {
+        font-size: 1.4rem;
+    }
+    .main-content {
+        padding: 40px 0 60px 0;
+    }
+}
+
+.content-section h2 {
+    color: #191919;
+}
+
+.content-section a {
+    color: var(--accent-red);
+    text-decoration: none;
+    font-weight: 500;
+    position: relative;
+    /* Alt çizgiyi arka plan gradyanı ile simüle ediyoruz */
+    background-image: linear-gradient(to right, var(--accent-red) 100%, var(--accent-red) 0);
+    background-repeat: no-repeat;
+    background-size: 0% 1.5px; /* Başlangıçta çizgi görünmüyor (genişliği 0) */
+    background-position: left bottom;
+    transition: background-size 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease;
+    padding-bottom: 2px; /* Yazı ile çizgi arasında hafif boşluk */
+}
+
+.content-section a:hover {
+    color: #06582d;
+    background-size: 100% 1.5px; 
+    background-image: linear-gradient(to right, #06582d 100%, #06582d 0);
+}
+
+/* --- HUKUKİ REHBER SEKMELERİ  --- */
+.legal-guide-section {
+    padding: 80px 0;
+    background-color: var(--bg);
+    border-bottom: 1px solid #eaebe6;
+}
+
+.guide-header-center {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.guide-overline {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    color: var(--brand-green, #044327);
+    text-transform: uppercase;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.guide-header-center h2 {
+    font-family: var(--font-heading, sans-serif);
+    font-size: 2.3rem;
+    font-weight: 700;
+    color: #191919;
+}
+
+/* Sekme Butonları Konteyneri */
+.guide-tabs-nav {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.guide-tab-btn {
+    background-color: #f8f8f6;
+    color: #555;
+    border: 1px solid #eaebe6;
+    padding: 12px 24px;
+    font-family: var(--font-heading, sans-serif);
+    font-size: 0.9rem;
+    font-weight: 700;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.guide-tab-btn:hover {
+    background-color: #eaebe6;
+    color: #111;
+}
+
+.guide-tab-btn.active {
+    background-color: var(--brand-green, #044327);
+    color: #ffffff;
+    border-color: var(--brand-green, #044327);
+    box-shadow: 0 4px 15px rgba(4, 67, 39, 0.15);
+}
+
+/* Ana İçerik Kutusu */
+.guide-content-box {
+    max-width: 1000px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    border: 1px solid #eaebe6;
+    border-radius: 12px;
+    padding: 45px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+}
+
+.guide-pane {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.guide-pane.active {
+    display: block;
+    opacity: 1;
+}
+
+.guide-pane h3 {
+    font-family: var(--font-heading, sans-serif);
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--brand-green, #044327);
+    margin-bottom: 25px;
+}
+
+/* 3 Sütunlu Rehber Düzeni */
+.guide-three-columns {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.guide-three-columns p {
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: #444;
+    margin: 0;
+}
+
+/* Mobil uyum için 3 sütunu tek sütuna düşürme */
+@media (max-width: 900px) {
+    .guide-three-columns {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+
+/* Mobil Uyum */
+@media (max-width: 768px) {
+    .guide-content-box {
+        padding: 25px 20px;
+    }
+    .guide-header-center h2 {
+        font-size: 1.8rem;
+    }
 }

@@ -59,14 +59,17 @@ async function loadBlogDataAndCounts() {
             return;
         }
 
+        // Yeni etiket listene göre sayaç nesnesi
         let counts = {
-            "is-hukuku": 0,
-            "gayrimenkul": 0,
             "ceza": 0,
+            "gayrimenkul": 0,
+            "is": 0,
             "aile": 0,
-            "veraset": 0,
+            "yabancilar": 0,
+            "miras": 0,
             "sirketler": 0,
             "ticaret": 0,
+            "sozlesmeler": 0,
             "genel": 0
         };
 
@@ -101,26 +104,31 @@ async function loadBlogDataAndCounts() {
                 }
             }
 
-            if (tag.includes("Ceza Hukuku")) counts.ceza++;
-            if (tag.includes("Gayrimenkul")) counts.gayrimenkul++;
-            if (tag.includes("İş Hukuku")) counts["is-hukuku"]++;
-            if (tag.includes("Aile Hukuku")) counts.aile++;
-            if (tag.includes("Veraset")) counts.veraset++;
-            if (tag.includes("Şirketler Hukuku")) counts.sirketler++;
-            if (tag.includes("Ticaret Hukuku")) counts.ticaret++;
+            // Yeni etiketlere göre sayaç artırımları
+            if (tag.includes("Ceza")) counts.ceza++;
+            if (tag.includes("Gayrimenkul ve Kira")) counts.gayrimenkul++;
+            if (tag.includes("İş")) counts.is++;
+            if (tag.includes("Aile")) counts.aile++;
+            if (tag.includes("Yabancılar")) counts.yabancilar++;
+            if (tag.includes("Miras")) counts.miras++;
+            if (tag.includes("Şirketler")) counts.sirketler++;
+            if (tag.includes("Ticaret")) counts.ticaret++;
+            if (tag.includes("Sözleşmeler")) counts.sozlesmeler++;
             if (tag.includes("Genel")) counts.genel++;
 
             if (blogListContainer) {
                 let categorySlug = "genel";
-                if (tag.includes("Ceza Hukuku")) categorySlug = "ceza";
-                else if (tag.includes("Gayrimenkul")) categorySlug = "gayrimenkul";
-                else if (tag.includes("İş Hukuku")) categorySlug = "is-hukuku";
-                else if (tag.includes("Aile Hukuku")) categorySlug = "aile";
-                else if (tag.includes("Veraset")) categorySlug = "veraset";
-                else if (tag.includes("Şirketler Hukuku")) categorySlug = "sirketler";
-                else if (tag.includes("Ticaret Hukuku")) categorySlug = "ticaret";
+                if (tag.includes("Ceza")) categorySlug = "ceza";
+                else if (tag.includes("Gayrimenkul ve Kira")) categorySlug = "gayrimenkul";
+                else if (tag.includes("İş")) categorySlug = "is";
+                else if (tag.includes("Aile")) categorySlug = "aile";
+                else if (tag.includes("Yabancılar")) categorySlug = "yabancilar";
+                else if (tag.includes("Miras")) categorySlug = "miras";
+                else if (tag.includes("Şirketler")) categorySlug = "sirketler";
+                else if (tag.includes("Ticaret")) categorySlug = "ticaret";
+                else if (tag.includes("Sözleşmeler")) categorySlug = "sozlesmeler";
 
-                // Dosya adını URL uyumlu hale getirme (örn: _posts/2026-10-03-lorem.md -> makaleler/2026-10-03-lorem.html)
+                // Dosya adını URL uyumlu hale getirme
                 const fileNameClean = file.path.replace('_posts/', '').replace('.md', '');
                 const articleUrl = `makaleler/${fileNameClean}.html`;
 
@@ -147,13 +155,16 @@ async function loadBlogDataAndCounts() {
             }
         };
 
-        updateCountEl("count-is-hukuku", counts["is-hukuku"]);
-        updateCountEl("count-gayrimenkul", counts.gayrimenkul);
+        // HTML tarafındaki sayaç id'lerinin bu slug'larla eşleştiğinden emin ol (örn: id="count-ceza", id="count-is" vb.)
         updateCountEl("count-ceza", counts.ceza);
+        updateCountEl("count-gayrimenkul", counts.gayrimenkul);
+        updateCountEl("count-is", counts.is);
         updateCountEl("count-aile", counts.aile);
-        updateCountEl("count-veraset", counts.veraset);
+        updateCountEl("count-yabancilar", counts.yabancilar);
+        updateCountEl("count-miras", counts.miras);
         updateCountEl("count-sirketler", counts.sirketler);
         updateCountEl("count-ticaret", counts.ticaret);
+        updateCountEl("count-sozlesmeler", counts.sozlesmeler);
         updateCountEl("count-genel", counts.genel);
 
     } catch (error) {
@@ -162,7 +173,7 @@ async function loadBlogDataAndCounts() {
             blogListContainer.innerHTML = '<p style="padding: 20px; color: #666;">Makaleler yüklenirken bir hata oluştu.</p>';
         }
     }
-}   
+}
 
 // Global Kategori Filtreleme Olayları
 document.addEventListener('click', function(e) {
@@ -490,3 +501,30 @@ document.addEventListener("DOMContentLoaded", function() {
     init();
   }
 })();
+
+// Hukuki rehber sekmeleri
+document.addEventListener('DOMContentLoaded', () => {
+    const tabButtons = document.querySelectorAll('.guide-tab-btn');
+    const guidePanes = document.querySelectorAll('.guide-pane');
+
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Aktif sınıfı butonlardan kaldır
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            // Tıklanan butona aktif sınıfı ekle
+            button.classList.add('active');
+
+            // Hedef paneli bul
+            const targetId = button.getAttribute('data-guide');
+            
+            // Tüm panelleri gizle
+            guidePanes.forEach(pane => pane.classList.remove('active'));
+            
+            // Hedef paneli göster
+            const targetPane = document.getElementById(targetId);
+            if (targetPane) {
+                targetPane.classList.add('active');
+            }
+        });
+    });
+});
