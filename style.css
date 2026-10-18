@@ -185,15 +185,15 @@ html {
     text-transform: uppercase;
     letter-spacing: 1px;
     color: var(--brand-green);
-    margin-bottom: 12px;
+    margin-bottom: 2px;
 }
 
 .hero-title {
-    font-size: 3.8rem;
+    font-size: 4.8rem;
     font-weight: 700;
     color: #191919;
     line-height: 1.2;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
 }
 
 .hero-description {
@@ -207,6 +207,41 @@ html {
 .hero-buttons {
     display: flex;
     gap: 15px;
+}
+
+.hero-image {
+    flex: 0 0 400px;
+}
+
+.hero-image img {
+    width: 100%;
+    height: 520px;
+    object-fit: cover;
+    object-position: top center;
+    border-radius: 12px;
+    border: 1px solid var(--color-beige);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+}
+
+.hero-title-en {
+    font-size: 4.8rem; /* Yan yana sığmasını kolaylaştırmak için ana boyutu çok az esnetebilirsin */
+    font-weight: 700;
+    color: #191919;
+    line-height: 1.2;
+    margin-bottom: 5px;
+    
+    /* Yan yana durmalarını ve dikeyde ortalanmalarını garantiler */
+    display: flex;
+    align-items: baseline;
+    gap: 15px; /* İsim ile unvan arasındaki boşluk */
+    flex-wrap: nowrap; /* Ekran daralsa bile alt alta kaymasını engeller */
+}
+
+.hero-title-en span {
+    font-size: 2.2rem; /* İsme göre daha küçük durması için boyut */
+    font-weight: 400;  /* İstersen unvanı daha ince yapabilirsin */
+    color: #101010;       /* İsteğe bağlı: İsme göre tonu biraz daha yumuşatılabilir */
+    font-style: italic;
 }
 
 .btn-primary {
@@ -240,20 +275,6 @@ html {
 .btn-secondary:hover {
     background-color: var(--brand-green);
     color: #ffffff;
-}
-
-.hero-image {
-    flex: 0 0 400px;
-}
-
-.hero-image img {
-    width: 100%;
-    height: 520px;
-    object-fit: cover;
-    object-position: top center;
-    border-radius: 12px;
-    border: 1px solid var(--color-beige);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
 }
 
 /* --- DOSYA KLASÖR SEKMELERİ (DİNAMİK SATIR SIRALAMA) --- */
@@ -1365,6 +1386,28 @@ html, body {
     color: var(--brand-green, #044327);
 }
 
+/* Lang Selector İçin Kutulu Tasarım */
+.nav-links .lang-selector {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 14px;
+    border: 1px solid rgba(4, 67, 39, 0.2); /* Nav-container border tonuyla uyumlu */
+    border-radius: 8px; /* Görseldeki hafif oval köşeler */
+    background-color: transparent;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all 0.25s ease;
+}
+
+.nav-links .lang-selector:hover {
+    border-color: var(--accent-red);
+    color: var(--accent-red) !important;
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
 /* ==========================================
    MOBİL RESPONSIVE (900px ve altı)
    ========================================== */
@@ -1426,7 +1469,7 @@ html, body {
    ========================================== */
 .fab-container {
     position: fixed;
-    bottom: 90px;
+    bottom: 70px;
     right: 30px;
     display: flex;
     flex-direction: column;
@@ -2001,7 +2044,7 @@ KURUMSAL SAYFASI
 
 .expertise-container {
     max-width: 900px;
-    margin: 0 auto;
+    margin: 60px auto;
     padding: 0 20px;
 }
 
@@ -2311,6 +2354,14 @@ KURUMSAL SAYFASI
     margin: 0;
 }
 
+.index-review-note {
+    font-size: 0.85rem !important;
+    color: #777 !important;
+    font-family: Inter !important;
+    font-weight: 200;
+    opacity: 0.85;
+}
+
 /* Mobil Uyum */
 @media (max-width: 900px) {
     .reviews-container {
@@ -2604,6 +2655,7 @@ MAKALELER SAYFASI
 .services-intro {
     text-align: center;
     max-width: 800px;
+    padding-bottom: 30px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -2981,7 +3033,7 @@ MAKALELER SAYFASI
 }
 
 .guide-tab-btn {
-    background-color: #f8f8f6;
+    background-color: #ffffff;
     color: #555;
     border: 1px solid #eaebe6;
     padding: 12px 24px;

@@ -22,6 +22,32 @@ document.addEventListener("DOMContentLoaded", function() {
         .catch(error => console.error("Footer yüklenirken hata:", error));
 });
 
+// ingilizce navbar
+
+document.addEventListener("DOMContentLoaded", function() {
+    // 1. Navbar'ı yükle
+    fetch('../en/navbar.html')
+        .then(response => response.text())
+        .then(data => {
+            const placeholder = document.getElementById('navbar-en-placeholder');
+            if (placeholder) {
+                placeholder.innerHTML = data;
+            }
+        })
+        .catch(error => console.error("Navbar yüklenirken hata:", error));
+
+    // 2. Footer'ı yükle
+    fetch('../en/footer.html')
+        .then(response => response.text())
+        .then(data => {
+            const placeholder = document.getElementById('footer-en-placeholder');
+            if (placeholder) {
+                placeholder.innerHTML = data;
+            }
+        })
+        .catch(error => console.error("Footer yüklenirken hata:", error));
+});
+
 // Menüyü Açma Fonksiyonu (Global)
 window.showMenu = function() {
     const nav = document.getElementById("navLinks");
@@ -61,15 +87,16 @@ async function loadBlogDataAndCounts() {
 
         // Yeni etiket listene göre sayaç nesnesi
         let counts = {
-            "ceza": 0,
-            "gayrimenkul": 0,
             "is": 0,
+            "gayrimenkul": 0,
+            "ceza": 0,
             "aile": 0,
-            "yabancilar": 0,
             "miras": 0,
             "sirketler": 0,
             "ticaret": 0,
+            "borclar": 0,
             "sozlesmeler": 0,
+            "yabancilar": 0,
             "genel": 0
         };
 
@@ -105,28 +132,31 @@ async function loadBlogDataAndCounts() {
             }
 
             // Yeni etiketlere göre sayaç artırımları
-            if (tag.includes("Ceza")) counts.ceza++;
-            if (tag.includes("Gayrimenkul ve Kira")) counts.gayrimenkul++;
             if (tag.includes("İş")) counts.is++;
+            if (tag.includes("Gayrimenkul ve Kira")) counts.gayrimenkul++;
+            if (tag.includes("Ceza")) counts.ceza++;
             if (tag.includes("Aile")) counts.aile++;
-            if (tag.includes("Yabancılar")) counts.yabancilar++;
             if (tag.includes("Miras")) counts.miras++;
             if (tag.includes("Şirketler")) counts.sirketler++;
             if (tag.includes("Ticaret")) counts.ticaret++;
+            if (tag.includes("Borçlar ve Tazminat")) counts.borclar++;
             if (tag.includes("Sözleşmeler")) counts.sozlesmeler++;
+            if (tag.includes("Yabancılar")) counts.yabancilar++;
             if (tag.includes("Genel")) counts.genel++;
 
             if (blogListContainer) {
                 let categorySlug = "genel";
                 if (tag.includes("Ceza")) categorySlug = "ceza";
-                else if (tag.includes("Gayrimenkul ve Kira")) categorySlug = "gayrimenkul";
                 else if (tag.includes("İş")) categorySlug = "is";
+                else if (tag.includes("Gayrimenkul ve Kira")) categorySlug = "gayrimenkul";
                 else if (tag.includes("Aile")) categorySlug = "aile";
-                else if (tag.includes("Yabancılar")) categorySlug = "yabancilar";
                 else if (tag.includes("Miras")) categorySlug = "miras";
                 else if (tag.includes("Şirketler")) categorySlug = "sirketler";
                 else if (tag.includes("Ticaret")) categorySlug = "ticaret";
+                else if (tag.includes("Borçlar ve Tazminat")) categorySlug = "borclar";
                 else if (tag.includes("Sözleşmeler")) categorySlug = "sozlesmeler";
+                else if (tag.includes("Yabancılar")) categorySlug = "yabancilar";
+                else if (tag.includes("Genel")) categorySlug = "genel";
 
                 // Dosya adını URL uyumlu hale getirme
                 const fileNameClean = file.path.replace('_posts/', '').replace('.md', '');
@@ -156,15 +186,16 @@ async function loadBlogDataAndCounts() {
         };
 
         // HTML tarafındaki sayaç id'lerinin bu slug'larla eşleştiğinden emin ol (örn: id="count-ceza", id="count-is" vb.)
-        updateCountEl("count-ceza", counts.ceza);
-        updateCountEl("count-gayrimenkul", counts.gayrimenkul);
         updateCountEl("count-is", counts.is);
+        updateCountEl("count-gayrimenkul", counts.gayrimenkul);
+        updateCountEl("count-ceza", counts.ceza);
         updateCountEl("count-aile", counts.aile);
-        updateCountEl("count-yabancilar", counts.yabancilar);
         updateCountEl("count-miras", counts.miras);
         updateCountEl("count-sirketler", counts.sirketler);
         updateCountEl("count-ticaret", counts.ticaret);
+        updateCountEl("count-borclar", counts.borclar);
         updateCountEl("count-sozlesmeler", counts.sozlesmeler);
+        updateCountEl("count-yabancilar", counts.yabancilar);
         updateCountEl("count-genel", counts.genel);
 
     } catch (error) {

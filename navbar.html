@@ -3,6 +3,7 @@
         <a href="index.html" class="logo">
             <img src="../assets/gallery/logo-altyazısız.png" alt="Av. Anıl Güzel Logo">
         </a>
+        
         <ul class="nav-links" id="navLinks">
             <li class="close-btn" onclick="hideMenu()">✕</li> 
             <li><a href="../index.html" title="Ana Sayfa">Ana Sayfa</a></li>
@@ -10,6 +11,7 @@
             <li><a href="../hizmetler.html" title="Antalya Avukat Hizmetleri">Hizmetlerimiz</a></li>
             <li><a href="../makaleler.html" title="Makaleler">Makaleler</a></li>
             <li><a href="../iletisim.html" title="İletişim">İletişim</a></li>
+            <li><a class="lang-selector" href="../en/index.html" hreflang="en" lang="en" aria-label="English">EN</a></li>
         </ul>
 
         <div class="menu-icon" onclick="showMenu()">
@@ -22,11 +24,11 @@
 <script>
     function showMenu() {
         const navLinks = document.getElementById("navLinks");
-        navLinks.style.right = "0"; // Ekranın içine getirir
+        navLinks.style.right = "0"; 
     }
 
     function hideMenu() {
         const navLinks = document.getElementById("navLinks");
-        navLinks.style.right = "-100%"; // Ekranın dışına geri iter
+        navLinks.style.right = "-100%"; 
     }
 </script>
