@@ -237,12 +237,6 @@ html {
     flex-wrap: nowrap; /* Ekran daralsa bile alt alta kaymasını engeller */
 }
 
-.hero-title-en span {
-    font-size: 2.2rem; /* İsme göre daha küçük durması için boyut */
-    font-weight: 400;  /* İstersen unvanı daha ince yapabilirsin */
-    color: #101010;       /* İsteğe bağlı: İsme göre tonu biraz daha yumuşatılabilir */
-    font-style: italic;
-}
 
 .btn-primary {
     background-color: var(--accent-red);
@@ -3116,5 +3110,26 @@ MAKALELER SAYFASI
     }
     .guide-header-center h2 {
         font-size: 1.8rem;
+    }
+}
+
+/* Mobil Görünümde Kenar Boşlukları ve Taşma Koruması */
+@media (max-width: 768px) {
+    /* Ana kapsayıcının kenarlardan yapışmasını önler, güvenli pay bırakır */
+    .nav-container, 
+    .expertise-container, 
+    .container {
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Uzun İngilizce kelimelerin veya başlıkların ekrandan taşmasını engeller */
+    body {
+        overflow-x: hidden;
+    }
+    
+    h1, h2, h3, p {
+        word-break: break-word;
     }
 }
