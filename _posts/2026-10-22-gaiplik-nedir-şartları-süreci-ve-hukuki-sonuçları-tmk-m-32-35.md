@@ -1,5 +1,6 @@
 ---
-title: Gaiplik Nedir? Şartları, Süreci ve Hukuki Sonuçları (TMK m. 32-35)
+title: "Gaiplik Nedir? Şartları, Süreci ve Hukuki Sonuçları: Miras ve Evlilik
+  Durumları (TMK m. 32-35)"
 date: 2026-10-22T23:00:00.000+03:00
 tag: Genel
 description: Gaiplik nedir, hangi mahkemeden ve ne zaman talep edilir? Gaiplik
