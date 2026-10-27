@@ -85,13 +85,16 @@ function generatePosts() {
 }
 
 function getCategorySlug(tag) {
-    if (tag.includes("Ceza Hukuku")) return "ceza";
+    if (tag.includes("Ceza")) return "ceza";
     if (tag.includes("Gayrimenkul")) return "gayrimenkul";
-    if (tag.includes("İş Hukuku")) return "is-hukuku";
-    if (tag.includes("Aile Hukuku")) return "aile";
-    if (tag.includes("Veraset")) return "veraset";
-    if (tag.includes("Şirketler Hukuku")) return "sirketler";
-    if (tag.includes("Ticaret Hukuku")) return "ticaret";
+    if (tag.includes("İş")) return "is-hukuku";
+    if (tag.includes("Aile")) return "aile";
+    if (tag.includes("Miras")) return "miras";
+    if (tag.includes("Şirketler")) return "sirketler";
+    if (tag.includes("Ticaret")) return "ticaret";
+    if (tag.includes("Borçlar")) return "borclar";
+    if (tag.includes("Sözleşmeler")) return "sozlesmeler";
+    if (tag.includes("Yabancılar")) return "yabancilar";
     return "genel";
 }
 
@@ -100,7 +103,19 @@ function updateMakalelerPage(posts) {
 
     let htmlContent = fs.readFileSync(makalelerHtmlPath, 'utf8');
     let cardsHtml = '';
-    let counts = { "is-hukuku": 0, "gayrimenkul": 0, "ceza": 0, "aile": 0, "veraset": 0, "sirketler": 0, "ticaret": 0, "genel": 0 };
+    let counts = { 
+        "is-hukuku": 0, 
+        "gayrimenkul": 0, 
+        "ceza": 0, 
+        "aile": 0, 
+        "miras": 0, 
+        "sirketler": 0, 
+        "ticaret": 0, 
+        "borclar": 0,
+        "sozlesmeler": 0,
+        "yabancilar": 0,
+        "genel": 0 
+    };
 
     if (posts.length === 0) {
         cardsHtml = '<p style="padding: 20px; color: #666;">Henüz makale yayınlanmadı.</p>';
@@ -142,16 +157,19 @@ function updateMakalelerPage(posts) {
     htmlContent = htmlContent.replace(/<span id="count-gayrimenkul">\(\d+\)<\/span>/, `<span id="count-gayrimenkul">(${counts["gayrimenkul"]})</span>`);
     htmlContent = htmlContent.replace(/<span id="count-ceza">\(\d+\)<\/span>/, `<span id="count-ceza">(${counts["ceza"]})</span>`);
     htmlContent = htmlContent.replace(/<span id="count-aile">\(\d+\)<\/span>/, `<span id="count-aile">(${counts["aile"]})</span>`);
-    htmlContent = htmlContent.replace(/<span id="count-veraset">\(\d+\)<\/span>/, `<span id="count-veraset">(${counts["veraset"]})</span>`);
+    htmlContent = htmlContent.replace(/<span id="count-miras">\(\d+\)<\/span>/, `<span id="count-miras">(${counts["miras"]})</span>`);
     htmlContent = htmlContent.replace(/<span id="count-sirketler">\(\d+\)<\/span>/, `<span id="count-sirketler">(${counts["sirketler"]})</span>`);
     htmlContent = htmlContent.replace(/<span id="count-ticaret">\(\d+\)<\/span>/, `<span id="count-ticaret">(${counts["ticaret"]})</span>`);
+    htmlContent = htmlContent.replace(/<span id="count-borclar">\(\d+\)<\/span>/, `<span id="count-borclar">(${counts["borclar"]})</span>`);
+    htmlContent = htmlContent.replace(/<span id="count-sozlesmeler">\(\d+\)<\/span>/, `<span id="count-sozlesmeler">(${counts["sozlesmeler"]})</span>`);
+    htmlContent = htmlContent.replace(/<span id="count-yabancilar">\(\d+\)<\/span>/, `<span id="count-yabancilar">(${counts["yabancilar"]})</span>`);
+    htmlContent = htmlContent.replace(/<span id="count-genel">\(\d+\)<\/span>/, `<span id="count-genel">(${counts["genel"]})</span>`);
 
     fs.writeFileSync(makalelerHtmlPath, htmlContent);
     console.log('makaleler.html başarıyla güncellendi.');
 }
 
 function updateSitemap(posts) {
-    // Statik ve sabit sayfalar listesi
     const staticPages = [
         { loc: `${baseUrl}/`, changefreq: 'weekly', priority: '1.0' },
         { loc: `${baseUrl}/kurumsal.html`, changefreq: 'monthly', priority: '0.8' },
@@ -170,12 +188,12 @@ function updateSitemap(posts) {
         { loc: `${baseUrl}/expertise/antalya-sirketler-hukuku.html`, changefreq: 'monthly', priority: '0.8' },
         { loc: `${baseUrl}/expertise/antalya-sozlesme-avukati.html`, changefreq: 'monthly', priority: '0.8' },
         { loc: `${baseUrl}/expertise/antalya-ticaret-hukuku.html`, changefreq: 'monthly', priority: '0.8' },
-        { loc: `${baseUrl}/expertise/antalya-yabancilar-hukuku.html`, changefreq: 'monthly', priority: '0.8' }
+        { loc: `${baseUrl}/expertise/antalya-yabancilar-hukuku.html`, changefreq: 'monthly', priority: '0.8' },
+        { loc: `${baseUrl}/expertise/muratpasa-avukat.html`, changefreq: 'monthly', priority: '0.8' }
     ];
 
     let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
 
-    // Sabit sayfaları ekle
     staticPages.forEach(page => {
         xml += `  <url>\n`;
         xml += `    <loc>${page.loc}</loc>\n`;
@@ -184,7 +202,6 @@ function updateSitemap(posts) {
         xml += `  </url>\n`;
     });
 
-    // Dinamik makale sayfalarını ekle
     posts.forEach(post => {
         xml += `  <url>\n`;
         xml += `    <loc>${baseUrl}/${post.url}</loc>\n`;
