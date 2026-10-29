@@ -3133,3 +3133,284 @@ MAKALELER SAYFASI
         word-break: break-word;
     }
 }
+
+/* Article detail box */
+/* Süreç / Destek Kutusu */
+.article-detail-box {
+    background: linear-gradient(135deg, #054d2c 0%, #03361e 100%);
+    color: #ffffff;
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    padding: 24px 28px;
+    border-radius: 12px;
+    border-left: 4px solid #10b981; /* Sayfaya şık bir geçiş ve modernlik katar */
+    box-shadow: 0 10px 25px rgba(4, 67, 39, 0.12);
+    margin: 25px 0;
+}
+
+.article-detail-box .box-icon {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: #34d399; /* Ampulün dikkat çekici ama göz yormayan rengi */
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.article-detail-box .box-content {
+    flex: 1;
+}
+
+.article-detail-box h3 {
+    font-family: var(--font-heading, sans-serif);
+    font-size: 1.35rem;
+    margin-bottom: 10px;
+    color: #ffffff;
+}
+
+.article-detail-box p {
+    font-size: 1.02rem;
+    line-height: 1.7;
+    color: #e2e8f0;
+    margin: 0;
+}
+
+.article-cta-box {
+    background: linear-gradient(135deg, #032e19 0%, #044327 100%);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: 16px;
+    padding: 32px;
+    margin: 40px 0 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    box-shadow: 0 15px 35px rgba(4, 67, 39, 0.15);
+    box-sizing: border-box; /* Kutunun padding'in genişliği patlatmasını önler */
+    width: 100%;
+    overflow: hidden; /* Taşmaları engeller */
+}
+
+.article-cta-box .cta-content {
+    flex: 1;
+    min-width: 0; /* Flex içerisindeki uzun metinlerin taşımasını engeller */
+}
+
+.article-cta-box h3 {
+    font-family: var(--font-heading, sans-serif);
+    font-size: 1.35rem;
+    color: #ffffff;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.article-cta-box p {
+    font-size: 0.98rem;
+    line-height: 1.6;
+    color: #cbd5e1;
+    margin: 0;
+}
+
+
+.article-cta-box a {
+    color: #ffffff; /* Normalde tamamen beyaz görünür */
+    text-decoration: none;
+    font-weight: 500;
+    position: relative;
+    /* Alt çizgiyi arka plan gradyanı ile simüle ediyoruz */
+    background-image: linear-gradient(to right, #34d399 100%, #34d399 0); /* Hover'da çıkacak çizgi rengi (Açık mint yeşili) */
+    background-repeat: no-repeat;
+    background-size: 0% 1.5px; /* Başlangıçta çizgi görünmüyor (genişliği 0) */
+    background-position: left bottom;
+    transition: background-size 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease;
+    padding-bottom: 2px; /* Yazı ile çizgi arasında hafif boşluk */
+}
+
+.article-cta-box a:hover {
+    color: #34d399; /* Hover olduğunda yazı da şık bir yeşil tona dönüşür */
+    background-size: 100% 1.5px; /* Üzerine gelince alt çizgi sağa doğru açılır */
+}
+
+.article-cta-box .cta-action {
+    flex-shrink: 0;
+}
+
+.article-cta-box .cta-button {
+    background-color: #10b981;
+    color: #ffffff;
+    font-family: var(--font-heading, sans-serif);
+    font-weight: 500;
+    font-size: 0.95rem;
+    padding: 14px 24px;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    box-sizing: border-box; /* Buton padding'inin taşımasını engeller */
+}
+
+.article-cta-box .cta-button:hover {
+    background-color: #059669;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+}
+
+/* Mobil uyumluluk */
+@media (max-width: 768px) {
+    .article-cta-box {
+        flex-direction: column;
+        align-items: stretch; /* İçerikleri ve butonu kutu genişliğine yayar */
+        padding: 20px; /* Mobilde biraz daha ferah bir iç boşluk */
+    }
+    
+    .article-cta-box .cta-action {
+        width: 100%;
+        margin-top: 16px; /* Metin ile buton arasında boşluk bırakır */
+    }
+    
+    .article-cta-box .cta-button {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* makale faq */
+.article-faq-section {
+    margin: 45px 0;
+}
+
+.article-faq-header-title {
+    margin-bottom: 20px;
+}
+
+.article-faq-header-title h3 {
+    font-family: var(--font-heading, sans-serif);
+    font-size: 1.5rem;
+    color: #191919;
+    margin-bottom: 5px;
+}
+
+.article-faq-header-title p {
+    font-size: 0.95rem;
+    color: #222222;
+    margin: 0;
+}
+
+.article-faq-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.article-faq-item {
+    background: linear-gradient(135deg, #032e19 0%, #044327 100%);
+    border: 1px solid rgba(16, 185, 129, 0.15);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.article-faq-item:hover {
+    border-color: rgba(16, 185, 129, 0.3);
+}
+
+.article-faq-question {
+    width: 100%;
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-family: var(--font-heading, sans-serif);
+    font-size: 1.02rem;
+    font-weight: 500;
+    text-align: left;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    gap: 16px;
+}
+
+.article-faq-icon {
+    color: #34d399;
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+}
+
+.article-faq-item.active .article-faq-icon {
+    transform: rotate(180deg);
+}
+
+.article-faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.article-faq-answer-content {
+    padding: 0 24px 20px 24px;
+    font-size: 0.96rem;
+    line-height: 1.6;
+    color: #cbd5e1;
+}
+
+/* makale tablo */
+.article-table-container {
+    width: 100%;
+    overflow-x: auto; /* Mobilde taşmayı önler ve yatay kaydırma çubuğu çıkarır */
+    margin: 40px 0;
+    border-radius: 16px;
+    box-shadow: 0 15px 35px rgba(4, 67, 39, 0.15);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.article-comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: linear-gradient(135deg, #032e19 0%, #044327 100%);
+    color: #ffffff;
+    font-family: var(--font-body, sans-serif);
+    text-align: left;
+}
+
+.article-comparison-table th,
+.article-comparison-table td {
+    padding: 16px 20px;
+    font-size: 0.96rem;
+    line-height: 1.5;
+}
+
+.article-comparison-table th {
+    background-color: rgba(0, 0, 0, 0.25);
+    font-family: var(--font-heading, sans-serif);
+    font-weight: 600;
+    color: #34d399; /* Başlıklar için şık bir mint yeşili vurgusu */
+    border-bottom: 2px solid rgba(16, 185, 129, 0.3);
+}
+
+.article-comparison-table td {
+    color: #e2e8f0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Satırların en sonuncusunda alt çizgiyi kaldırır */
+.article-comparison-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* Satırların üzerine gelindiğinde hafif bir parlama efekti */
+.article-comparison-table tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+.article-comparison-table tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+}

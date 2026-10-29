@@ -97,6 +97,7 @@ async function loadBlogDataAndCounts() {
             "borclar": 0,
             "sozlesmeler": 0,
             "yabancilar": 0,
+            "icra": 0,
             "genel": 0
         };
 
@@ -142,6 +143,7 @@ async function loadBlogDataAndCounts() {
             if (tag.includes("Borçlar ve Tazminat")) counts.borclar++;
             if (tag.includes("Sözleşmeler")) counts.sozlesmeler++;
             if (tag.includes("Yabancılar")) counts.yabancilar++;
+            if (tag.includes("İcra")) counts.icra++;
             if (tag.includes("Genel")) counts.genel++;
 
             if (blogListContainer) {
@@ -156,6 +158,7 @@ async function loadBlogDataAndCounts() {
                 else if (tag.includes("Borçlar ve Tazminat")) categorySlug = "borclar";
                 else if (tag.includes("Sözleşmeler")) categorySlug = "sozlesmeler";
                 else if (tag.includes("Yabancılar")) categorySlug = "yabancilar";
+                else if (tag.includes("icra")) categorySlug = "icra";
                 else if (tag.includes("Genel")) categorySlug = "genel";
 
                 // Dosya adını URL uyumlu hale getirme
@@ -196,6 +199,7 @@ async function loadBlogDataAndCounts() {
         updateCountEl("count-borclar", counts.borclar);
         updateCountEl("count-sozlesmeler", counts.sozlesmeler);
         updateCountEl("count-yabancilar", counts.yabancilar);
+        updateCountEl("count-icra", counts.icra);
         updateCountEl("count-genel", counts.genel);
 
     } catch (error) {
@@ -559,3 +563,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+// makale faq akordeon
+function toggleFaq(button) {
+    const item = button.parentElement;
+    const answer = item.querySelector('.article-faq-answer');
+
+    item.classList.toggle('active');
+    
+    if (item.classList.contains('active')) {
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+    } else {
+        answer.style.maxHeight = null;
+    }
+}

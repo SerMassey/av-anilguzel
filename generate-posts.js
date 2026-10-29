@@ -3,6 +3,13 @@ const path = require('path');
 const matter = require('gray-matter');
 const { marked } = require('marked');
 
+marked.setOptions({
+    gfm: true,
+    headerIds: true,
+    mangle: false,
+    sanitize: false // HTML etiketlerinin filtrelenmesini engeller
+});
+
 const postsDirectory = path.join(__dirname, '_posts');
 const outputDirectory = path.join(__dirname, 'makaleler');
 const templatePath = path.join(__dirname, 'makale-sablonu.html');
@@ -45,8 +52,11 @@ function generatePosts() {
         const fileContent = fs.readFileSync(filePath, 'utf8');
         
         const { data, content } = matter(fileContent);
-        const htmlContent = marked.parse(content);
-
+        const htmlContent = marked.parse(content, {
+            headerIds: true,
+            mangle: false,
+            Mangle: false
+});
         const slug = file.replace(/\.md$/, '');
         const outputFilePath = path.join(outputDirectory, `${slug}.html`);
 
@@ -95,6 +105,7 @@ function getCategorySlug(tag) {
     if (tag.includes("Borçlar")) return "borclar";
     if (tag.includes("Sözleşmeler")) return "sozlesmeler";
     if (tag.includes("Yabancılar")) return "yabancilar";
+    if (tag.includes("İcra")) return "icra";
     return "genel";
 }
 
@@ -114,6 +125,7 @@ function updateMakalelerPage(posts) {
         "borclar": 0,
         "sozlesmeler": 0,
         "yabancilar": 0,
+        "icra": 0,
         "genel": 0 
     };
 
@@ -163,6 +175,7 @@ function updateMakalelerPage(posts) {
     htmlContent = htmlContent.replace(/<span id="count-borclar">\(\d+\)<\/span>/, `<span id="count-borclar">(${counts["borclar"]})</span>`);
     htmlContent = htmlContent.replace(/<span id="count-sozlesmeler">\(\d+\)<\/span>/, `<span id="count-sozlesmeler">(${counts["sozlesmeler"]})</span>`);
     htmlContent = htmlContent.replace(/<span id="count-yabancilar">\(\d+\)<\/span>/, `<span id="count-yabancilar">(${counts["yabancilar"]})</span>`);
+    htmlContent = htmlContent.replace(/<span id="count-icra">\(\d+\)<\/span>/, `<span id="count-icra">(${counts["icra"]})</span>`);
     htmlContent = htmlContent.replace(/<span id="count-genel">\(\d+\)<\/span>/, `<span id="count-genel">(${counts["genel"]})</span>`);
 
     fs.writeFileSync(makalelerHtmlPath, htmlContent);
