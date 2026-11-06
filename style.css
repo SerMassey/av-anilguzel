@@ -379,7 +379,7 @@ html {
     display: block;
 }
 
-.folder-content h3 {
+.folder-content h2 {
     font-family: var(--font-heading, sans-serif);
     font-size: 1.8rem;
     margin-bottom: 15px;
@@ -1218,7 +1218,7 @@ html, body {
 }
 
 .footer-links a {
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, 1);
     text-decoration: none;
     font-size: 0.875rem;
     transition: color 0.25s ease, transform 0.25s ease;
@@ -1854,14 +1854,14 @@ KURUMSAL SAYFASI
 
 .contact-card-box p {
     font-size: 0.95rem;
-    color: #555;
+    color: #191919;
     line-height: 1.6;
     margin: 0;
 }
 
 .contact-note {
     font-size: 0.85rem !important;
-    color: #777 !important;
+    color: #1C1C1C !important;
     margin-top: 6px !important;
 }
 
@@ -1870,13 +1870,12 @@ KURUMSAL SAYFASI
     text-decoration: none;
     font-weight: 500;
     position: relative;
-    /* Alt çizgiyi arka plan gradyanı ile simüle ediyoruz */
     background-image: linear-gradient(to right, var(--accent-red) 100%, var(--accent-red) 0);
     background-repeat: no-repeat;
-    background-size: 0% 1.5px; /* Başlangıçta çizgi görünmüyor (genişliği 0) */
+    background-size: 0% 1.5px;
     background-position: left bottom;
     transition: background-size 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease;
-    padding-bottom: 2px; /* Yazı ile çizgi arasında hafif boşluk */
+    padding-bottom: 2px;
 }
 
 .contact-note a:hover {
