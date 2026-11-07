@@ -11,94 +11,474 @@
   <!-- Decap CMS Script -->
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 
-  <!-- Decap CMS Özel Bileşen Kayıtları -->
-  <script>
-    // 1. Dinamik ve Genişletilebilir Tablo Bileşeni (Excel Mantığı)
-    CMS.registerEditorComponent({
-      id: "dynamicTable",
-      label: "Dinamik Tablo",
-      fields: [
-        {
-          label: "Tablo Başlıkları (Sütunlar)",
-          name: "headers",
-          widget: "list",
-          fields: [
-            { label: "Sütun Adı", name: "col", widget: "string" }
-          ],
-          default: [{ col: "Özellik / Kriter" }, { col: "Seçenek 1" }, { col: "Seçenek 2" }]
-        },
-        {
-          label: "Tablo Satırları",
-          name: "rows",
-          widget: "list",
-          fields: [
-            {
-              label: "Satır Hücreleri (Sütun sırasına göre yazın)",
-              name: "cells",
-              widget: "list",
-              fields: [
-                { label: "Hücre Değeri", name: "cellValue", widget: "string" }
-              ]
-            }
-          ],
-          default: [
-            { cells: [{ cellValue: "Örnek Satır 1 - Hücre 1" }, { cellValue: "Hücre 2" }, { cellValue: "Hücre 3" }] },
-            { cells: [{ cellValue: "Örnek Satır 2 - Hücre 1" }, { cellValue: "Hücre 2" }, { cellValue: "Hücre 3" }] },
-            { cells: [{ cellValue: "Örnek Satır 3 - Hücre 1" }, { cellValue: "Hücre 2" }, { cellValue: "Hücre 3" }] }
-          ]
+  <!-- Notion Tarzı İnteraktif Tablo ve Dipnot Bileşenleri -->
+<script>
+  // ---------- Yardımcılar ----------
+  var DEFAULT_ROWS = [['', '', ''], ['', '', ''], ['', '', '']];
+
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  }
+
+  function safeHref(u) {
+    return /^(https?:|mailto:|tel:|#|\/)/i.test(u);
+  }
+
+  // Hücre metnini (işaretli) güvenli HTML'e çevirir
+  function markupToHtml(s) {
+    var t = esc(s);
+    t = t.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, function (m, label, url) {
+      url = url.replace(/&amp;/g, '&');
+      if (!safeHref(url)) return label;
+      var ext = /^https?:/i.test(url);
+      return '<a href="' + esc(url).replace(/"/g, '&quot;') + '"' +
+        (ext ? ' target="_blank" rel="noopener noreferrer"' : '') + '>' + label + '</a>';
+    });
+    t = t.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    t = t.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+    t = t.replace(/\r?\n/g, '<br>');
+    return t;
+  }
+
+  // Kayıtlı HTML'i tekrar düzenlenebilir işaretli metne çevirir
+  function htmlToMarkup(node) {
+    var out = '';
+    node.childNodes.forEach(function (n) {
+      if (n.nodeType === 3) {
+        out += n.nodeValue;
+      } else if (n.nodeType === 1) {
+        var t = n.tagName.toLowerCase();
+        var inner = htmlToMarkup(n);
+        if (t === 'b' || t === 'strong') out += inner ? '**' + inner + '**' : '';
+        else if (t === 'i' || t === 'em') out += inner ? '*' + inner + '*' : '';
+        else if (t === 'br') out += '\n';
+        else if (t === 'a') {
+          var href = n.getAttribute('href') || '';
+          out += href ? '[' + inner + '](' + href + ')' : inner;
+        } else out += inner;
+      }
+    });
+    return out;
+  }
+
+  function parseRows(value) {
+    try {
+      var d = JSON.parse(value);
+      if (Array.isArray(d) && d.length && Array.isArray(d[0])) return d;
+    } catch (e) {}
+    return DEFAULT_ROWS.map(function (r) { return r.slice(); });
+  }
+
+  // Tek satırlık çıktı (Markdown'da boş satır HTML bloğunu bozar)
+  function rowsToHtml(rows) {
+    var head = '<tr>' + rows[0].map(function (c) { return '<th>' + markupToHtml(c) + '</th>'; }).join('') + '</tr>';
+    var body = rows.slice(1).map(function (r) {
+      return '<tr>' + r.map(function (c) { return '<td>' + markupToHtml(c) + '</td>'; }).join('') + '</tr>';
+    }).join('');
+    return '<div class="article-table-container"><table class="article-comparison-table"><thead>' +
+      head + '</thead><tbody>' + body + '</tbody></table></div>';
+  }
+
+  function htmlToRows(html) {
+    var doc = new DOMParser().parseFromString(html, 'text/html');
+    var rows = [];
+    doc.querySelectorAll('tr').forEach(function (tr) {
+      var cells = [];
+      tr.querySelectorAll('th,td').forEach(function (c) { cells.push(htmlToMarkup(c)); });
+      rows.push(cells);
+    });
+    return rows.length ? rows : DEFAULT_ROWS.map(function (r) { return r.slice(); });
+  }
+
+  // ---------- Hücre (gerçek textarea) ----------
+  var TextCell = createClass({
+    getInitialState: function () {
+      return { v: this.props.value || '' };
+    },
+    componentDidUpdate: function () {
+      // Odakta değilken (satır/sütun silinince) dışarıdan gelen değerle eşitle
+      var pv = this.props.value || '';
+      if (this.el && document.activeElement !== this.el && pv !== this.state.v) {
+        this.setState({ v: pv });
+      }
+    },
+    setValue: function (nv, a, b) {
+      var self = this;
+      this.setState({ v: nv }, function () {
+        if (self.el) {
+          self.el.focus();
+          try { self.el.setSelectionRange(a, b); } catch (e) {}
         }
-      ],
-      pattern: /<div class="article-table-container">[\s\S]*?<\/div>/,
-      fromBlock: function(match) {
-        return {};
-      },
-      toBlock: function(obj) {
-        const headers = obj.headers || [];
-        const rows = obj.rows || [];
+      });
+      this.props.onCommit(nv);
+    },
+    render: function () {
+      var self = this;
+      var v = this.state.v;
+      return h('textarea', {
+        ref: function (el) { self.el = el; },
+        value: v,
+        rows: Math.max(1, v.split('\n').length),
+        placeholder: this.props.isHead ? 'Başlık' : '',
+        onFocus: function () { self.props.onFocusCell(); },
+        onChange: function (e) {
+          var nv = e.target.value;
+          self.setState({ v: nv });
+          self.props.onCommit(nv);
+        },
+        style: {
+          width: '100%', minWidth: '160px', boxSizing: 'border-box',
+          background: 'transparent', color: 'inherit', border: 'none', outline: 'none',
+          resize: 'none', padding: '8px', fontSize: '14px', fontFamily: 'inherit',
+          fontWeight: this.props.isHead ? '700' : '400', display: 'block'
+        }
+      });
+    }
+  });
 
-        let headerHtml = headers.map(h => `<th>${h.col || ''}</th>`).join('');
-        
-        let rowsHtml = rows.map(r => {
-          let cells = r.cells || [];
-          let cellHtml = cells.map(c => `<td>${c.cellValue || ''}</td>`).join('');
-          return `<tr>${cellHtml}</tr>`;
-        }).join('');
+  // ---------- Özel Tablo Widget'ı ----------
+  var btnStyle = function (bg) {
+    return {
+      background: bg, color: '#fff', border: 'none', padding: '6px 10px',
+      borderRadius: '4px', cursor: 'pointer', fontSize: '12px', marginRight: '6px', marginBottom: '6px'
+    };
+  };
 
-        return `
-<div class="article-table-container">
-    <table class="article-comparison-table">
-        <thead>
-            <tr>${headerHtml}</tr>
-        </thead>
-        <tbody>
-            ${rowsHtml}
-        </tbody>
-    </table>
-</div>`;
-      },
-      toPreview: function(obj) {
-        return `<div style="background:#044327; color:#fff; padding:12px; border-radius:8px;">📊 Esnek Tablo (${(obj.rows || []).length} Satır)</div>`;
+  var TableControl = createClass({
+    getInitialState: function () {
+      this.cells = {};
+      this.activeKey = null;
+      return {};
+    },
+    commit: function (rows) {
+      this.props.onChange(JSON.stringify(rows));
+    },
+    clone: function () {
+      return parseRows(this.props.value).map(function (r) { return r.slice(); });
+    },
+    setCell: function (r, c, v) {
+      var rows = this.clone();
+      if (!rows[r] || rows[r][c] === v) return;
+      rows[r][c] = v;
+      this.commit(rows);
+    },
+    addRow: function () {
+      var rows = this.clone();
+      var n = rows[0].length;
+      var row = [];
+      for (var i = 0; i < n; i++) row.push('');
+      rows.push(row);
+      this.commit(rows);
+    },
+    addCol: function () {
+      var rows = this.clone();
+      rows.forEach(function (r, i) { r.push(i === 0 ? 'Yeni Sütun' : ''); });
+      this.commit(rows);
+    },
+    delRow: function (idx) {
+      var rows = this.clone();
+      if (rows.length <= 2) return;
+      rows.splice(idx, 1);
+      this.commit(rows);
+    },
+    delCol: function (idx) {
+      var rows = this.clone();
+      if (rows[0].length <= 1) return;
+      rows.forEach(function (r) { r.splice(idx, 1); });
+      this.commit(rows);
+    },
+
+    // --- Biçimlendirme (seçili metni işaretlerle sarar) ---
+    activeCell: function () {
+      var cell = this.cells[this.activeKey];
+      if (!cell || !cell.el) {
+        window.alert('Önce bir hücreye tıklayın.');
+        return null;
       }
-    });
-
-    // 2. Kaynak Atfı (Dipnot) Bileşeni
-    CMS.registerEditorComponent({
-      id: "citationSup",
-      label: "Kaynak Atfı (Dipnot)",
-      fields: [
-        { label: "Kaynak Numarası", name: "numara", widget: "string", default: "1" }
-      ],
-      pattern: /<sup><a href="#kaynak-\d+">.*?<\/a><\/sup>/,
-      fromBlock: function(match) {
-        return { numara: match[1] || "1" };
-      },
-      toBlock: function(obj) {
-        return `<sup><a href="#kaynak-${obj.numara || '1'}">${obj.numara || '1'}</a></sup>`;
-      },
-      toPreview: function(obj) {
-        return `<span style="color:#10b981; font-weight:bold;">[${obj.numara || '1'}]</span>`;
+      return cell;
+    },
+    wrap: function (before, after, placeholder) {
+      var cell = this.activeCell();
+      if (!cell) return;
+      var el = cell.el, v = el.value, s = el.selectionStart, e = el.selectionEnd;
+      var sel = v.slice(s, e) || placeholder;
+      var nv = v.slice(0, s) + before + sel + after + v.slice(e);
+      var a = s + before.length;
+      cell.setValue(nv, a, a + sel.length);
+    },
+    makeLink: function () {
+      var cell = this.activeCell();
+      if (!cell) return;
+      var el = cell.el, v = el.value, s = el.selectionStart, e = el.selectionEnd;
+      var sel = v.slice(s, e) || 'bağlantı';
+      var url = window.prompt('Bağlantı adresi (https://...):', 'https://');
+      if (!url) return;
+      url = url.trim();
+      if (!safeHref(url)) {
+        if (/^[\w-]+(\.[\w-]+)+/.test(url)) url = 'https://' + url;
+        else { window.alert('Geçersiz adres.'); return; }
       }
+      url = url.replace(/\s/g, '%20').replace(/\)/g, '%29');
+      var ins = '[' + sel + '](' + url + ')';
+      cell.setValue(v.slice(0, s) + ins + v.slice(e), s + 1, s + 1 + sel.length);
+    },
+    unlink: function () {
+      var cell = this.activeCell();
+      if (!cell) return;
+      var el = cell.el, v = el.value, s = el.selectionStart;
+      var re = /\[([^\]]*)\]\([^)]*\)/g, m;
+      while ((m = re.exec(v))) {
+        if (s >= m.index && s <= m.index + m[0].length) {
+          cell.setValue(v.slice(0, m.index) + m[1] + v.slice(m.index + m[0].length),
+            m.index, m.index + m[1].length);
+          return;
+        }
+      }
+      window.alert('İmleci kaldırmak istediğiniz bağlantının içine getirin.');
+    },
+
+    render: function () {
+      var self = this;
+      var rows = parseRows(this.props.value);
+      var tdStyle = { border: '1px solid #bbb', padding: 0, verticalAlign: 'top' };
+
+      var keepFocus = function (e) { e.preventDefault(); };
+      var fmtBtn = function (label, onClick, extra) {
+        return h('button', {
+          type: 'button', onMouseDown: keepFocus, onClick: onClick,
+          style: Object.assign({
+            background: '#374151', color: '#fff', border: 'none', padding: '6px 10px',
+            borderRadius: '4px', cursor: 'pointer', fontSize: '13px', marginRight: '4px'
+          }, extra || {})
+        }, label);
+      };
+
+      var colDelRow = h('tr', {},
+        rows[0].map(function (_, c) {
+          return h('td', { key: 'cd' + c, style: { textAlign: 'center', border: 'none' } },
+            h('button', {
+              type: 'button', title: 'Sütunu sil', onClick: function () { self.delCol(c); },
+              style: { background: 'none', border: 'none', color: '#e11d48', cursor: 'pointer', fontSize: '12px' }
+            }, '× sütun'));
+        }).concat([h('td', { key: 'cd-end', style: { border: 'none' } })])
+      );
+
+      var bodyRows = rows.map(function (row, r) {
+        return h('tr', { key: 'r' + r },
+          row.map(function (cell, c) {
+            var key = r + '-' + c;
+            return h('td', {
+              key: key,
+              style: Object.assign({}, tdStyle, r === 0 ? { background: 'rgba(128,128,128,0.15)' } : {})
+            },
+              h(TextCell, {
+                value: cell,
+                isHead: r === 0,
+                ref: function (inst) { self.cells[key] = inst; },
+                onFocusCell: function () { self.activeKey = key; },
+                onCommit: function (v) { self.setCell(r, c, v); }
+              })
+            );
+          }).concat([
+            h('td', { key: 'rd' + r, style: { border: 'none', paddingLeft: '6px' } },
+              r === 0 ? null :
+                h('button', {
+                  type: 'button', title: 'Satırı sil', onClick: function () { self.delRow(r); },
+                  style: { background: 'none', border: 'none', color: '#e11d48', cursor: 'pointer', fontSize: '12px' }
+                }, '× satır'))
+          ])
+        );
+      });
+
+      return h('div', { id: this.props.forID, className: this.props.classNameWrapper },
+        h('div', { style: { marginBottom: '8px' } },
+          h('button', { type: 'button', onClick: this.addRow, style: btnStyle('#10b981') }, '+ Satır Ekle'),
+          h('button', { type: 'button', onClick: this.addCol, style: btnStyle('#3b82f6') }, '+ Sütun Ekle')
+        ),
+        h('div', { style: { marginBottom: '8px' } },
+          fmtBtn('B', function () { self.wrap('**', '**', 'kalın'); }, { fontWeight: '800' }),
+          fmtBtn('I', function () { self.wrap('*', '*', 'italik'); }, { fontStyle: 'italic' }),
+          fmtBtn('🔗 Bağlantı', function () { self.makeLink(); }),
+          fmtBtn('Bağlantıyı kaldır', function () { self.unlink(); })
+        ),
+        h('div', { style: { overflowX: 'auto' } },
+          h('table', { style: { borderCollapse: 'collapse' } },
+            h('tbody', {}, [colDelRow].concat(bodyRows))
+          )
+        ),
+        h('p', { style: { fontSize: '12px', opacity: 0.7, marginTop: '8px' } },
+          'İlk satır başlıktır. Biçim: **kalın**, *italik*, [metin](adres). Düğmeler seçili metne uygular.')
+      );
+    }
+  });
+
+  var TablePreview = createClass({
+    render: function () {
+      var rows = parseRows(this.props.value);
+      return h('div', { dangerouslySetInnerHTML: { __html: rowsToHtml(rows) } });
+    }
+  });
+
+  CMS.registerWidget('tableGrid', TableControl, TablePreview);
+
+  // ---------- Editör Bileşeni: Tablo ----------
+  CMS.registerEditorComponent({
+    id: 'notionTable',
+    label: 'Tablo Ekle',
+    fields: [
+      {
+        label: 'Tablo',
+        name: 'tableData',
+        widget: 'tableGrid',
+        default: JSON.stringify(DEFAULT_ROWS)
+      }
+    ],
+    pattern: /<div class="article-table-container">[\s\S]*?<\/div>/,
+    fromBlock: function (match) {
+      return { tableData: JSON.stringify(htmlToRows(match[0])) };
+    },
+    toBlock: function (obj) {
+      return rowsToHtml(parseRows(obj.tableData));
+    },
+    toPreview: function (obj) {
+      return '<div style="overflow-x:auto;">' +
+        rowsToHtml(parseRows(obj.tableData)).replace(/<table/, '<table style="border-collapse:collapse;width:100%"') +
+        '</div>';
+    }
+  });
+
+   // ---------- Editör Bileşeni: Kaynak Atfı (satır içi) ----------
+  function citeEscText(s) {
+    return String(s || '').replace(/[\r\n]+/g, ' ')
+      .replace(/\[/g, '(').replace(/\]/g, ')')
+      .replace(/([\\*_`])/g, '\\$1').trim();
+  }
+  function citeUnescText(s) {
+    return String(s || '').replace(/\\([\\*_`])/g, '$1');
+  }
+  function citeEncUrl(u) {
+    return String(u || '').trim().replace(/\s/g, '%20').replace(/_/g, '%5F')
+      .replace(/\*/g, '%2A').replace(/\[/g, '%5B').replace(/\]/g, '%5D').replace(/\|/g, '%7C');
+  }
+  function citeDecUrl(u) {
+    return String(u || '').replace(/%5F/g, '_').replace(/%2A/g, '*')
+      .replace(/%5B/g, '[').replace(/%5D/g, ']').replace(/%7C/g, '|');
+  }
+
+  // Küçük giriş penceresi
+  function askCitation(init) {
+    init = init || {};
+    return new Promise(function (resolve) {
+      var ov = document.createElement('div');
+      ov.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:99999;' +
+        'display:flex;align-items:center;justify-content:center;padding:16px;';
+      var box = document.createElement('div');
+      box.style.cssText = 'background:#fff;color:#111;border-radius:10px;padding:20px;width:100%;' +
+        'max-width:460px;font:14px/1.4 sans-serif;box-shadow:0 10px 40px rgba(0,0,0,.4);';
+      box.innerHTML =
+        '<div style="font-weight:700;font-size:16px;margin-bottom:12px;">Kaynak Atfı</div>' +
+        '<label style="display:block;font-weight:600;margin-bottom:4px;">Kaynak</label>' +
+        '<textarea id="atif-k" rows="3" placeholder="Örn: Yargıtay 2. Hukuk Dairesi, 2019/1234 E., 2020/567 K." ' +
+        'style="width:100%;box-sizing:border-box;padding:8px;border:1px solid #bbb;border-radius:6px;font:inherit;resize:vertical;"></textarea>' +
+        '<label style="display:block;font-weight:600;margin:12px 0 4px;">Bağlantı (isteğe bağlı)</label>' +
+        '<input id="atif-u" type="text" placeholder="https://..." ' +
+        'style="width:100%;box-sizing:border-box;padding:8px;border:1px solid #bbb;border-radius:6px;font:inherit;">' +
+        '<div id="atif-e" style="color:#b91c1c;margin-top:8px;min-height:18px;"></div>' +
+        '<div style="display:flex;justify-content:flex-end;gap:8px;margin-top:8px;">' +
+        '<button type="button" id="atif-c" style="padding:8px 14px;border:1px solid #bbb;background:#fff;border-radius:6px;cursor:pointer;">İptal</button>' +
+        '<button type="button" id="atif-o" style="padding:8px 14px;border:none;background:#10b981;color:#fff;border-radius:6px;cursor:pointer;font-weight:600;">Tamam</button>' +
+        '</div>';
+      ov.appendChild(box);
+      document.body.appendChild(ov);
+
+      var k = box.querySelector('#atif-k'), u = box.querySelector('#atif-u'), e = box.querySelector('#atif-e');
+      k.value = init.kaynak || '';
+      u.value = init.url || '';
+
+      function done(v) {
+        document.removeEventListener('keydown', onKey, true);
+        ov.remove();
+        resolve(v);
+      }
+      function submit() {
+        var text = k.value.trim();
+        var url = u.value.trim();
+        if (!text) { e.textContent = 'Lütfen kaynağı yazın.'; k.focus(); return; }
+        if (url && !/^https?:\/\//i.test(url)) {
+          if (/^[\w-]+(\.[\w-]+)+/.test(url)) url = 'https://' + url;
+          else { e.textContent = 'Bağlantı https:// ile başlamalı.'; u.focus(); return; }
+        }
+        done({ kaynak: text, url: url });
+      }
+      function onKey(ev) {
+        if (ev.key === 'Escape') { ev.preventDefault(); done(null); }
+        else if (ev.key === 'Enter' && (ev.ctrlKey || ev.target === u)) { ev.preventDefault(); submit(); }
+      }
+      document.addEventListener('keydown', onKey, true);
+      box.querySelector('#atif-c').onclick = function () { done(null); };
+      box.querySelector('#atif-o').onclick = submit;
+      setTimeout(function () { k.focus(); }, 0);
     });
-  </script>
+  }
+
+  CMS.registerEditorComponent({
+    id: 'kaynakAtfi',
+    label: 'Kaynak Atfı',
+    type: 'inline',
+    trigger: '[[',
+    pattern: /\[\[(.*?)\]\]/,
+    fromInline: function (m) {
+      var inner = m[1], text = inner, url = '';
+      var bar = inner.lastIndexOf(' | ');
+      if (bar !== -1 && /^https?:\/\//i.test(inner.slice(bar + 3).trim())) {
+        text = inner.slice(0, bar);
+        url = inner.slice(bar + 3).trim();
+      }
+      return { kaynak: citeUnescText(text), url: citeDecUrl(url) };
+    },
+    toInline: function (d) {
+      var t = citeEscText(d.kaynak);
+      var u = citeEncUrl(d.url);
+      return (d.before || '') + '[[' + t + (u ? ' | ' + u : '') + ']]';
+    },
+    toPreview: function (d) {
+      return h('span', {},
+        d.before || null,
+        h('sup', {
+          title: d.kaynak || '',
+          style: { color: '#10b981', fontWeight: 'bold', cursor: 'pointer' }
+        }, '[kaynak]'));
+    },
+    onInsert: async function (arg) {
+      var sel = (arg && arg.selectedText) || '';
+      var res = await askCitation({});
+      if (!res) return null;
+      // Seçili metin varsa silinmesin, atıf onun sonuna eklensin
+      return { kaynak: res.kaynak, url: res.url, before: sel };
+    },
+    onEdit: async function (arg) {
+      var d = (arg && arg.data) || {};
+      var res = await askCitation({ kaynak: d.kaynak, url: d.url });
+      if (!res) return null;
+      return { kaynak: res.kaynak, url: res.url, before: d.before };
+    }
+  });
+
+  // ---------- Editör Bileşeni: İçindekiler ----------
+  CMS.registerEditorComponent({
+    id: 'tocBox',
+    label: 'İçindekiler Tablosu',
+    fields: [],
+    pattern: /\[ICINDEKILER\]/,
+    fromBlock: function () { return {}; },
+    toBlock: function () { return '[ICINDEKILER]'; },
+    toPreview: function () {
+      return '<div style="background:#044327;color:#34d399;padding:12px;border-radius:8px;font-weight:600;text-align:center;">📋 İçindekiler Tablosu (Otomatik Oluşur)</div>';
+    }
+  });
+</script>
 </body>
 </html>
