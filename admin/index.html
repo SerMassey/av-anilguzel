@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>İçerik Yönetim Paneli | Antalya Güzel Hukuk & Danışmanlık</title>
+  <title>İçerik Yönetim Paneli | Antalya Av. Anıl Güzel</title>
   <!-- Netlify Identity Widget -->
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
@@ -11,36 +11,73 @@
   <!-- Decap CMS Script -->
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 
-  <!-- Decap CMS Özel Bileşen Kayıtları (Tablo ve Dipnot Butonları) -->
+  <!-- Decap CMS Özel Bileşen Kayıtları -->
   <script>
-    // 1. Karşılaştırma Tablosu Bileşeni
+    // 1. Dinamik ve Genişletilebilir Tablo Bileşeni (Excel Mantığı)
     CMS.registerEditorComponent({
-      id: "comparisonTableWidget",
-      label: "Karşılaştırma Tablosu",
+      id: "dynamicTable",
+      label: "Dinamik Tablo",
       fields: [
-        { label: "Özellik / Kriter", name: "ozellik", widget: "string" },
-        { label: "1. Seçenek (Örn: Anlaşmalı)", name: "secenek1", widget: "string" },
-        { label: "2. Seçenek (Örn: Çekişmeli)", name: "secenek2", widget: "string" }
+        {
+          label: "Tablo Başlıkları (Sütunlar)",
+          name: "headers",
+          widget: "list",
+          fields: [
+            { label: "Sütun Adı", name: "col", widget: "string" }
+          ],
+          default: [{ col: "Özellik / Kriter" }, { col: "Seçenek 1" }, { col: "Seçenek 2" }]
+        },
+        {
+          label: "Tablo Satırları",
+          name: "rows",
+          widget: "list",
+          fields: [
+            {
+              label: "Satır Hücreleri (Sütun sırasına göre yazın)",
+              name: "cells",
+              widget: "list",
+              fields: [
+                { label: "Hücre Değeri", name: "cellValue", widget: "string" }
+              ]
+            }
+          ],
+          default: [
+            { cells: [{ cellValue: "Örnek Satır 1 - Hücre 1" }, { cellValue: "Hücre 2" }, { cellValue: "Hücre 3" }] },
+            { cells: [{ cellValue: "Örnek Satır 2 - Hücre 1" }, { cellValue: "Hücre 2" }, { cellValue: "Hücre 3" }] },
+            { cells: [{ cellValue: "Örnek Satır 3 - Hücre 1" }, { cellValue: "Hücre 2" }, { cellValue: "Hücre 3" }] }
+          ]
+        }
       ],
       pattern: /<div class="article-table-container">[\s\S]*?<\/div>/,
       fromBlock: function(match) {
         return {};
       },
       toBlock: function(obj) {
+        const headers = obj.headers || [];
+        const rows = obj.rows || [];
+
+        let headerHtml = headers.map(h => `<th>${h.col || ''}</th>`).join('');
+        
+        let rowsHtml = rows.map(r => {
+          let cells = r.cells || [];
+          let cellHtml = cells.map(c => `<td>${c.cellValue || ''}</td>`).join('');
+          return `<tr>${cellHtml}</tr>`;
+        }).join('');
+
         return `
 <div class="article-table-container">
     <table class="article-comparison-table">
         <thead>
-            <tr><th>Özellik</th><th>Anlaşmalı Boşanma</th><th>Çekişmeli Boşanma</th></tr>
+            <tr>${headerHtml}</tr>
         </thead>
         <tbody>
-            <tr><td><strong>${obj.ozellik || ''}</strong></td><td>${obj.secenek1 || ''}</td><td>${obj.secenek2 || ''}</td></tr>
+            ${rowsHtml}
         </tbody>
     </table>
 </div>`;
       },
       toPreview: function(obj) {
-        return `<div style="background:#044327; color:#fff; padding:12px; border-radius:8px;">📊 Karşılaştırma Tablosu: ${obj.ozellik || ''}</div>`;
+        return `<div style="background:#044327; color:#fff; padding:12px; border-radius:8px;">📊 Esnek Tablo (${(obj.rows || []).length} Satır)</div>`;
       }
     });
 
