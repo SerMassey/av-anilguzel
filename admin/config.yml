@@ -1,10 +1,3 @@
-backend:
-  name: git-gateway
-  branch: main
-
-media_folder: "images"
-public_folder: "/images"
-
 collections:
   - name: "blog"
     label: "Yazılar / Makaleler"
@@ -18,4 +11,47 @@ collections:
       - {label: "Makale Özeti", name: "description", widget: "text", hint: "Kartlarda görünecek kısa özeti buraya yazın."}
       - {label: "İçerik", name: "body", widget: "markdown"}
 
-      
+# --- KOD BİLMEYENLER İÇİN PANEL BİLEŞENLERİ ---
+editor:
+  components:
+    # 1. İçindekiler Tablosu (TOC) Ekleme Butonu
+    - name: tocBox
+      label: "İçindekiler Tablosu"
+      fields: []
+      pattern: /\[ICINDEKILER\]/
+      toBlock: "[ICINDEKILER]"
+      toPreview: |
+        <div style="background:#044327; color:#34d399; padding:12px; border-radius:8px; font-weight:600; text-align:center;">📋 İçindekiler Tablosu (Otomatik Oluşur)</div>
+
+    # 2. Karşılaştırma Tablosu Ekleme Butonu
+    - name: comparisonTableWidget
+      label: "Karşılaştırma Tablosu"
+      fields:
+        - {label: "Özellik / Kriter", name: "ozellik", widget: "string"}
+        - {label: "1. Seçenek (Örn: Anlaşmalı)", name: "secenek1", widget: "string"}
+        - {label: "2. Seçenek (Örn: Çekişmeli)", name: "secenek2", widget: "string"}
+      pattern: /<div class="article-table-container">[\s\S]*?<\/div>/
+      toBlock: |
+        <div class="article-table-container">
+            <table class="article-comparison-table">
+                <thead>
+                    <tr><th>Özellik</th><th>Anlaşmalı Boşanma</th><th>Çekişmeli Boşanma</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>{{ozellik}}</strong></td><td>{{secenek1}}</td><td>{{secenek2}}</td></tr>
+                </tbody>
+            </table>
+        </div>
+      toPreview: |
+        <div style="background:#044327; color:#fff; padding:12px; border-radius:8px;">📊 Karşılaştırma Tablosu: {{ozellik}}</div>
+
+    # 3. Kaynak / Dipnot Atfı Ekleme Butonu (^1)
+    - name: citationSup
+      label: "Kaynak Atfı (Dipnot)"
+      fields:
+        - {label: "Kaynak Numarası", name: "numara", widget: "string", default: "1"}
+      pattern: /<sup><a href="#kaynak-\d+">.*?<\/a><\/sup>/
+      toBlock: |
+        <sup><a href="#kaynak-{{numara}}">{{numara}}</a></sup>
+      toPreview: |
+        <span style="color:#10b981; font-weight:bold;">[{{numara}}]</span>

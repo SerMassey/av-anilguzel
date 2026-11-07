@@ -52,11 +52,27 @@ function generatePosts() {
         const fileContent = fs.readFileSync(filePath, 'utf8');
         
         const { data, content } = matter(fileContent);
-        const htmlContent = marked.parse(content, {
+        let htmlContent = marked.parse(content, {
             headerIds: true,
-            mangle: false,
-            Mangle: false
-});
+            mangle: false
+        });
+
+        // Başlıklara ID ekleyip İçindekiler Tablosunu (TOC) otomatik üretelim
+        let tocHtml = '';
+        if (content.includes('[ICINDEKILER]') || true) { // İstersen hep otomatik koysun veya [ICINDEKILER] etiketini arasın
+            const processedResult = processHeadingsAndToc(htmlContent);
+            htmlContent = processedResult.html;
+            tocHtml = processedResult.toc;
+        }
+
+        // Eğer makalede [ICINDEKILER] etiketi varsa onunla değiştir, yoksa içeriğin en başına ekle
+        if (htmlContent.includes('[ICINDEKILER]')) {
+            htmlContent = htmlContent.replace('[ICINDEKILER]', tocHtml);
+        } else if (tocHtml) {
+            // Etiket koyulmadıysa girişten sonra otomatik ekle (istersen bu satırı kaldırıp sadece etiketle de çalıştırabilirsin)
+            // htmlContent = tocHtml + htmlContent; 
+        }
+
         const slug = file.replace(/\.md$/, '');
         const outputFilePath = path.join(outputDirectory, `${slug}.html`);
 
@@ -94,6 +110,52 @@ function generatePosts() {
     updateSitemap(postsData);
 }
 
+// Başlıkları tarayan, ID ekleyen ve TOC üreten akıllı fonksiyon
+function processHeadingsAndToc(htmlContent) {
+    const headingRegex = /<h([23])(.*?)>(.*?)<\/h\1>/g;
+    let match;
+    let tocHtml = '<nav class="article-toc"><div class="article-toc-title">İçindekiler</div><ul>';
+    let hasHeadings = false;
+    let modifiedHtml = htmlContent;
+
+    let headingsList = [];
+
+    while ((match = headingRegex.exec(htmlContent)) !== null) {
+        hasHeadings = true;
+        const level = parseInt(match[1]);
+        const originalFullTag = match[0];
+        const text = match[3].replace(/<\/?[^>]+(>|$)/g, ""); // HTML taglerini temizle
+        
+        const slug = text.toLowerCase()
+            .replace(/[^a-z0-9çğİıöşü]/g, '-')
+            .replace(/-+/g, '-')
+            .replace(/^-|-$/g, '');
+
+        headingsList.push({ level, text, slug, originalFullTag });
+    }
+
+    if (!hasHeadings) return { html: htmlContent, toc: '' };
+
+    let lastLevel = 2;
+    headingsList.forEach((h, index) => {
+        // HTML içindeki başlığı id'li hale getir
+        const newTag = `<h${h.level} id="${h.slug}">${h.text}</h${h.level}>`;
+        modifiedHtml = modifiedHtml.replace(h.originalFullTag, newTag);
+
+        if (h.level === 3 && lastLevel === 2) {
+            tocHtml += '<ul>';
+        } else if (h.level === 2 && lastLevel === 3) {
+            tocHtml += '</ul></li>';
+        }
+
+        tocHtml += `<li><a href="#${h.slug}">${h.text}</a></li>`;
+        lastLevel = h.level;
+    });
+
+    tocHtml += '</ul></nav>';
+    return { html: modifiedHtml, toc: tocHtml };
+}
+
 function getCategorySlug(tag) {
     if (tag.includes("Ceza")) return "ceza";
     if (tag.includes("Gayrimenkul")) return "gayrimenkul";
@@ -104,7 +166,7 @@ function getCategorySlug(tag) {
     if (tag.includes("Ticaret")) return "ticaret";
     if (tag.includes("Borçlar")) return "borclar";
     if (tag.includes("Sözleşmeler")) return "sozlesmeler";
-    if (tag.includes("Yabancılar")) return "yabancilar";
+    if (tag.includes("Yabancilar")) return "yabancilar";
     if (tag.includes("İcra")) return "icra";
     return "genel";
 }
