@@ -3413,3 +3413,68 @@ MAKALELER SAYFASI
 .article-comparison-table tbody tr:hover {
     background-color: rgba(255, 255, 255, 0.03);
 }
+
+/* --- OTOMATİK İÇİNDEKİLER TABLOSU (TOC) --- */
+.article-toc {
+    background: linear-gradient(135deg, #032e19 0%, #044327 100%);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: 14px;
+    padding: 24px 28px;
+    margin: 30px 0 40px 0;
+    box-shadow: 0 10px 25px rgba(4, 67, 39, 0.12);
+}
+
+.article-toc-title {
+    font-family: var(--font-heading, sans-serif);
+    font-size: 1.2rem;
+    color: #ffffff;
+    margin-bottom: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.article-toc-title::before {
+    content: "";
+    width: 4px;
+    height: 18px;
+    background-color: #10b981;
+    border-radius: 2px;
+}
+
+.article-toc ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.article-toc li {
+    font-size: 0.95rem;
+}
+
+.article-toc li ul {
+    padding-left: 20px;
+    margin-top: 6px;
+    gap: 6px;
+}
+
+.article-toc a {
+    color: #cbd5e1;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    display: inline-block;
+}
+
+.article-toc a:hover {
+    color: #34d399;
+    padding-left: 4px;
+}
+
+/* Sayfa içi yumuşak kaydırma */
+html {
+    scroll-behavior: smooth;
+}

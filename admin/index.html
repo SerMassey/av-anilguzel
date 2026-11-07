@@ -3,12 +3,65 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>İçerik Yönetim Paneli | Antalya Av. Anıl Güzel</title>
+  <title>İçerik Yönetim Paneli | Antalya Güzel Hukuk & Danışmanlık</title>
   <!-- Netlify Identity Widget -->
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
   <!-- Decap CMS Script -->
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+
+  <!-- Decap CMS Özel Bileşen Kayıtları (Tablo ve Dipnot Butonları) -->
+  <script>
+    // 1. Karşılaştırma Tablosu Bileşeni
+    CMS.registerEditorComponent({
+      id: "comparisonTableWidget",
+      label: "Karşılaştırma Tablosu",
+      fields: [
+        { label: "Özellik / Kriter", name: "ozellik", widget: "string" },
+        { label: "1. Seçenek (Örn: Anlaşmalı)", name: "secenek1", widget: "string" },
+        { label: "2. Seçenek (Örn: Çekişmeli)", name: "secenek2", widget: "string" }
+      ],
+      pattern: /<div class="article-table-container">[\s\S]*?<\/div>/,
+      fromBlock: function(match) {
+        return {};
+      },
+      toBlock: function(obj) {
+        return `
+<div class="article-table-container">
+    <table class="article-comparison-table">
+        <thead>
+            <tr><th>Özellik</th><th>Anlaşmalı Boşanma</th><th>Çekişmeli Boşanma</th></tr>
+        </thead>
+        <tbody>
+            <tr><td><strong>${obj.ozellik || ''}</strong></td><td>${obj.secenek1 || ''}</td><td>${obj.secenek2 || ''}</td></tr>
+        </tbody>
+    </table>
+</div>`;
+      },
+      toPreview: function(obj) {
+        return `<div style="background:#044327; color:#fff; padding:12px; border-radius:8px;">📊 Karşılaştırma Tablosu: ${obj.ozellik || ''}</div>`;
+      }
+    });
+
+    // 2. Kaynak Atfı (Dipnot) Bileşeni
+    CMS.registerEditorComponent({
+      id: "citationSup",
+      label: "Kaynak Atfı (Dipnot)",
+      fields: [
+        { label: "Kaynak Numarası", name: "numara", widget: "string", default: "1" }
+      ],
+      pattern: /<sup><a href="#kaynak-\d+">.*?<\/a><\/sup>/,
+      fromBlock: function(match) {
+        return { numara: match[1] || "1" };
+      },
+      toBlock: function(obj) {
+        return `<sup><a href="#kaynak-${obj.numara || '1'}">${obj.numara || '1'}</a></sup>`;
+      },
+      toPreview: function(obj) {
+        return `<span style="color:#10b981; font-weight:bold;">[${obj.numara || '1'}]</span>`;
+      }
+    });
+  </script>
 </body>
 </html>

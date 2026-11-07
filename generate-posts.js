@@ -57,20 +57,24 @@ function generatePosts() {
             mangle: false
         });
 
-        // Başlıklara ID ekleyip İçindekiler Tablosunu (TOC) otomatik üretelim
-        let tocHtml = '';
-        if (content.includes('[ICINDEKILER]') || true) { // İstersen hep otomatik koysun veya [ICINDEKILER] etiketini arasın
-            const processedResult = processHeadingsAndToc(htmlContent);
-            htmlContent = processedResult.html;
-            tocHtml = processedResult.toc;
-        }
+        // H2, H3 ve H4 başlıklarını tarar, ID atar ve TOC oluşturur
+        const processedResult = processHeadingsAndToc(htmlContent);
+        htmlContent = processedResult.html;
+        let tocHtml = processedResult.toc;
 
-        // Eğer makalede [ICINDEKILER] etiketi varsa onunla değiştir, yoksa içeriğin en başına ekle
-        if (htmlContent.includes('[ICINDEKILER]')) {
-            htmlContent = htmlContent.replace('[ICINDEKILER]', tocHtml);
-        } else if (tocHtml) {
-            // Etiket koyulmadıysa girişten sonra otomatik ekle (istersen bu satırı kaldırıp sadece etiketle de çalıştırabilirsin)
-            // htmlContent = tocHtml + htmlContent; 
+        // İçindekiler tablosunu İLK BAŞLIKTAN HEMEN ÖNCEYE yerleştir
+        if (tocHtml) {
+            if (htmlContent.includes('[ICINDEKILER]')) {
+                htmlContent = htmlContent.replace('[ICINDEKILER]', tocHtml);
+            } else {
+                const firstHeadingMatch = htmlContent.match(/<h[2-4]/);
+                if (firstHeadingMatch) {
+                    const firstIdx = htmlContent.indexOf(firstHeadingMatch[0]);
+                    htmlContent = htmlContent.slice(0, firstIdx) + tocHtml + htmlContent.slice(firstIdx);
+                } else {
+                    htmlContent = tocHtml + htmlContent;
+                }
+            }
         }
 
         const slug = file.replace(/\.md$/, '');
@@ -110,18 +114,14 @@ function generatePosts() {
     updateSitemap(postsData);
 }
 
-// Başlıkları tarayan, ID ekleyen ve TOC üreten akıllı fonksiyon
+// Tüm başlık seviyelerini (H2, H3, H4) kusursuz tarayan akıllı fonksiyon
 function processHeadingsAndToc(htmlContent) {
-    const headingRegex = /<h([23])(.*?)>(.*?)<\/h\1>/g;
+    const headingRegex = /<h([2-4])(.*?)>(.*?)<\/h\1>/g;
     let match;
-    let tocHtml = '<nav class="article-toc"><div class="article-toc-title">İçindekiler</div><ul>';
-    let hasHeadings = false;
     let modifiedHtml = htmlContent;
-
     let headingsList = [];
 
     while ((match = headingRegex.exec(htmlContent)) !== null) {
-        hasHeadings = true;
         const level = parseInt(match[1]);
         const originalFullTag = match[0];
         const text = match[3].replace(/<\/?[^>]+(>|$)/g, ""); // HTML taglerini temizle
@@ -134,25 +134,32 @@ function processHeadingsAndToc(htmlContent) {
         headingsList.push({ level, text, slug, originalFullTag });
     }
 
-    if (!hasHeadings) return { html: htmlContent, toc: '' };
+    if (headingsList.length === 0) return { html: htmlContent, toc: '' };
 
-    let lastLevel = 2;
-    headingsList.forEach((h, index) => {
-        // HTML içindeki başlığı id'li hale getir
+    // Başlıklara id ekle
+    headingsList.forEach((h) => {
         const newTag = `<h${h.level} id="${h.slug}">${h.text}</h${h.level}>`;
         modifiedHtml = modifiedHtml.replace(h.originalFullTag, newTag);
-
-        if (h.level === 3 && lastLevel === 2) {
-            tocHtml += '<ul>';
-        } else if (h.level === 2 && lastLevel === 3) {
-            tocHtml += '</ul></li>';
-        }
-
-        tocHtml += `<li><a href="#${h.slug}">${h.text}</a></li>`;
-        lastLevel = h.level;
     });
 
-    tocHtml += '</ul></nav>';
+    // TOC HTML oluştur
+    let tocHtml = '<nav class="article-toc"><div class="article-toc-title">İçindekiler</div><ul>';
+    let currentLevel = headingsList[0].level;
+
+    headingsList.forEach((h, index) => {
+        if (h.level > currentLevel) {
+            tocHtml += '<ul>';
+        } else if (h.level < currentLevel) {
+            tocHtml += '</ul></li>';
+        } else if (index > 0) {
+            tocHtml += '</li>';
+        }
+
+        tocHtml += `<li><a href="#${h.slug}">${h.text}</a>`;
+        currentLevel = h.level;
+    });
+    tocHtml += '</li></ul></nav>';
+
     return { html: modifiedHtml, toc: tocHtml };
 }
 
