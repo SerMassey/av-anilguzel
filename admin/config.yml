@@ -1,4 +1,11 @@
-collections:
+  backend:
+  name: git-gateway
+  branch: main
+
+  media_folder: "images"
+  public_folder: "/images"
+
+  collections:
   - name: "blog"
     label: "Yazılar / Makaleler"
     folder: "_posts"
@@ -11,8 +18,7 @@ collections:
       - {label: "Makale Özeti", name: "description", widget: "text", hint: "Kartlarda görünecek kısa özeti buraya yazın."}
       - {label: "İçerik", name: "body", widget: "markdown"}
 
-# --- KOD BİLMEYENLER İÇİN PANEL BİLEŞENLERİ ---
-editor:
+  editor:
   components:
     # 1. İçindekiler Tablosu (TOC) Ekleme Butonu
     - name: tocBox
