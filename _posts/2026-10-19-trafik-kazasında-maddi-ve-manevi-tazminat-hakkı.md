@@ -10,19 +10,6 @@ Trafik kazaları; yaralanma, ölüm ve maddi hasar gibi ağır sonuçlar doğura
 
 Bu yazıda tazminat kalemleri, sorumluların kimler olduğu, sigorta başvurusunun nasıl yapılacağı, zamanaşımı süreleri ve dava aşamaları genel hatlarıyla anlatılmaktadır.
 
-### **İçindekiler**
-
-1. Kazadan hemen sonra yapılması gerekenler
-2. Tazminattan kimler sorumludur?
-3. Maddi tazminat kalemleri
-4. Manevi tazminat
-5. Zorunlu trafik sigortasının kapsamı
-6. Sigorta şirketine yazılı başvuru (KTK m.97)
-7. Kusur oranı ve tazminata etkisi
-8. Zamanaşımı süreleri
-9. Dava süreci ve yetkili mahkeme
-10. Sık sorulan sorular
-
 ### **1. Kazadan Hemen Sonra Yapılması Gerekenler**
 
 Kazadan sonraki ilk saatlerde toplanan deliller, ileride kusurun ve zararın ispatı bakımından belirleyici olabilir.

@@ -1200,7 +1200,7 @@ html, body {
     font-size: 0.7rem;
     letter-spacing: 2.5px;
     font-weight: 700;
-    color: rgba(255, 255, 255, 0.45);
+    color: #fbf6f6;
     margin-bottom: 1.5rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.15);
     padding-bottom: 0.6rem;
@@ -1218,7 +1218,7 @@ html, body {
 }
 
 .footer-links a {
-    color: rgba(255, 255, 255, 1);
+    color: #fffbfb;
     text-decoration: none;
     font-size: 0.875rem;
     transition: color 0.25s ease, transform 0.25s ease;
@@ -1242,7 +1242,7 @@ html, body {
 }
 
 .footer-contact strong {
-    color: rgba(255, 255, 255, 0.45);
+    color: #fbf6f6;
     margin-right: 0.4rem;
     font-weight: 600;
 }

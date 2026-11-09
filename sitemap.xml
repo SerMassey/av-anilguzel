@@ -36,62 +36,67 @@
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://anilguzel.av.tr/expertise/antalya-bosanma-avukati.html</loc>
+    <loc>https://anilguzel.av.tr/antalya-bosanma-avukati.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anilguzel.av.tr/expertise/antalya-ceza-avukati.html</loc>
+    <loc>https://anilguzel.av.tr/antalya-ceza-avukati.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anilguzel.av.tr/expertise/antalya-gayrimenkul-avukati.html</loc>
+    <loc>https://anilguzel.av.tr/antalya-gayrimenkul-avukati.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anilguzel.av.tr/expertise/antalya-icra-avukati.html</loc>
+    <loc>https://anilguzel.av.tr/antalya-icra-avukati.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anilguzel.av.tr/expertise/antalya-idare-hukuku-avukati.html</loc>
+    <loc>https://anilguzel.av.tr/antalya-idare-hukuku-avukati.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anilguzel.av.tr/expertise/antalya-is-hukuku-avukati.html</loc>
+    <loc>https://anilguzel.av.tr/antalya-is-hukuku-avukati.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anilguzel.av.tr/expertise/antalya-miras-avukati.html</loc>
+    <loc>https://anilguzel.av.tr/antalya-miras-avukati.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anilguzel.av.tr/expertise/antalya-sirketler-hukuku.html</loc>
+    <loc>https://anilguzel.av.tr/antalya-muratpasa-avukat.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anilguzel.av.tr/expertise/antalya-sozlesme-avukati.html</loc>
+    <loc>https://anilguzel.av.tr/antalya-sirketler-hukuku-avukati.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anilguzel.av.tr/expertise/antalya-ticaret-hukuku.html</loc>
+    <loc>https://anilguzel.av.tr/antalya-sozlesme-hukuku-avukati.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anilguzel.av.tr/expertise/antalya-yabancilar-hukuku.html</loc>
+    <loc>https://anilguzel.av.tr/antalya-tazminat-avukati.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anilguzel.av.tr/expertise/muratpasa-avukat.html</loc>
+    <loc>https://anilguzel.av.tr/antalya-ticaret-hukuku-avukati.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://anilguzel.av.tr/antalya-yabancilar-hukuku-avukati.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
