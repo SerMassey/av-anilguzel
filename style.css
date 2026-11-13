@@ -823,7 +823,7 @@ html {
   padding: 0 2px 22px;
   font-size: 13.5px;
   line-height: 1.8;
-  color: var(--mut);
+  color: #191919;
   max-width: 52ch;
   translate: 0 0;
   transition: translate .35s,opacity .35s;
@@ -1281,13 +1281,6 @@ html, body {
     font-size: 0.68rem;
 }
 
-.footer-baro-tra {
-    opacity: 0.35; /* Metni biraz daha silik/mat yapar */
-    font-style: italic; /* İsteğe bağlı olarak italik şık bir hava katar */
-    text-transform: none; /* Türkçe cümlenin tamamen büyük harf olmasını engeller, normal yazılışını korur */
-    margin-right: 35px;
-}
-
 /* Mobil uyum için footer grid yapısı */
 @media (max-width: 992px) {
     .footer-container {
@@ -1739,7 +1732,7 @@ KURUMSAL SAYFASI
 
 
 /* Metin içindeki linklerin şık durması için */
-.further-information-section a {
+.further-information-section a, .faq_stage a {
     color: var(--accent-red);
     text-decoration: none;
     font-weight: 500;
@@ -1753,7 +1746,7 @@ KURUMSAL SAYFASI
     padding-bottom: 2px; /* Yazı ile çizgi arasında hafif boşluk */
 }
 
-.further-information-section a:hover {
+.further-information-section a:hover, .faq_stage a:hover {
     color: #06582d;
     background-size: 100% 1.5px; 
     background-image: linear-gradient(to right, #06582d 100%, #06582d 0);
@@ -2029,16 +2022,10 @@ KURUMSAL SAYFASI
 }
 
 /* --- UZMANLIK / HİZMET DETAY SAYFALARI STİLİ --- */
-.expertise-page {
-    padding: 60px 0 100px 0;
-    background-color: var(--bg-main, #f8f8f6);
-    color: #222;
-}
-
 .expertise-container {
-    max-width: 900px;
-    margin: 60px auto;
-    padding: 0 20px;
+    max-width: 1280px; /* Eski ölçüye göre ekranı biraz daha geniş kapsayacak şekilde artırdık */
+    margin: 0 auto;
+    padding: 100px 30px;   /* Kenar boşlukları da ferahlatıldı */
 }
 
 /* Üst Yol (Breadcrumb) */
@@ -2076,15 +2063,11 @@ KURUMSAL SAYFASI
 
 /* Giriş Paragrafı (Lead) */
 .expertise-lead {
-    font-size: 1.1rem;
-    line-height: 1.8;
-    color: #333;
-    margin-bottom: 45px;
-    background-color: #ffffff;
-    padding: 30px;
-    border-radius: 12px;
-    border-left: 4px solid #044327;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+    font-size: 1.08rem;
+    color: #141416;       /* Ne siyah ne çok silik, ideal okunabilir ton */
+    line-height: 1.75;    /* Satır aralığı ferahlatıldı */
+    margin-bottom: 35px;  /* Altındaki başlıktan zarifçe ayrıldı */
+    font-weight: 400;
 }
 
 /* Bölüm Başlığı */
@@ -3511,4 +3494,388 @@ html {
     font-size: 0.9rem;
     font-weight: bold;
     margin-left: 8px;
+}
+
+/* =================================================================   
+ * KVKK Onay Checkbox (Kusursuz Hizalama)   
+ * ================================================================= */
+.contact-form .checkbox-group {
+    display: flex;
+    align-items: flex-start; /* Yazı kaç satır olursa olsun kutu hep en üst satırın başında durur */
+    gap: 10px;
+    margin: 18px 0 22px 0;
+    text-align: left;
+}
+
+.contact-form .checkbox-group input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    margin-top: 3px; /* Yazının ilk satırının baseline (temel çizgi) hizasına tam oturması için */
+    cursor: pointer;
+    flex-shrink: 0;
+    accent-color: #4A5D4E; /* Tarayıcının varsayılan tik rengini büronun yeşil tonu yapar */
+}
+
+.contact-form .checkbox-group label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.84rem;
+    line-height: 1.45;
+    color: #555;
+    cursor: pointer;
+    user-select: none;
+}
+
+.contact-form .checkbox-group label a {
+    color: #4A5D4E;
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+.contact-form .checkbox-group label a:hover {
+    color: #2b352e;
+}
+
+/* yeni expertise sayfası */
+/* Uzmanlık Sayfası Genişletilmiş Konteyner */
+.expertise-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 120px 30px;
+}
+
+/* İki Sütunlu Grid Düzeni */
+.expertise-grid-layout {
+    display: flex;
+    gap: 50px;
+    align-items: flex-start;
+    margin-top: 35px;
+}
+
+.expertise-main-content {
+    flex: 2.5;
+    min-width: 0;
+}
+
+.expertise-sidebar {
+    flex: 1;
+    min-width: 300px;
+    position: sticky;
+    top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px; /* Üstteki FAQ ile alttaki kart arası boşluk */
+}
+
+/* Arka planlı kaba kutular kaldırıldı, sade minimal callout box */
+.clean-callout-box {
+    margin-top: 40px;
+    padding: 24px 0 24px 20px;
+    border-left: 3px solid #4A5D4E; /* Sol tarafta zarif yeşil şerit */
+    background: transparent;
+}
+
+.clean-callout-box h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.15rem;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+}
+
+.clean-callout-box p {
+    color: #555;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 12px;
+}
+
+.inline-cta-link {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #4A5D4E;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.inline-cta-link:hover {
+    color: #1a1a1a;
+}
+
+/* Sidebar Kart Stilleri */
+.sidebar-card {
+    background: #fafafa;
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 0; /* Flex gap kullanıldığı için sıfırlandı */
+}
+
+.attorney-quick-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.25rem;
+    color: #1a1a1a;
+    margin-bottom: 4px;
+}
+
+.attorney-quick-card .sidebar-baro {
+    font-size: 0.85rem;
+    color: #4A5D4E;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.sidebar-divider {
+    border: none;
+    border-top: 1px solid #e0e0e0;
+    margin: 15px 0;
+}
+
+.sidebar-specs {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px 0;
+    font-size: 0.88rem;
+    color: #555;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sidebar-cta-btn {
+    display: block;
+    text-align: center;
+    background-color: #1a1a1a;
+    color: #fff;
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.sidebar-cta-btn:hover {
+    background-color: #4A5D4E;
+}
+
+/* FAQ Sidebar Alanı */
+.faq-sidebar-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem;
+    color: #1a1a1a;
+    margin-bottom: 16px;
+    border-bottom: 2px solid #1a1a1a;
+    padding-bottom: 8px;
+}
+
+.faq-sidebar-card .faq-item {
+    margin-bottom: 16px;
+}
+
+.faq-sidebar-card .faq-question {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 4px;
+}
+
+.faq-sidebar-card .faq-answer {
+    font-size: 0.85rem;
+    color: #666;
+    line-height: 1.4;
+    margin: 0;
+}
+
+/* Mobil Uyum */
+@media (max-width: 900px) {
+    .expertise-grid-layout {
+        flex-direction: column;
+    }
+    .expertise-sidebar {
+        width: 100%;
+        position: static;
+    }
+}
+
+/* Şık Vurgu Kutusu (Callout Box) Stili */
+.styled-callout-box {
+    margin-top: 45px;
+    padding: 30px;
+    background-color: #fafafa;
+    border: 1px solid #eaeaea;
+    border-left: 4px solid #4A5D4E; /* Büronun yeşil tonuyla sol tarafta zarif şerit */
+    border-radius: 6px;
+}
+
+.styled-callout-box h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.2rem;
+    color: #1a1a1a;
+    margin-bottom: 10px;
+}
+
+.styled-callout-box p {
+    color: #141416;
+    font-size: 0.95rem;
+    line-height: 1.65;
+    margin-bottom: 16px;
+}
+
+.styled-callout-box .inline-cta-link {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #4A5D4E;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.styled-callout-box .inline-cta-link:hover {
+    color: #1a1a1a;
+}
+
+/* Sidebar Akordeon SSS Stilleri */
+.faq-sidebar-card .faq-accordion-item {
+    border-bottom: 1px solid #eaeaea;
+    padding: 12px 0;
+}
+
+.faq-sidebar-card .faq-accordion-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.faq-sidebar-card .faq-accordion-item:first-of-type {
+    padding-top: 4px;
+}
+
+.faq-sidebar-card .faq-question {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #222;
+    cursor: pointer;
+    list-style: none; /* Tarayıcının varsayılan okunu gizler */
+    position: relative;
+    padding-right: 20px;
+    outline: none;
+    transition: color 0.2s ease;
+}
+
+/* Özel şık açılır-kapanır ok işareti */
+.faq-sidebar-card .faq-question::-webkit-details-marker {
+    display: none;
+}
+
+.faq-sidebar-card .faq-question::after {
+    content: '+';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: #666;
+    transition: transform 0.2s ease;
+}
+
+.faq-sidebar-card .faq-accordion-item[open] .faq-question::after {
+    content: '-';
+}
+
+.faq-sidebar-card .faq-question:hover {
+    color: #4A5D4E;
+}
+
+.faq-sidebar-card .faq-answer {
+    font-size: 0.85rem;
+    color: #141416;
+    line-height: 1.5;
+    margin: 10px 0 4px 0;
+    padding-left: 0;
+}
+
+/* Zenginleştirilmiş Avukat Bilgi Kutusu Stilleri */
+.attorney-quick-card .attorney-header-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 8px;
+}
+
+.attorney-quick-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.2rem;
+    color: #1a1a1a;
+    margin: 0;
+}
+
+.attorney-quick-card .attorney-title-badge {
+    font-size: 0.72rem;
+    background-color: #f0f2f1;
+    color: #141416;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+}
+
+.attorney-quick-card .attorney-desc {
+    font-size: 0.85rem;
+    color: #141416;
+    line-height: 1.45;
+    margin-bottom: 15px;
+}
+
+/* Sidebar İçindeki Makaleler Yönlendirme Alanı */
+.sidebar-articles-cta {
+    margin-top: 0; /* Sidebar card'lar arasındaki gap aralığı ile uyumlu */
+}
+
+.sidebar-articles-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #fafafa;
+    color: #1a1a1a;
+    border: 1px solid #eaeaea;
+    padding: 16px 20px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+}
+
+.sidebar-articles-btn .arrow {
+    transition: transform 0.25s ease;
+    color: #4A5D4E;
+}
+
+.sidebar-articles-btn:hover {
+    background-color: #1a1a1a;
+    color: #ffffff;
+    border-color: #1a1a1a;
+}
+
+.sidebar-articles-btn:hover .arrow {
+    transform: translateX(4px);
+    color: #ffffff;
+}
+
+/* SSS Bloğunun İçindeki Makale Yönlendirme Stili */
+.faq-footer-articles {
+    padding-top: 14px;
+    text-align: left;
+}
+
+.faq-articles-link {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--brand-green);
+    text-decoration: none;
+    transition: color 0.2s ease, padding-left 0.2s ease;
+    display: inline-block;
+}
+
+.faq-articles-link:hover {
+    color: #1a1a1a;
 }

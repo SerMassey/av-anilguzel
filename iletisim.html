@@ -4,8 +4,8 @@
     <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>İletişim | Güzel Hukuk Bürosu</title>
-    <meta name="description" content="Antalya Muratpaşa'daki büromuzun adres ve iletişim bilgileri. Randevu almak için iletişime geçin.">
+    <title>İletişim | Antalya Güzel Hukuk Bürosu</title>
+    <meta name="description" content="Muratpaşa, Antalya’daki büromuzun adresi, telefon ve WhatsApp bilgileri. Randevu için arayabilir veya formu doldurabilirsiniz.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Syne:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -71,7 +71,7 @@
             <!-- BAŞLIK BÖLÜMÜ -->
             <section class="contact-hero">
                 <h1>Bizimle İletişime Geçin</h1>
-                <p class="contact-intro">Antalya Muratpaşa'daki ofisimiz, telefon hatlarımız veya e-posta adresimiz üzerinden randevu talebinde bulunabilir, hukuki danışmanlık ve dava süreçleriniz için bizimle görüşebilirsiniz.</p>
+                <p class="contact-intro">Antalya Muratpaşa’daki ofisimiz için telefonla, WhatsApp’tan, e-postayla veya aşağıdaki formla randevu talep edebilirsiniz. Süreli bir işleminiz varsa (örneğin sınır dışı kararı, tutuklama, icra ödeme emri) formu beklemeden telefonla arayın.</p>
             </section>
 
             <!-- İKİ SÜTUNLU İLETİŞİM ALANI (Bilgiler + Form) -->
@@ -112,7 +112,7 @@
                 <!-- Sağ Sütun: Standart İletişim / Randevu Talep Formu -->
 <!-- Sağ Sütun: Form Alanı (Formspree Entegreli) -->
 <div class="contact-form-col">
-    <form class="contact-form" action="https://formspree.io/f/xyekljjd" method="POST">
+    <form class="contact-form" id="appointment-form" action="https://formspree.io/f/xyekljjd" method="POST">
         <h2>Randevu Formu</h2>
         <p class="form-desc">Lütfen aşağıdaki formu doldurun; en kısa sürede tarafınıza dönüş sağlanacaktır.</p>
 
@@ -136,11 +136,16 @@
             <select id="subject" name="subject">
                 <option value="genel">Genel Danışmanlık</option>
                 <option value="ceza">Ceza Hukuku</option>
-                <option value="ticaret">Ticaret Hukuku</option>
+                <option value="aile">Aile ve Boşanma</option>
+                <option value="gayrimenkul">Gayrimenkul ve Kira</option>
+                <option value="borclar">Borçlar ve Tazminat</option>
                 <option value="is">İş Hukuku</option>
-                <option value="aile">Aile Hukuku</option>
-                <option value="gayrimenkul">Gayrimenkul ve Kira Hukuku</option>
-                <option value="sirket">Şirketler Hukuku ve Danışmanlık</option>
+                <option value="icra">İcra ve İflas</option>
+                <option value="idare">İdare Hukuku</option>
+                <option value="sirketler">Şirketler ve Ticaret</option>
+                <option value="sozlesmeler">Sözleşmeler</option>
+                <option value="miras">Miras</option>
+                <option value="yabancilar">Yabancılar ve Vatandaşlık</option>
             </select>
         </div>
 
@@ -148,6 +153,14 @@
             <label for="message">Mesajınız / Uyuşmazlık Özeti</label>
             <textarea id="message" name="message" rows="5" placeholder="Durumunuzu kısaca özetleyin."></textarea>
         </div>
+
+        <!-- KVKK Onay Checkbox Alanı -->
+        <div class="form-group checkbox-group">
+    <input type="checkbox" id="kvkk-consent" name="kvkk_consent" required>
+    <label for="kvkk-consent">
+        <a href="/kvkk.html" target="_blank">KVKK Aydınlatma Metni</a>'ni okudum. Kişisel verilerimin iletişim ve randevu süreçlerinin yürütülmesi amacıyla işlenmesini onaylıyorum.
+    </label>
+</div>
 
         <button type="submit" class="submit-btn">Mesajı Gönder →</button>
     </form>

@@ -577,3 +577,18 @@ function toggleFaq(button) {
         answer.style.maxHeight = null;
     }
 }
+
+// KVKK Checkbox Kontrolü
+document.addEventListener("DOMContentLoaded", function() {
+    const form = document.getElementById("appointment-form");
+    if (form) {
+        form.addEventListener("submit", function(e) {
+            const checkbox = document.getElementById("kvkk-consent");
+            if (!checkbox.checked) {
+                e.preventDefault();
+                alert("Lütfen kişisel verilerin işlenmesini onaylayın.");
+                checkbox.focus();
+            }
+        });
+    }
+});
