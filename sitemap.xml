@@ -1,143 +1,160 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- ANA SAYFA VE TEMEL KURUMSAL SAYFALAR (TR) -->
   <url>
     <loc>https://anilguzel.av.tr/</loc>
+    <lastmod>2026-11-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://anilguzel.av.tr/kurumsal.html</loc>
+    <lastmod>2026-11-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://anilguzel.av.tr/hizmetler.html</loc>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://anilguzel.av.tr/makaleler.html</loc>
+    <lastmod>2026-11-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://anilguzel.av.tr/iletisim.html</loc>
+    <lastmod>2026-11-24</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://anilguzel.av.tr/hukuki-surecler-ve-bilgilendirme.html</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://anilguzel.av.tr/kvkk.html</loc>
+    <lastmod>2026-11-24</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://anilguzel.av.tr/cerez-politikasi.html</loc>
+    <lastmod>2026-11-24</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
+
+  <!-- ÇALIŞMA ALANLARI (/alanlar/) -->
   <url>
-    <loc>https://anilguzel.av.tr/antalya-bosanma-avukati.html</loc>
+    <loc>https://anilguzel.av.tr/alanlar/aile-hukuku.html</loc>
+    <lastmod>2026-11-24</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://anilguzel.av.tr/antalya-ceza-avukati.html</loc>
+    <loc>https://anilguzel.av.tr/alanlar/borclar-ve-tazminat-hukuku.html</loc>
+    <lastmod>2026-11-24</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://anilguzel.av.tr/antalya-gayrimenkul-avukati.html</loc>
+    <loc>https://anilguzel.av.tr/alanlar/ceza-hukuku.html</loc>
+    <lastmod>2026-11-24</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://anilguzel.av.tr/antalya-icra-avukati.html</loc>
+    <loc>https://anilguzel.av.tr/alanlar/gayrimenkul-hukuku.html</loc>
+    <lastmod>2026-11-24</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://anilguzel.av.tr/antalya-idare-hukuku-avukati.html</loc>
+    <loc>https://anilguzel.av.tr/alanlar/icra-ve-iflas-hukuku.html</loc>
+    <lastmod>2026-11-24</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://anilguzel.av.tr/antalya-is-hukuku-avukati.html</loc>
+    <loc>https://anilguzel.av.tr/alanlar/idare-hukuku.html</loc>
+    <lastmod>2026-11-24</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://anilguzel.av.tr/antalya-miras-avukati.html</loc>
+    <loc>https://anilguzel.av.tr/alanlar/is-hukuku.html</loc>
+    <lastmod>2026-11-24</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://anilguzel.av.tr/antalya-muratpasa-avukat.html</loc>
+    <loc>https://anilguzel.av.tr/alanlar/miras-hukuku.html</loc>
+    <lastmod>2026-11-24</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://anilguzel.av.tr/antalya-sirketler-hukuku-avukati.html</loc>
+    <loc>https://anilguzel.av.tr/alanlar/sirketler-hukuku.html</loc>
+    <lastmod>2026-11-24</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://anilguzel.av.tr/antalya-sozlesme-hukuku-avukati.html</loc>
+    <loc>https://anilguzel.av.tr/alanlar/sozlesmeler-hukuku.html</loc>
+    <lastmod>2026-11-24</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://anilguzel.av.tr/antalya-tazminat-avukati.html</loc>
+    <loc>https://anilguzel.av.tr/alanlar/ticaret-hukuku.html</loc>
+    <lastmod>2026-11-24</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://anilguzel.av.tr/antalya-ticaret-hukuku-avukati.html</loc>
+    <loc>https://anilguzel.av.tr/alanlar/yabancilar-hukuku.html</loc>
+    <lastmod>2026-11-24</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
   </url>
+
+  <!-- MAKALELER (/makaleler/) -->
   <url>
-    <loc>https://anilguzel.av.tr/antalya-yabancilar-hukuku-avukati.html</loc>
+    <loc>https://anilguzel.av.tr/makaleler/2026-10-16-kira-sözleşmesinin-sona-ermesi-ve-tahliye-yollari.html</loc>
+    <lastmod>2026-10-16</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://anilguzel.av.tr/makaleler/2026-11-07-birlesme-ve-devralmalarda-due-diligence-ve-diger-asamalar.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://anilguzel.av.tr/makaleler/2026-10-29-sozlesmelerde-dikkat-edilmesi-gereken-hukumler.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://anilguzel.av.tr/makaleler/2026-10-29-anlasmali-ve-cekismeli-bosanma.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://anilguzel.av.tr/makaleler/2026-10-26-yabancıların-türkiyede-mülk-edinimi-yasal-sınırlamalar-ve-dikkat-edilmesi-gerekenler.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://anilguzel.av.tr/makaleler/2026-10-22-gaiplik-nedir-şartları-süreci-ve-hukuki-sonuçları-tmk-m-32-35.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://anilguzel.av.tr/makaleler/2026-10-19-trafik-kazasında-maddi-ve-manevi-tazminat-hakkı.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://anilguzel.av.tr/makaleler/2026-10-16-miras-paylasiminda-izlenecek-yollar-ve-ortakligin-giderilmesi.html</loc>
+    <lastmod>2026-10-16</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://anilguzel.av.tr/makaleler/2026-10-16-kira-sözleşmesinin-sona-ermesi-ve-tahliye-yolları.html</loc>
+    <loc>https://anilguzel.av.tr/makaleler/2026-10-19-trafik-kazasinda-maddi-ve-manevi-tazminat-haklari.html</loc>
+    <lastmod>2026-10-19</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
-</urlset>
+  <url>
+    <loc>https://anilguzel.av.tr/makaleler/2026-10-22-gaiplik-nedir-şartları-süreci-ve-hukuki-sonuçları.html</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://anilguzel.av.tr/makaleler/2026-10-26-yabancıların-türkiyede-mülk-edinimi-yasal-sınırlar.html</loc>
+    <lastmod>2026-10-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>
